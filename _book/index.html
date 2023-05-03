@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Internals of Bitcoin</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Internals of Bitcoin" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Internals of Bitcoin" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-05-03" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="setting-up-the-environment.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#assumptions-from-the-reader"><i class="fa fa-check"></i><b>1.1</b> Assumptions from the reader</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#content-layout"><i class="fa fa-check"></i><b>1.2</b> Content Layout</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.3</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.3</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.3.1</b> C++ Code</a></li>
+<li class="chapter" data-level="2.3.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.3.2</b> Working of <code>hex_view</code></a></li>
+<li class="chapter" data-level="2.3.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#bitcoin-data"><i class="fa fa-check"></i><b>2.3.3</b> Bitcoin Data</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html"><i class="fa fa-check"></i><b>3</b> Structure of a block</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#terminologies"><i class="fa fa-check"></i><b>3.1</b> Terminologies</a></li>
+<li class="chapter" data-level="3.2" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#theory"><i class="fa fa-check"></i><b>3.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#structure-of-a-block-1"><i class="fa fa-check"></i><b>3.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="3.2.2" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#structure-of-block-header"><i class="fa fa-check"></i><b>3.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="3.2.3" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#calculation-of-current-hash"><i class="fa fa-check"></i><b>3.2.3</b> Calculation of current hash</a></li>
+<li class="chapter" data-level="3.2.4" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#summary"><i class="fa fa-check"></i><b>3.2.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#reading-genesis-block-header"><i class="fa fa-check"></i><b>3.3</b> Reading Genesis block Header</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Internals of Bitcoin</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Internals of Bitcoin</h1>
+<p class="author"><em>Aakash Gupta</em></p>
+<p class="date"><em>2023-05-03</em></p>
+</div>
+<div id="getting-started" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Getting Started<a href="index.html#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="assumptions-from-the-reader" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Assumptions from the reader<a href="index.html#assumptions-from-the-reader" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We want to start with the simple assumption: you know about bitcoin but are not confident with your knowledge. You want to go deep into the technical aspects of bitcoin to get the complete knowledge of how it is working under the hood. You came to the right place. In this book, you will see how the bitcoin data is stored in the blockchain. You will see how it is processed to achieve the magic it claims to achieve.</p>
+<p>Another way of thinking is: You are bored with various blockchain tutorials online which only covers the topic from surface but don’t go much into technical details. You are bored with top-down approach available online which don’t go much <em>down</em> into the technology. You want to start with bottom-up approach with some knowledge of what is happening on top level. You want sufficient rigor in the material so that you are absolutely sure about the technology and how things actually work, instead of them working in “thin air” by magic.</p>
+</div>
+<div id="content-layout" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Content Layout<a href="index.html#content-layout" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we will study the structure of bitcoin transactions. Here, we will explore how the blockchain data is actually stored in the binary image and how to read it from a simple C++ program. We will not go into the cryptography, and just mention the relevant information from cryptography because these things deserve a complete book on their own. We will simply use cryptographic functions as black box.</p>
+<p>Then we will go into the topic of bitcoin address and how it is interpreted, generated, managed and used.</p>
+<p><em>More content here</em></p>
+<p>So, let’s get started.</p>
+</div>
+<div id="prerequisites" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Prerequisites<a href="index.html#prerequisites" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>We will use <code>C++ 17</code> for our code demonstrations, so the knowledge of it is a must. In addition to basic <code>C++ 17</code> rules, you should know about:
+<ul>
+<li>Pointers and how to use <code>char*</code> to iterate over memory in byte level chunks.</li>
+<li>Bitwise operators.</li>
+<li>Stack and heap allocations.</li>
+<li>Basic STL Container such as <code>vector</code>, <code>map</code>, <code>set</code>, etc.</li>
+<li>Fixed-width integers.</li>
+<li>Stream I/O.</li>
+<li>Little Endian vs Big Endian.</li>
+</ul></li>
+<li>Base systems and encodings:
+<ul>
+<li>Decimal.</li>
+<li>Hexadecimal.</li>
+<li>Binary.</li>
+<li>ASCII.</li>
+</ul></li>
+<li>A working internet connection:
+<ul>
+<li>To download bitcoin transactions to work on them. This is only required once.</li>
+</ul></li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="setting-up-the-environment.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
