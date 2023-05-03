@@ -25,6 +25,7 @@ So, let's get started.
 
 - We will use `C++ 17` for our code demonstrations, so the knowledge of it is a must. In addition to basic `C++ 17` rules, you should know about:
     - Pointers and how to use `char*` to iterate over memory in byte level chunks.
+    - Alignment and padding of structs.
     - Bitwise operators.
     - Stack and heap allocations.
     - Basic STL Container such as `vector`, `map`, `set`, etc.

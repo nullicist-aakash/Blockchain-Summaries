@@ -74,7 +74,7 @@ Header Information:
 | :-: | :-: | :- | :-: |
 | 8-11 | 0-3 | Version Number | Yes |
 | 12-43 | 4-35 | Previous Block Hash  | Yes |
-| 44-75 | 36-67 | Current Hash | Yes |
+| 44-75 | 36-67 | Current Merkle Hash | Yes |
 | 76-79 | 68-71 | Time | Yes |
 | 80-83 | 72-75 | Difficulty | No |
 | 84-87 | 76-79 | Nonce | No |
@@ -88,6 +88,150 @@ Header Information:
 6. Next $4$ bytes refers to time. The value is `29 AB 5F 49` which is little endian of `0x495FAB29`. Putting this value in online time converter gives the time as `GMT: Saturday, January 3, 2009 6:15:05 PM`.
 7. Next $4$ bytes specify the nonce which is `0x1D00FFFF` (after converting to big endian) - $486604799$ in decimal.
 8. Next $4$ bytes specify the difficulty as `0x7C2BAC1D` (after converting to big endian) - $2083236893$ in decimal.
+
+## C++ code to read the data
+### Complete Code
+Here, we present the C++ code to show information about initial 3 blocks of bitcoin. The genesis block have index of $0$.
+```{C++}
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#define HEX( x, len ) std::setw(2 * len) << std::setfill('0') << std::hex << std::uppercase << (((1ll << (8 * len)) - 1) & (unsigned int)( x )) << std::dec
+
+// Returns the file contents as C++ string
+std::string get_file_contents(const char *filename)
+{
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (!in)
+    {
+        std::cerr << "Error in opening file" << std::endl;
+        throw errno;
+    }
+
+    std::string contents;
+
+    // Allocate required memory in heap for string
+    in.seekg(0, std::ios::end);
+    contents.resize(in.tellg());
+
+    // Copy contents from file to string
+    in.seekg(0, std::ios::beg);
+    in.read(&contents[0], (int)contents.size());
+
+    // return the string
+    return contents;
+}
+
+struct BlockHeader
+{
+    std::uint32_t version_number;
+    std::uint8_t prev_hash[32];
+    std::uint8_t merkle_hash[32];
+    std::uint32_t time;
+    std::uint32_t difficulty;
+    std::uint32_t nonce;
+};
+
+struct Block
+{
+    std::uint32_t magic_number{};
+    std::uint32_t block_size{};
+    BlockHeader header{};
+};
+
+int main()
+{
+    const char* FILE_PATH = "<file path here>";
+    auto contents = get_file_contents(FILE_PATH);
+    std::uint32_t offset = 0;
+    for (int i = 0; i < 3; ++i)
+    {
+        std::cout << "Information about block #" << i << std::endl;
+
+        // create a block
+        Block block;
+
+        // copy initial 88 bytes from contents
+        memcpy(&block, contents.c_str() + offset, 88);
+
+        // make offset point to next block
+        offset += block.block_size + 8;
+
+        // Print current block information
+
+        std::cout << "Magic Number: " << HEX(block.magic_number, 4) << std::endl;
+        std::cout << "Blockchain Size: " << block.block_size << std::endl;
+        std::cout << "Header Info: " << std::endl;
+        std::cout << "\tVersion Number          : " << block.header.version_number << std::endl;
+        std::cout << "\tPrevious Hash           : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.prev_hash[j], 1);
+        std::cout << std::endl << "\tMerkle Hash (Stored)    : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.merkle_hash[j], 1);
+
+        std::cout << std::endl << "\tTime of Block Creation  : ";
+        std::time_t temp = block.header.time;
+        std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl;
+        std::cout << "\tDifficulty              : " << HEX(block.header.difficulty, 4) << std::endl;
+        std::cout << "\tNonce                   : " << block.header.nonce << std::endl;
+    }
+}
+```
+
+Here is the output of above code:
+
+```{}
+Information about block #0
+Magic Number: D9B4BEF9
+Blockchain Size: 285
+Header Info: 
+        Version Number          : 1
+        Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
+        Merkle Hash (Stored)    : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
+        Time of Block Creation  : 2009-01-03 06:15:05 PM
+        Difficulty              : 1D00FFFF
+        Nonce                   : 2083236893
+Information about block #1
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+        Version Number          : 1
+        Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+        Merkle Hash (Stored)    : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
+        Time of Block Creation  : 2009-01-09 02:54:25 AM
+        Difficulty              : 1D00FFFF
+        Nonce                   : 2573394689
+Information about block #2
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+        Version Number          : 1
+        Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+        Merkle Hash (Stored)    : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
+        Time of Block Creation  : 2009-01-09 02:55:44 AM
+        Difficulty              : 1D00FFFF
+        Nonce                   : 1639830024
+```
+
+As you can see, the code outputs exactly what we predicted via manual reading and decoding. Refer to next section to get into details of how the code is working.
+
+### Working
+You can see that we have two structs in above code: `BlockHeader` and `Block`. `BlockHeader` consumes $80$ bytes of space in memory, and it is enforced by choosing the data types of appropriate size so that no padding is there. We have `Block` with magic number and size as $4$ bytes each, and block header just after them. Overall, we have no padding in the struct and blocks can be placed consecutively without wasting space. This allows us to use `memcpy` to copy bytes directly to struct without manually copying the bytes for individual fields.
+
+Inside the main, we first read the file contents as binary file into a string. Then, we are printing the information about first $3$ blocks of bitcoin. We first copy $88$ bytes from source file to a block, which completely fills all the fields of above block. Then, we print the information about them by iterating over each field, so there is nothing new here. One thing to note is that we are printing the hash in reverse order, and it is because we don't have 256-bit data type in C++. We are manually printing it in big-endian format. 
+
+After printing information about block, we update our `offset` variable by `8 + block size` to make it point to next block.
+
+### Printing Date
+One thing that you can notice is the code to print date from Unix Format. The code is:
+```{C++}
+std::time_t temp = block.header.time;
+std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl;
+```
+
+I have no idea how above code is working. I just copied it from internet. As we are concerned about Bitcoin, we are not going to explore how it is working. It is just a block box which gives us date-time in required format, which we can verify from online sources.
 
 ## Topics left for future chapters
 - How to read the number of transactions?
