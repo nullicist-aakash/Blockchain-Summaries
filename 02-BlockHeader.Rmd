@@ -1,0 +1,90 @@
+# Structure of a block
+
+## Terminologies
+As explained earlier, this book will not tell you why Bitcoin is successful as a technology. Rather, it will tell you the working of each and every byte behind the technology. So, let's start with the building blocks of the Bitcoin entries.
+
+On top level, we a the concept of a __block__. A __block__ is a _set_ of __transactions__. What do we mean by _set_? A `C++` standard container `std::set`? Mathematical `set`? What?  By _set_, we just mean a box which can accomodate multiple _transactions_. How they are stored, is irrelevant to the block.
+
+The first block is known in the community as __genesis block__. Whenever you see the term __genesis block__, you should remind yourself of the first block in the blockchain and it doesn't refer to any other block in entire blockchain.
+
+What is a __transaction__? A __transaction__ consists of a set of inputs and set of outputs, nothing else. As an example, the record of user $A$ sending money to user $B$ counts as a transaction. We don't bother about structure of a transaction for now but keep in mind that Bitcoin is everything about transaction.
+
+In this chapter, we will cover the structure of a block in bitcoin.
+
+## Theory
+### Structure of a block
+Every block starts with a __magic number__ of $4$ bytes. What is this magic number? A magic number, in programming, can be explained as a value which have an unexplained meaning in the context and it can be replaced by a named variable to provide more context. Strange? Maybe. It basically says that the number exists there, it serves some purpose, but its intended usage was/is in the mind of programmer writing that and its meaning is not obvious just by looking at it. Some more context is required to see what a magic number is doing there. 
+
+Bitcoin have its own magic number: $0{\times}D9B4BEF9$. Every block will start with this number, no matter which block you are referring to. Maybe it indicates that a block starts here, maybe you can use it to count how many blocks are there, maybe something else. We don't know why this specific value is used and it is irrelevant to us as long as working of blockchain is concerned.
+
+But wait, we see that we have $F9$ $BE$ $B4$ $D9$ in the hex output of previous chapter. What is going on? Remember that things are stored in little endian encoding in our computers. Thus, we see the reversed bytes instead of $D9$ $B4$ $BE$ $F9$.
+
+Next, we have the __size of block__ which is stored in $4$ bytes. If $100$ is stored in size field, then the size of block will be $100$ bytes but it will actually take space of $108$ bytes. These extra $8$ bytes are there because __size__ specifies how many more bytes are occupied by the block. This is a little optimization so that program doesn't have to subtract $8$ from the size field. So, remember, a block of size $x$ bytes will take $x+8$ bytes in storage and size field will store $x$ as the size of block.
+
+What is the maximum size a block can take? For $4$ bytes, we have $2^{32}$ bytes which mean, theoretically, we can have blocks as large as $4$GB! But, Satoshi Nakamoto had other plans and he silently introduced the limit as $1$mb. Refer [Block size limit controversy](https://en.bitcoin.it/wiki/Block_size_limit_controversy) for more details.
+
+Next, we have __block header__ of $80$ bytes. We will explain it in next section.
+
+Next, we have a field of $1$ byte, which helps us in determination of the number of transactions. This is half truth, but will be explored in next chapter. Don't say that number of transactions are stored in this $1$ byte.
+
+After that, we have the transaction data which will be explored in later chapters.
+
+### Structure of block header
+In above section, we saw that we have a block header of $80$ bytes. What is the meaning of header? Why is it used? A header is used to identify some properties about the __payload__. For example, header of a song file may contain information about artist name, song name, the size of song in bytes, etc. Similarly, we need some information about __payload__ before exploring its contents. What is the __payload__ here? It is the set of transactions that we talked about earlier. Remember, a block acts as a bucket of transactions, nothing else.
+
+The first field in header is of size $4$ bytes, and is known as __version__. The genesis block had version $1$ and as of now, there are $4$ versions of bitcoin. What is a version or what does it specify? It can be thought of as a message which specifies how the things are placed in the block. The structure of block header which we are going to study corresponds to version $1$ and it can be different for different versions. The version number helps us programmatically take care of various changes in the rules of data storage/updations of blockchain under single implementation and make code compatible across versions. Or, it helps us split the code in _if-else_ statements to handle different type of blocks.
+
+Next field is of $32$ bytes and is known as __previous block hash field__. Since it is assumed you know basics of Bitcoin, we will not go into what a hash is. We will just mention that it is double SHA-$256$ hash of previous block. Wait.. double hash? Why a double hash? The answer is: We don't know why Satoshi Nakamoto made this decision and there are many conjectures over this. We simply accept this and move on. 
+
+What about the previous hash of genesis block? This is hardcoded as $0{\times}0...0$ and this is the only block which has previous block hash set as all zeros.
+
+Next field is also of $32$ bytes and is __merkle hash__. What is used to calculate this? This will be discussed later in current chapter. But remember one thing, the value of current hash is also double SHA-$256$ hash of input.
+
+Next field is the time stamp and is stored in $4$ bytes. There are two category of questions that can arise for this field: how we are storing time in $4$ bytes (only) and what does it represent.
+
+We are storing the __Unix epoch time__. What is it? This is widely used date-time unit in computing and it specifies the number of seconds elapsed since 00:00:00 UTC on 1 Jan, 1970. As a fact, the Unix epoch value $1000000000$ corresponds to 9 September 2001, 01:46:40 UTC. It was celebrated in Copenhagen, Denmark held by the Danish UNIX User Group at 03:46:40 local time.
+
+What does it represent? It specifies the time _miner_ started hashing current block (time as per the system time of miner). Who is _miner_? We will cover it in later chapters.
+
+Next $4$ bytes are __difficulty__ and next $4$ bytes are __nonce__. What are they? Again, we will cover them in later chapters.
+
+### Calculation of current hash
+Note one thing: Hash of block is not equal to its Merkle hash. Hash of block is defined as the hash of header. Header have one field which stores the merkle hash. How Merkle hash is computed is covered when we cover the structure of payload. So, we have following relations:
+
+- Previous hash entry in block number $i$ = SHA256(SHA256(header of block number $i - 1$)).
+- Previous hash entry in block number $0$ = Hardcoded as all $00$.
+- Merkle hash entry in block number $i$ = Explained in later chapters.
+
+You should note that current block hash is not stored anywhere in current block.
+
+### Summary
+In summary, we covered first $89$ bytes of a block. Here is the tabular summary of above:
+
+|  Byte Range  |  Meaning  |
+| :-: | :- |
+| 0-3 | Magic Number |
+| 4-7 | Size |
+| 8-87 | Header |
+| 88-88 | Number of transactions (will cover in later chapter) |
+| 89-* | payload |
+
+Header Information:
+
+| Byte Range | Header offset | Meaning | Is covered completely till now |
+| :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | Version Number | Yes |
+| 12-43 | 4-35 | Previous Block Hash  | Yes |
+| 44-75 | 36-67 | Current Hash | Yes |
+| 76-79 | 68-71 | Time | Yes |
+| 80-83 | 72-75 | Difficulty | No |
+| 84-87 | 76-79 | Nonce | No |
+
+## Reading Genesis block Header
+1. We see that initial $4$ bytes match $F9$ $BE$ $B4$ $D9$, which corresponds to little endian of $0{\times}D9B4BEF9$. This is a match.
+2. Next $4$ bytes read as $1D$ $01$ $00$ $00$, which corresponds to little endian of $0{\times}0000011D$. This implies that block is spanning in more $285$ bytes. This makes genesis block have storage space of $285+8=293$ bytes. This means that first block is stored in offset $0$-$292$ and next block starts at offset $293$. We can confirm it by going to hexadecimal index $0{\times}125$ (which is equivalent to decimal of $293$) and reading the magic number. This process can be repeated to see that third block starts at hex offset $0{\times}205$ and so on..
+3. Next $4$ bytes corresponds to version number which is specified as $01$ $00$ $00$ $00$ which is little endian equivalent to $1$.
+4. Next $32$ bytes specify the previous block hash. This is specified as $00$ repeated 32 times till hex index $2C$.
+5. Next $32$ bytes are $3BA3EDFD7A7B12B27AC72C3E67768F617FC81BC3888A51323A9FB8AA4B1E5E4A$ which is the little endian of $0{\times}4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B$.
+6. Next $4$ bytes refers to time. The value is $29$ $AB$ $5F$ $49$ which is little endian of $49$ $5F$ $AB$ $29$. Putting this value in online time converter gives the time as "GMT: Saturday, January 3, 2009 6:15:05 PM".
+7. Next $4$ bytes specify the nonce which is $1D$ $00$ $FF$ $FF$ (after converting to big endian) - $486604799$ in decimal.
+8. Next $4$ bytes specify the difficulty as $7C$ $2B$ $AC$ $1D$ (after converting to big endian) - $2083236893$ in decimal.
