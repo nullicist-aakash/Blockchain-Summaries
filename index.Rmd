@@ -1,5 +1,5 @@
 ---
-title: "Internals of Bitcoin"
+title: "Bitcoin: A Technical Introduction - Volume I"
 author: "Aakash Gupta"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
@@ -35,7 +35,7 @@ description: "This is a summary of everything we need to know what is there in b
 
 
 # Getting Started
-Welcome to the first volume of Bitcoin: Technical Introduction. This book is divided into multiple volumes, each volume covering different aspects of Bitcoin and Blockchain technologies. In the first volume, we will cover the blockchain technology and see some insights into how Bitcoin fits the complete picture. We will not go into the Bitcoin transactions in this book. Transactions are covered in the second volume.
+Welcome to the first volume of Bitcoin: A Technical Introduction. This book is divided into multiple volumes, each volume covering different aspects of Bitcoin and Blockchain technologies. In the first volume, we will cover the blockchain technology and see some insights into how Bitcoin fits the complete picture. We will not go into the Bitcoin transactions in this book. Transactions are covered in the second volume.
 
 So, how __Blockchain__ is different from __Bitcoin__? In simple terms, Blockchain is a technology and Bitcoin is one of the possible implementations of blockchain. Blockchain technology provides us some features, which are used by Bitcoin to achieve what it is today. Therefore, it is necessary to understand the difference between both of them, so that we can see what is _supposed to be_ present in any Blockchain based cryptocurrency and what is specific to each of them. For instance, we have __proof of work__ (which is covered in next volume) in Bitcoin, whereas __Ethereum__ uses __proof-of-stake__ (will be covered in future volumes). What is Ethereum? Don't worry about this yet. We will cover everything we need to know in coming chapters and volumes.
 
