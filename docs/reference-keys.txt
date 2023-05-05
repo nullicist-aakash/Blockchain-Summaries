@@ -1,6 +1,7 @@
 getting-started
-assumptions-from-the-reader
-content-layout
+what-is-bitcoin
+why-bitcoin
+structure-of-the-book
 prerequisites
 setting-up-the-environment
 ide
@@ -17,8 +18,12 @@ structure-of-block-header
 calculation-of-current-hash
 summary
 reading-genesis-block-header
-topics-left-for-future-chapters
 c-code-to-read-the-data
 complete-code
 working
 printing-date
+topics-left-for-future-chapters
+structure-of-block-transactions
+number-of-transactions
+transactions
+what-information-is-stored-in-bitcoin-transactions

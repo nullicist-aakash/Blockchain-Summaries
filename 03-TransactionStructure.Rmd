@@ -1,0 +1,44 @@
+<!-- # Structure of Block Transactions -->
+<!-- In this chapter, we cover the structure of transactions. First, we will cover how we count the number of transactions in Bitcoin. This is very interesting as the size of field can be $1$ byte, or as long as $9$ bytes! We need to make sure that we understand that correctly because this concept is used throughout the Bitcoin transactions. After that, we will cover the structure of transactions in payload on the surface. We will not cover each and every detail in this chapter, as this information is provided in subsequent chapters. -->
+
+<!-- ## Number of transactions -->
+<!-- Assume that you are the designer of Bitcoin and you have to specify the number of bytes to represent the number of transactions in a block or some other parameter. Say you chose number of transactions to be stored in $1$ byte. This limits the number of transactions per block to be $256$. But this is going to cause trouble! We can have one transaction in a block if our system is idle or billions of transactions if system is highly active. And remember, the speed of our devices is only going to increase, so we have to take care of huge numbers as well. Using $4$ or $8$ bytes to store the number of transactions can be a lot of wastage, and using $2$ bytes limits the transactions to about $65k$ per block. We need something magical, some type of storage scheme which can use less space for small numbers and expands as the requirement grows. And if this scheme is universal enough, we can use it everywhere without introducing much restrictions in the scheme. -->
+
+<!-- Bitcoin uses what is known as variable length integers for every "counting" we have. What is this? This is a special type of integer which can store as long as $8$ byte number and as low as $1$ byte number. How? Here is the scheme: For every number between $0$ and $252$ (both included), use $1$ byte for storage. If the byte is $253$, it means that the integer value is stored in next $2$ bytes. If the byte is $254$, it means that the integer value is stored in next $4$ bytes. And lastly, if the byte is $255$, it means that the integer value is stored in next $8$ bytes! -->
+
+<!-- Sounds complicated? Here is the pseudo code for this scheme: -->
+
+<!-- ```{} -->
+<!-- x = next byte; -->
+<!-- if (x >= 0 and x <= 252) -->
+<!--   set y = x -->
+<!-- else if x is 253: -->
+<!--   set y = next two bytes after x -->
+<!-- else if x is 254: -->
+<!--   set y = next 4 bytes after x -->
+<!-- else if x is 255: -->
+<!--   set y = next 8 bytes after x -->
+
+<!-- return y as the integer value -->
+<!-- ``` -->
+
+<!-- So, are we using $3$ bytes to store $2$ byte number? Yes. Are we using $9$ bytes to store $8$ byte number? Yes. Are we using $2$ bytes to store $1$ byte number? NO! It depends. If the number is less than $253$, then we are only using $1$ byte. Here is the table summary for the size: -->
+
+<!-- | Range | Value of First byte | Extra bytes to get number | Total size (in bytes) | -->
+<!-- | :-: | :-: | :-: | :-: | -->
+<!-- | $0$ to $252$ | Number | - | $1$ | -->
+<!-- | $253$ to $2^{16}-1$ | $253$ | $2$ | $3$ | -->
+<!-- | $2^{16}$ to $2^{32}-1$ | $254$ | $4$ | $5$ | -->
+<!-- | $2^{32}$ to $2^{64}-1$ | $255$ | $8$ | $9$ | -->
+
+<!-- ## Transactions -->
+<!-- Now that we have number of transactions with us, we can go one step further and see how a transaction is stored. Here is are the details: -->
+
+<!-- There is a $4$ byte version number, just like we had it in the beginning of block header. For the reasons known to Bitcoin developers, this is a $4$ byte number. Initially, every transaction have a version number $1$. As of April $2017$, Shapeshift uses only v2 transactions, when exchanging from Altcoins into Bitcoin ([Source](https://bitcoin.stackexchange.com/a/51395)). -->
+
+<!-- Next, we have two structures. First we store the inputs of a transaction. After that, we store the outputs of a transaction. -->
+
+<!-- ### What information is stored in bitcoin transactions? -->
+<!-- Let's say you are creating a ledger from scratch, like Bitcoin. This ledger, as you know, will work as a bank. Once something is there in ledger, it stays there forever.  -->
+
+<!-- Say Alice wants to send $10$ dollars to Bob and makes an entry in ledger that she sent $10$ dollars from her account. What information do you need to verify that this is a valid transaction? Think hard before moving on. Here are the things that we need to check before  -->

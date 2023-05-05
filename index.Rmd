@@ -6,36 +6,94 @@ site: bookdown::bookdown_site
 description: "This is a summary of everything we need to know what is there in blockchain from technical point of view."
 ---
 
-# Getting Started 
-## Assumptions from the reader
-We want to start with the simple assumption: you know about bitcoin but are not confident with your knowledge. You want to go deep into the technical aspects of bitcoin to get the complete knowledge of how it is working under the hood. You came to the right place. In this book, you will see how the bitcoin data is stored in the blockchain. You will see how it is processed to achieve the magic it claims to achieve.
+<!-- # Getting Started -->
+<!-- ## Topic Categories -->
+<!-- Blockchain: -->
 
-Another way of thinking is: You are bored with various blockchain tutorials online which only covers the topic from surface but don't go much into technical details. You are bored with top-down approach available online which don't go much _down_ into the technology. You want to start with bottom-up approach with some knowledge of what is happening on top level. You want sufficient rigor in the material so that you are absolutely sure about the technology and how things actually work, instead of them working in "thin air" by magic.
+<!-- 1. Absolute Basic Stuff: The ledger, the transactions. The Paper, the problem statement. The Blocks, the bricks. -->
+<!-- 2. Storing the blocks - chaining. The cryptography. The storage order of blocks. -->
+<!-- 3. Updates: Add new blocks to the system - Mine them. -->
+<!-- 4. Rate limitors: Difficulty and nonce. Question: Why should anyone mine? -->
+<!-- 5. Economy: New coins in system. Their value over the time. Miners money = new bitcoins + fees. -->
+<!-- 6. How everyone will reach consensus?? The propogation. Size calculations! -->
 
-## Content Layout
-First, we will study the structure of bitcoin transactions. Here, we will explore how the blockchain data is actually stored in the binary image and how to read it from a simple C++ program. We will not go into the cryptography, and just mention the relevant information from cryptography because these things deserve a complete book on their own. We will simply use cryptographic functions as black box.
+<!-- Bitcoin: -->
 
-Then we will go into the topic of bitcoin address and how it is interpreted, generated, managed and used.
+<!-- 7. Getting into bitcoin - The Left transactions model. -->
+<!-- 8. Structure of transactions. Rules of transactions. -->
+<!-- 9. Address, The facts of cryptography for bitcoin. Verification of transfer of ownership. -->
 
-_More content here_
+<!-- Corner Details: -->
 
-So, let's get started.
+<!-- 10. Hiding data in blockchain. -->
+
+<!-- Practical: -->
+<!-- 1. Make own transactions manually, by hand. -->
+<!-- 2.  -->
+
+
+
+
+# Getting Started
+Welcome to the first volume of Bitcoin: Technical Introduction. This book is divided into multiple volumes, each volume covering different aspects of Bitcoin and Blockchain technologies. In the first volume, we will cover the blockchain technology and see some insights into how Bitcoin fits the complete picture. We will not go into the Bitcoin transactions in this book. Transactions are covered in the second volume.
+
+So, how __Blockchain__ is different from __Bitcoin__? In simple terms, Blockchain is a technology and Bitcoin is one of the possible implementations of blockchain. Blockchain technology provides us some features, which are used by Bitcoin to achieve what it is today. Therefore, it is necessary to understand the difference between both of them, so that we can see what is _supposed to be_ present in any Blockchain based cryptocurrency and what is specific to each of them. For instance, we have __proof of work__ (which is covered in next volume) in Bitcoin, whereas __Ethereum__ uses __proof-of-stake__ (will be covered in future volumes). What is Ethereum? Don't worry about this yet. We will cover everything we need to know in coming chapters and volumes.
+
+## What is Bitcoin?
+
+As you already know, Bitcoin prices are going through the roof. It is a new technology that was introduced in 2009 by the Bitcoin community. But the __cryptocurrency whitepaper__ was given by Satoshi Nakamoto on October 31, 2008. The identity of Satoshi Nakamoto is unknown to this date and it seems that Satoshi have no intentions of coming out to the public. It may be possible that it was the work of a group of people who wrote the paper on the name of Satoshi Nakamoto. Before going further, we have to explain something. 
+
+What is a __cryptocurrency whitepaper__? In simple terms, cryptocurrency whitepaper is a document. What is inside that document? The document contains the detailed information of technical aspects of the cryptocurrency in question. Along with technical details, it contains the economic aspects of cryptocurrency. What does it mean? It means a whitepaper explains how the currency is going to work, what useful features does it have, how to create new crypto coins in the system, etc.
+
+It seems that this paper is highly advanced and is not for general people. Is there something a person with less technical background can refer to? Yes! It is known as __Litepaper__. They are short in size and contain the high level overview of given cryptocurrency. Their main focus is to explain the basic outcomes of the cryptocurrency, not on how they are achieved. 
+
+Here is the link to original Bitcoin Paper: [Bitcoin: A Peer-to-Peer Electronic Cash System](https://bitcoin.org/bitcoin.pdf).
+
+## Why Bitcoin?
+
+A simple question: How does a person transfer money to other person over the internet? Since this is a book intended for technical person, and I don't have idea of much of financial jargon, my answer will be technology oriented which I came to understand about the inherent problems of the system.
+
+For a person to transfer money to other person, we first need the address of second person. After the address, we simply transfer the money to that address. Simple? NO. We use third party applications to transfer money. 
+
+A little hard question: Is the money stored with us? No.
+
+Do we own our money? By rules? yes. Objectively? no.
+
+Why no? What stops the third party company to start transferring money to them instead of other person and then disappear? What stops hackers to hack the money transfer code and redirect all the transactions to them?
+
+What is the problem here? To transfer money from point A to B, we need a third party: electronic money transfer system that is hosted on servers of a company. If something happens to the money in between, there is no technological guarantee to get it back. We are _trusting_ the third parties to act in correct manner and their system is safe enough. Also, the third party is not operating for free. They need to generate revenue for them to be operational. They need money to run the huge servers that are processing transactions. So, they _need_ to charge transaction fees, otherwise they will bankrupt.
+
+Let's look at another example. Is our money safe in banks? When we store our money in the banks, we see our balance. Is the money actually there? What stops hackers/management of bank to steal all the money but display that our money is there. We can't know for sure unless we actually withdraw money. We are simply having a trust in banks that they will keep our money safe. The problem? They are a single point of failure! Someone can steal money from a bank, and there is no guarantee that this can never happen. There can be a computer malware which currupts the computers of bank and steal all the money. We trust that their system is secure and no hacker can steal our money. We are trusting them not to steal our money.
+
+This list of possibilities is long. The most important reason is that the financial institutions are single point of failures. Only if we had a distributed system that can't be hacked, a system where we don't need to pay transaction fees, and all the bookkeeping is public...
+
+Here comes the paper of Satoshi Nakamoto. He (or they, assuming it is the work of a group of people) proposed Bitcoin which takes care of all these problems. This system can transfer money from one person to another without using a third party. This system guarantees that the money can't be stolen. This system guarantees that money is always with the owner. Every record, every transaction is public. No one can change the transactions once they are added in the system. And the best part? All this is guaranteed by cryptography principles. These guarantees can be proven and breaking them is impractical. No one owns the system, the system is distributed among the users using the system.
+
+## Structure of the book
+
+In these volumes of this book, we will cover each and every corner of the Bitcoin technology and see how the system guarantees all these things. We will start with absolute basic, assuming some technical background from the reader. This book is intended to be theoretical, as well as practical. By this, we mean that theory of each concept is provided, and then we jump into actual code to check if our knowledge is correct.
+
+Structure of each chapter will follow the following trend:
+
+1. Discussion of technical terms and how to think about them. Why they are required, what is their benefit in the system, the motivation for their existence, etc.
+2. Then we go into how they are actually implemented. This means we actually go into how these things are structured and stored. We will cover many examples, wherever relevant, to illustrate the concepts. We will decode things by hand from actual Bitcoin transactions.
+3. We will go into `C++` code to perform the calculations we did in point 2. You can choose any language of your choice. `C++` is chosen because we can use it to write highly efficient code. Also, the Bitcoin code is written in `C++`, so it makes sense to see the basic constructs implemented in `C++` so that it becomes easy to make sense of actual Bitcoin code.
+
+Note that if you don't know `C++`, you can use any language of your choice. Point 2 covers enough details so that you can mimic them on your own, in your own style and language of choice. Since we will cover technical details in point 2, the code will have little explanation. Those who know `C++` or can make sense of code, can clearly deduce what each line of code is doing.
 
 ## Prerequisites
+You are expected to know some things about the following topics, as they should be studied in isolation to not to get confused with Bitcoin features and internet is filled with many good explanations on them.
 
-- We will use `C++ 17` for our code demonstrations, so the knowledge of it is a must. In addition to basic `C++ 17` rules, you should know about:
-    - Pointers and how to use `char*` to iterate over memory in byte level chunks.
-    - Alignment and padding of structs.
+- Base conversion between Binary, Decimal and Hexadecimal.
+- ASCII character encoding.
+- Little endian and big endian storage.
+
+- For the prerequisites of `C++`, if you want to go with it but are not sure of concepts used in the code:
+    - Pointers (We will use `char*` to iterate over memory in byte level chunks).
+    - References (Enables us to pass variables without much copy overhead).
+    - Alignment and padding of structs (Since we are working on individual bytes).
     - Bitwise operators.
-    - Stack and heap allocations.
+    - Stack and heap allocations (To make sense of why somethings are allocated using `new`).
     - Basic STL Container such as `vector`, `map`, `set`, etc.
-    - Fixed-width integers.
-    - Stream I/O.
-    - Little Endian vs Big Endian.
-- Base systems and encodings:
-    - Decimal.
-    - Hexadecimal.
-    - Binary.
-    - ASCII.
-- A working internet connection:
-    - To download bitcoin transactions to work on them. This is only required once.
+    - Fixed-width integers (To ensure exact width of data types).
+    - Stream I/O (How to read binary file).
