@@ -91,6 +91,8 @@ Structure of each chapter will follow the following trend:
 2. Then we go into how they are actually implemented. This means we actually go into how these things are structured and stored. We will cover many examples, wherever relevant, to illustrate the concepts. We will decode things by hand from actual Bitcoin transactions.
 3. We will go into `C++` code to perform the calculations we did in point 2. You can choose any language of your choice. `C++` is chosen because we can use it to write highly efficient code. Also, the Bitcoin code is written in `C++`, so it makes sense to see the basic constructs implemented in `C++` so that it becomes easy to make sense of actual Bitcoin code.
 
+There are chapters where this trend is not followed, but that doesn't mean something is missing. It just means that there is no relevancy of this general trend in them. Some chapters will completely discuss the core idea and subsequent chapters will completely go into code, while some chapter will just discuss the background material and no code is there because of irrelevancy with the core working of Bitcoin.
+
 Note that if you don't know `C++`, you can use any language of your choice. Point 2 covers enough details so that you can mimic them on your own, in your own style and language of choice. Since we will cover technical details in point 2, the code will have little explanation. Those who know `C++` or can make sense of code, can clearly deduce what each line of code is doing.
 
 ## Prerequisites
