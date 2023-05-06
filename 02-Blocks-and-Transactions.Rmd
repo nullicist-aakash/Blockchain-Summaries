@@ -1,0 +1,41 @@
+# Absolute Basics - Blocks and Transactions
+
+## How Bitcoin works on surface
+Bitcoin is basically a ledger system. In simple terms, a ledger keeps record of transactions. It is supposed to track the balances of individual people, track the amount of money they send each other, etc. Bitcoin is just like that. As per the problem statement of Bitcoin paper by Satoshi Nakamoto, the main goal of Bitcoin is to track money and make sure it is there where it is claimed.
+
+### Requirements of a ledger
+How a ledger fits in this big picture? Say person $A$ sends $x$ amount of money to person $B$. A ledger is supposed to keep track of this in a legitimate manner. A ledger is supposed to do something in the lines of:
+
+1. Check if the "address" of person $A$ is valid, is registered in the system.
+2. Check if the "address" of person $B$ is valid, and is registered in the system.
+3. Check if person $A$ have sufficient balance to send money to person $B$.
+4. Verify that person who is sending money from account $A$, is actually person $A$.
+5. Subtract $x$ amount from balance of person $A$ and add $x$ amount in the balance of person $B$.
+6. (Optional) Stores the time of this transaction.
+
+These are the basic requirements. We will uncover many more as we read about Bitcoin, but our major goal is to achieve above and prove that it is possible to achieve it using technology, not via a "trust" in some person or organisation. All this should be guaranteed by the "underlying" system, so that no one can use a loophole, not even the banks or government.
+
+One thing that is missing in above ledger requirements. Can you guess? It is a very critical requirement. We want no single authority on the ledger! We want that no one owns that ledger. What we mean is that filling entries in the ledger should not be the responsibility of a single entity or organisation. This statement seems vague, what do we actually mean by it? 
+
+### Who stores the ledger?
+Say some "entity" is "managing" this ledger. By managing, we refer to storing the records of this ledger and updating the entries in it, etc. This is what banks actually do. We don't want this ledger "management" in the hands of a single person. That will mean the "manager" of this ledger have the absolute power. The "manager" can delete the ledger at any time, can show partial information to some users and some information to others. This "manager" can block some users from even registering in the system, can charge money to the users of this ledger, etc. We don't want any of this. The core problem is that some "entity" is owning the "management" of the ledger.
+
+What Bitcoin does is it stores this ledger with every person who is using Bitcoin! Basically, every Bitcoin user have the exact copy of this ledger on their system, so that no single entity is incharge of "managing" the ledger. This is what we were doing in previous chapter while getting our hands on initial transactions. We were downloading this ledger in our system, and the Bitcoin ledger is touching $500$ gb of storage. This includes each and every transaction from the beginning of Bitcoin and every person can see the transactions on their device without depending on "others" for reliability of data. We stopped the process in between to get our hands on initial $128$ mb of data for processing.
+
+In Bitcoin, say two person are exchanging money with each other. They will tell others in the world that they did the transaction and send the transaction details to everyone in the world.
+
+### Consequences of ledger storage
+At this point, you should think about the implications of this decision. While it eliminates the "trust" problems of our current financial system, it introduces a lot of problems for the system to work! What stops a person from receiving $200$ dollars in a transaction but claim they only received $100$ dollars? Or, what stops a person from sending $100$ dollars but enter that they sent $200$ dollars in the system. After all, both parties will broadcast their transaction details to everyone in the world, but whose record will be trusted? The one sending money or the one receiving money?
+
+Also, assuming that everyone is operating honestly (We can't assume this at all, but for the sake of simplicity, assume this for once), there are thousands of transactions happening per second in the world. How the users are supposed to update their entries? Say we have the following scenario:
+1. Person $A$ send $100$ dollars to person $B$. This increases the balance of person $B$ to $300$ dollars. Both tell the world about this.
+2. Meanwhile, person $C$ sends $50$ dollars to person $B$ and this information reaches $B$ just after $A$. So, the ledger of $B$ will show that the balance first increases from $200$ to $300$, and then $300$ to $350$.
+
+See the problem here? What about the balance record of $B$ that is stored in ledger of $C$? After all, everyone is storing the records of every transactions in their copy of ledger. Since $C$ is sending $50$ dollars to $B$, local ledger of $C$ will update that balance of $B$ is increased from $200$ to $250$. After some time, the announcement of $A$ and $B$ comes to $C$ (due to large distance of $C$ from both of them) which increased the balance of $B$ by 100 and new balance of $B$ is $300$!! This makes the entries of $C$ inconsistent, effectively making ledger prone to errors. How Bitcoin solves this problem?
+
+### Solution to the problems
+We will cover all the problems one by one in detail. Some problems are covered in this volume and some in future volumes of this book. Some problems are inherent to malicious people doing transaction, some are dependent on how we are keeping track of transactions. There are many more technical problems that needs to be solved. Consider point 4 of ledger requirements mentioned above. How do we do that by code? There are no identities of people on internet. They can come and go from any device, at any point in time. They can be offline for a year from the system while their account is still active. We need to make sure that the actual owner of account is operating the account assigned to him, not the account of someone else.
+
+We will study __Blockchain__ in this volume which covers half of the problems and will work on transaction data in future.
+
+## Problems solved by blockchain

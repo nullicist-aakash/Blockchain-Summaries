@@ -39,6 +39,6 @@
 <!-- Next, we have two structures. First we store the inputs of a transaction. After that, we store the outputs of a transaction. -->
 
 <!-- ### What information is stored in bitcoin transactions? -->
-<!-- Let's say you are creating a ledger from scratch, like Bitcoin. This ledger, as you know, will work as a bank. Once something is there in ledger, it stays there forever.  -->
+<!-- Let's say you are creating a ledger from scratch, like Bitcoin. This ledger, as you know, will work as a bank. Once something is there in ledger, it stays there forever. -->
 
-<!-- Say Alice wants to send $10$ dollars to Bob and makes an entry in ledger that she sent $10$ dollars from her account. What information do you need to verify that this is a valid transaction? Think hard before moving on. Here are the things that we need to check before  -->
+<!-- Say Alice wants to send $10$ dollars to Bob and makes an entry in ledger that she sent $10$ dollars from her account. What information do you need to verify that this is a valid transaction? Think hard before moving on. Here are the things that we need to check before -->

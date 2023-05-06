@@ -10,6 +10,18 @@ description: "This is a summary of everything we need to know what is there in b
 <!-- ## Topic Categories -->
 <!-- Blockchain: -->
 
+Summary:
+1. Getting Started
+   - The Paper.
+   - The problem statement.
+2. Setting Up
+   - IDE.
+   - Project.
+   - HEX Viewer
+3. Absolute basics
+   - The transactions and blocks.
+   - 
+   
 <!-- 1. Absolute Basic Stuff: The ledger, the transactions. The Paper, the problem statement. The Blocks, the bricks. -->
 <!-- 2. Storing the blocks - chaining. The cryptography. The storage order of blocks. -->
 <!-- 3. Updates: Add new blocks to the system - Mine them. -->

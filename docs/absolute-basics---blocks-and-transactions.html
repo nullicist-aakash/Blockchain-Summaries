@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Absolute Basics - Blocks and Transactions | Bitcoin: A Technical Introduction - Volume I</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Absolute Basics - Blocks and Transactions | Bitcoin: A Technical Introduction - Volume I" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Absolute Basics - Blocks and Transactions | Bitcoin: A Technical Introduction - Volume I" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-05-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="setting-up-the-environment.html"/>
+<link rel="next" href="structure-of-a-block.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-bitcoin"><i class="fa fa-check"></i><b>1.1</b> What is Bitcoin?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-bitcoin"><i class="fa fa-check"></i><b>1.2</b> Why Bitcoin?</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i><b>1.3</b> Structure of the book</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#project-structure"><i class="fa fa-check"></i><b>2.3</b> Project structure</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.4.2</b> Working of <code>hex_view</code></a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#display-transaction-bytes"><i class="fa fa-check"></i><b>2.4.3</b> Display transaction bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html"><i class="fa fa-check"></i><b>3</b> Absolute Basics - Blocks and Transactions</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html#how-bitcoin-works-on-surface"><i class="fa fa-check"></i><b>3.1</b> How Bitcoin works on surface</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html#requirements-of-a-ledger"><i class="fa fa-check"></i><b>3.1.1</b> Requirements of a ledger</a></li>
+<li class="chapter" data-level="3.1.2" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html#who-stores-the-ledger"><i class="fa fa-check"></i><b>3.1.2</b> Who stores the ledger?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html#consequences-of-ledger-storage"><i class="fa fa-check"></i><b>3.1.3</b> Consequences of ledger storage</a></li>
+<li class="chapter" data-level="3.1.4" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html#solution-to-the-problems"><i class="fa fa-check"></i><b>3.1.4</b> Solution to the problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="absolute-basics---blocks-and-transactions.html"><a href="absolute-basics---blocks-and-transactions.html#problems-solved-by-blockchain"><i class="fa fa-check"></i><b>3.2</b> Problems solved by blockchain</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html"><i class="fa fa-check"></i><b>4</b> Structure of a block</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#structure-of-a-block-1"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#calculation-of-current-hash"><i class="fa fa-check"></i><b>4.2.3</b> Calculation of current hash</a></li>
+<li class="chapter" data-level="4.2.4" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#summary"><i class="fa fa-check"></i><b>4.2.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#reading-genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Reading Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#c-code-to-read-the-data"><i class="fa fa-check"></i><b>4.4</b> C++ code to read the data</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#complete-code"><i class="fa fa-check"></i><b>4.4.1</b> Complete Code</a></li>
+<li class="chapter" data-level="4.4.2" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#working"><i class="fa fa-check"></i><b>4.4.2</b> Working</a></li>
+<li class="chapter" data-level="4.4.3" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#printing-date"><i class="fa fa-check"></i><b>4.4.3</b> Printing Date</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="structure-of-a-block.html"><a href="structure-of-a-block.html#topics-left-for-future-chapters"><i class="fa fa-check"></i><b>4.5</b> Topics left for future chapters</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitcoin: A Technical Introduction - Volume I</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="absolute-basics---blocks-and-transactions" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Absolute Basics - Blocks and Transactions<a href="absolute-basics---blocks-and-transactions.html#absolute-basics---blocks-and-transactions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="how-bitcoin-works-on-surface" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> How Bitcoin works on surface<a href="absolute-basics---blocks-and-transactions.html#how-bitcoin-works-on-surface" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Bitcoin is basically a ledger system. In simple terms, a ledger keeps record of transactions. It is supposed to track the balances of individual people, track the amount of money they send each other, etc. Bitcoin is just like that. As per the problem statement of Bitcoin paper by Satoshi Nakamoto, the main goal of Bitcoin is to track money and make sure it is there where it is claimed.</p>
+<div id="requirements-of-a-ledger" class="section level3 hasAnchor" number="3.1.1">
+<h3><span class="header-section-number">3.1.1</span> Requirements of a ledger<a href="absolute-basics---blocks-and-transactions.html#requirements-of-a-ledger" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>How a ledger fits in this big picture? Say person <span class="math inline">\(A\)</span> sends <span class="math inline">\(x\)</span> amount of money to person <span class="math inline">\(B\)</span>. A ledger is supposed to keep track of this in a legitimate manner. A ledger is supposed to do something in the lines of:</p>
+<ol style="list-style-type: decimal">
+<li>Check if the “address” of person <span class="math inline">\(A\)</span> is valid, is registered in the system.</li>
+<li>Check if the “address” of person <span class="math inline">\(B\)</span> is valid, and is registered in the system.</li>
+<li>Check if person <span class="math inline">\(A\)</span> have sufficient balance to send money to person <span class="math inline">\(B\)</span>.</li>
+<li>Verify that person who is sending money from account <span class="math inline">\(A\)</span>, is actually person <span class="math inline">\(A\)</span>.</li>
+<li>Subtract <span class="math inline">\(x\)</span> amount from balance of person <span class="math inline">\(A\)</span> and add <span class="math inline">\(x\)</span> amount in the balance of person <span class="math inline">\(B\)</span>.</li>
+<li>(Optional) Stores the time of this transaction.</li>
+</ol>
+<p>These are the basic requirements. We will uncover many more as we read about Bitcoin, but our major goal is to achieve above and prove that it is possible to achieve it using technology, not via a “trust” in some person or organisation. All this should be guaranteed by the “underlying” system, so that no one can use a loophole, not even the banks or government.</p>
+<p>One thing that is missing in above ledger requirements. Can you guess? It is a very critical requirement. We want no single authority on the ledger! We want that no one owns that ledger. What we mean is that filling entries in the ledger should not be the responsibility of a single entity or organisation. This statement seems vague, what do we actually mean by it?</p>
+</div>
+<div id="who-stores-the-ledger" class="section level3 hasAnchor" number="3.1.2">
+<h3><span class="header-section-number">3.1.2</span> Who stores the ledger?<a href="absolute-basics---blocks-and-transactions.html#who-stores-the-ledger" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Say some “entity” is “managing” this ledger. By managing, we refer to storing the records of this ledger and updating the entries in it, etc. This is what banks actually do. We don’t want this ledger “management” in the hands of a single person. That will mean the “manager” of this ledger have the absolute power. The “manager” can delete the ledger at any time, can show partial information to some users and some information to others. This “manager” can block some users from even registering in the system, can charge money to the users of this ledger, etc. We don’t want any of this. The core problem is that some “entity” is owning the “management” of the ledger.</p>
+<p>What Bitcoin does is it stores this ledger with every person who is using Bitcoin! Basically, every Bitcoin user have the exact copy of this ledger on their system, so that no single entity is incharge of “managing” the ledger. This is what we were doing in previous chapter while getting our hands on initial transactions. We were downloading this ledger in our system, and the Bitcoin ledger is touching <span class="math inline">\(500\)</span> gb of storage. This includes each and every transaction from the beginning of Bitcoin and every person can see the transactions on their device without depending on “others” for reliability of data. We stopped the process in between to get our hands on initial <span class="math inline">\(128\)</span> mb of data for processing.</p>
+<p>In Bitcoin, say two person are exchanging money with each other. They will tell others in the world that they did the transaction and send the transaction details to everyone in the world.</p>
+</div>
+<div id="consequences-of-ledger-storage" class="section level3 hasAnchor" number="3.1.3">
+<h3><span class="header-section-number">3.1.3</span> Consequences of ledger storage<a href="absolute-basics---blocks-and-transactions.html#consequences-of-ledger-storage" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>At this point, you should think about the implications of this decision. While it eliminates the “trust” problems of our current financial system, it introduces a lot of problems for the system to work! What stops a person from receiving <span class="math inline">\(200\)</span> dollars in a transaction but claim they only received <span class="math inline">\(100\)</span> dollars? Or, what stops a person from sending <span class="math inline">\(100\)</span> dollars but enter that they sent <span class="math inline">\(200\)</span> dollars in the system. After all, both parties will broadcast their transaction details to everyone in the world, but whose record will be trusted? The one sending money or the one receiving money?</p>
+<p>Also, assuming that everyone is operating honestly (We can’t assume this at all, but for the sake of simplicity, assume this for once), there are thousands of transactions happening per second in the world. How the users are supposed to update their entries? Say we have the following scenario:
+1. Person <span class="math inline">\(A\)</span> send <span class="math inline">\(100\)</span> dollars to person <span class="math inline">\(B\)</span>. This increases the balance of person <span class="math inline">\(B\)</span> to <span class="math inline">\(300\)</span> dollars. Both tell the world about this.
+2. Meanwhile, person <span class="math inline">\(C\)</span> sends <span class="math inline">\(50\)</span> dollars to person <span class="math inline">\(B\)</span> and this information reaches <span class="math inline">\(B\)</span> just after <span class="math inline">\(A\)</span>. So, the ledger of <span class="math inline">\(B\)</span> will show that the balance first increases from <span class="math inline">\(200\)</span> to <span class="math inline">\(300\)</span>, and then <span class="math inline">\(300\)</span> to <span class="math inline">\(350\)</span>.</p>
+<p>See the problem here? What about the balance record of <span class="math inline">\(B\)</span> that is stored in ledger of <span class="math inline">\(C\)</span>? After all, everyone is storing the records of every transactions in their copy of ledger. Since <span class="math inline">\(C\)</span> is sending <span class="math inline">\(50\)</span> dollars to <span class="math inline">\(B\)</span>, local ledger of <span class="math inline">\(C\)</span> will update that balance of <span class="math inline">\(B\)</span> is increased from <span class="math inline">\(200\)</span> to <span class="math inline">\(250\)</span>. After some time, the announcement of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> comes to <span class="math inline">\(C\)</span> (due to large distance of <span class="math inline">\(C\)</span> from both of them) which increased the balance of <span class="math inline">\(B\)</span> by 100 and new balance of <span class="math inline">\(B\)</span> is <span class="math inline">\(300\)</span>!! This makes the entries of <span class="math inline">\(C\)</span> inconsistent, effectively making ledger prone to errors. How Bitcoin solves this problem?</p>
+</div>
+<div id="solution-to-the-problems" class="section level3 hasAnchor" number="3.1.4">
+<h3><span class="header-section-number">3.1.4</span> Solution to the problems<a href="absolute-basics---blocks-and-transactions.html#solution-to-the-problems" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will cover all the problems one by one in detail. Some problems are covered in this volume and some in future volumes of this book. Some problems are inherent to malicious people doing transaction, some are dependent on how we are keeping track of transactions. There are many more technical problems that needs to be solved. Consider point 4 of ledger requirements mentioned above. How do we do that by code? There are no identities of people on internet. They can come and go from any device, at any point in time. They can be offline for a year from the system while their account is still active. We need to make sure that the actual owner of account is operating the account assigned to him, not the account of someone else.</p>
+<p>We will study <strong>Blockchain</strong> in this volume which covers half of the problems and will work on transaction data in future.</p>
+</div>
+</div>
+<div id="problems-solved-by-blockchain" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Problems solved by blockchain<a href="absolute-basics---blocks-and-transactions.html#problems-solved-by-blockchain" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="setting-up-the-environment.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="structure-of-a-block.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-Blocks-and-Transactions.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

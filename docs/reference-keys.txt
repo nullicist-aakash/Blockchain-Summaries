@@ -6,10 +6,18 @@ prerequisites
 setting-up-the-environment
 ide
 get-initial-blockchain-data
+project-structure
 hex-viewer
 c-code
 working-of-hex_view
-bitcoin-data
+display-transaction-bytes
+absolute-basics---blocks-and-transactions
+how-bitcoin-works-on-surface
+requirements-of-a-ledger
+who-stores-the-ledger
+consequences-of-ledger-storage
+solution-to-the-problems
+problems-solved-by-blockchain
 structure-of-a-block
 terminologies
 theory
@@ -23,7 +31,3 @@ complete-code
 working
 printing-date
 topics-left-for-future-chapters
-structure-of-block-transactions
-number-of-transactions
-transactions
-what-information-is-stored-in-bitcoin-transactions
