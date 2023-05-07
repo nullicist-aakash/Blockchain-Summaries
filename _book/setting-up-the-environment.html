@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-05-06" />
+<meta name="date" content="2023-05-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -171,6 +171,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
 <li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
 </ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Blocks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -340,7 +360,7 @@ int main(int argc, char** argv)
 <div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="setting-up-the-environment.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> main.cpp <span class="at">-o</span> reader.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
 <p>A file <code>reader.out</code> will be created which is our executable. Run the file using the following command:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="setting-up-the-environment.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
-<p>Here is the output of running above code on initial <span class="math inline">\(1k\)</span> bitcoin data:</p>
+<p>Here is the output of running above code on initial <span class="math inline">\(1k\)</span> Bitcoin data:</p>
 <pre><code>0x00000000 |  F9 BE B4 D9 1D 01 00 00  01 00 00 00 00 00 00 00  | ................
 0x00000010 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
 0x00000020 |  00 00 00 00 00 00 00 00  00 00 00 00 3B A3 ED FD  | ............;...

@@ -12,8 +12,8 @@ How a ledger fits in this big picture? Say person $A$ sends $x$ amount of money 
 2. Check if the "address" of person $B$ is valid, and is registered in the system.
 3. Check if person $A$ have sufficient balance to send money to person $B$.
 4. Verify that person who is sending money from account $A$, is actually person $A$.
-5. Subtract $x$ amount from balance of person $A$ and add $x$ amount in the balance of person $B$.
-6. (Optional) Stores the time of this transaction.
+5. Update balance of individual people by subtracting $x$ amount from balance of person $A$ and adding $x$ amount in the balance of person $B$.
+6. Stores the time of this transaction.
 7. Once a transaction is made, its entry should not be deleted!
 8. Once a transaction is made, no one should be able to change any entry! Not a single digit!
 
@@ -58,7 +58,28 @@ So there you have it. And this is a huge problem, as we can change anything in s
 This problem is solved by: __Blockchain__. And there you have it, the difference between Bitcoin and Blockchain. While the Bitcoin is a system of ledger, Blockchain provides us the feature of permanent storage. Blockchain gives us power to cast something in stone that can't be changed, at all, in the disks that can be changed anytime. Blockchain gives us the power to have trust in Blockchain. It gives you guarantee that no one can change any data in the system, once it is entered by someone. We don't have to worry about any hacker or ill intent person to take benefit of anyone. And we don't need any special software to implement it, it is the inherent property of the system in which Bitcoin data is stored. And guess what, this is completely independent of how cryptocurrencies are used. This means, that the technology literally tells us if even a single bit is changed.
 
 ### Blockchain Requirements
-And there you have it. The idea of what this volume is all about. The idea of what Blockchain is all about. We don't have any idea how it is implemented, but we have concrete idea of what we need. We need something to:
+And now you know: The idea of what this volume is all about. The idea of what Blockchain is all about. We don't have any idea how it is implemented, but we have concrete idea of what we need. We need something to:
 
 1. Add entries in the system and make sure they are not deleted in future.
-2. Once something is there in the system, it can't be changed at all. Literally! If someone changes something, the system simply detects it and informs that something fishy is going on. And since data is stored on various computers, and computers can tell if their data is changed, we can literally recover the system if there is atleast one computer which is not infected. And this is not based on how many computers have majority of same data. Even if 1 billion devices are infected, they can simply tell their data is wrong. Someone changed the data. And there is one device, which reports that its data is not changed, which, everyone can verify, all 1 billion devices will accept that device data as genuine and the system will start working again.
+2. Once something is there in the system, it can't be changed at all. Literally!
+
+If someone changes something, the system simply detects it and informs that something fishy is going on. And since data is stored on various computers, and computers can tell if their data is changed, we can literally recover the system if there is atleast one computer which is not infected. And the recovery is not based on how many computers have majority of same data. Even if 1 billion devices are infected, they can simply tell their data is wrong. Someone changed the data. And there is one device, which reports that its data is not changed, which everyone can verify, all 1 billion devices will accept that device data as genuine, download the copy of that device and the system will start working again.
+
+## Summary
+So, what did we cover in this lesson? Here are the questions you should be able to answer:
+
+- What is the importance of a ledger in digital currencies? Why digital currencies can't work without some kind of a ledger?
+- What are the basic requirements of a company/entity/bank owned ledger? What minimal information should it store?
+- Why we don't want the ledger to be stored at a single company or entity? Why do we need to store ledger in every device that participate in transactions for the Bitcoin to work?
+- What are the obvious issues of doing transactions with ledger that is stored on each device?
+- Why we don't want to store "net balance" in distributed ledger after each transaction?
+- What are the storage requirements of a ledger? Why do we need the storage data to be fixed, once it is written?
+- What hacks/exploits can one person use to play with the system if the storage was not fixed?
+- How can the Blockchain system recover if the data of particular device is corrupted/modified/deleted?
+- What problem does the Blockchain technology solve, and what is the role of Blockchain in the functioning of Bitcoin?
+
+And most importantly
+
+- What are the feature requirements from a Blockchain technology?
+
+In next chapter, we will start with the lifecycle of Blockchain and study the individual fields of blockchain from the Bitcoin data!

@@ -178,7 +178,7 @@ A file `reader.out` will be created which is our executable. Run the file using 
 ./reader.out data/1k.dat 
 ```
 
-Here is the output of running above code on initial $1k$ bitcoin data:
+Here is the output of running above code on initial $1k$ Bitcoin data:
 ```{}
 0x00000000 |  F9 BE B4 D9 1D 01 00 00  01 00 00 00 00 00 00 00  | ................
 0x00000010 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................

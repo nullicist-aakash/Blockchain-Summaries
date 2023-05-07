@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Lifecycle of Blockchain - Blocks | Bitcoin: A Technical Introduction - Volume I</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Lifecycle of Blockchain - Blocks | Bitcoin: A Technical Introduction - Volume I" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Lifecycle of Blockchain - Blocks | Bitcoin: A Technical Introduction - Volume I" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-05-07" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="blockchain-vs-bitcoin.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-bitcoin"><i class="fa fa-check"></i><b>1.1</b> What is Bitcoin?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-bitcoin"><i class="fa fa-check"></i><b>1.2</b> Why Bitcoin?</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i><b>1.3</b> Structure of the book</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#project-structure"><i class="fa fa-check"></i><b>2.3</b> Project structure</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.4.2</b> Working of <code>hex_view</code></a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#display-transaction-bytes"><i class="fa fa-check"></i><b>2.4.3</b> Display transaction bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html"><i class="fa fa-check"></i><b>3</b> Blockchain vs Bitcoin</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#how-bitcoin-works-on-surface"><i class="fa fa-check"></i><b>3.1</b> How Bitcoin works on surface</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#requirements-of-a-ledger"><i class="fa fa-check"></i><b>3.1.1</b> Requirements of a ledger</a></li>
+<li class="chapter" data-level="3.1.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#who-stores-the-ledger"><i class="fa fa-check"></i><b>3.1.2</b> Who stores the ledger?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#consequences-of-ledger-storage"><i class="fa fa-check"></i><b>3.1.3</b> Consequences of ledger storage</a></li>
+<li class="chapter" data-level="3.1.4" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#solution-to-the-problems"><i class="fa fa-check"></i><b>3.1.4</b> Solution to the problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#problems-solved-by-blockchain"><i class="fa fa-check"></i><b>3.2</b> Problems solved by blockchain</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#changing-data-in-existing-ledger"><i class="fa fa-check"></i><b>3.2.1</b> Changing data in existing ledger</a></li>
+<li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Blocks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitcoin: A Technical Introduction - Volume I</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="lifecycle-of-blockchain---blocks" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Lifecycle of Blockchain - Blocks<a href="lifecycle-of-blockchain---blocks.html#lifecycle-of-blockchain---blocks" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This chapter marks the beginning of our journey into the world of Bitcoin. As already discussed in last chapter, we know the difference between Bitcoin and Blockchain. We also mentioned that this volume is all about the Blockchain, next volume is going to be about individual transactions of Bitcoin. Let’s get started!</p>
+<p>Blockchain-type technology was first discussed in a dissertation of 1982 by David Chaum: “Computer Systems Established, Maintained, and Trusted by Mutually Suspicious Groups.” There are few attempts after it to implement the technology, but the first decentralized Blockchain was conceptualized in 2008, by Satoshi Nakamoto. Satoshi used “block” and “chain” separately in the 2008 paper. This means something. This means that we have to study two things to actually understand the blockchain.</p>
+<p>There are few aspects of blockchain as a data structure:</p>
+<ul>
+<li>Add new data at the end - Required.</li>
+<li>Change existing entries - Should not be allowed.</li>
+<li>Delete existing entries - Should not be allowed.</li>
+<li>Iterate over data - Required.</li>
+</ul>
+<p>We don’t have any update query. We need some type of search query, but that will be taken care in volume 2. What data structure best fits the above requirements if thought as an API question? Linked Lists. In Blockchain, instead of nodes, we say <strong>blocks</strong>. In place of pointer to next or previous element, we say <strong>chain</strong>. Thus, the name: Blockchain.</p>
+<p>In this chapter, we will see how the block header is structured. We will see that a block is splitted into four parts: <span class="math inline">\(8\)</span> byte pre-header, <span class="math inline">\(80\)</span> byte header, number of transactions and actual transactions. There are some concepts such as difficulty, hash, nonce which will be covered later in detail. These are just mentioned in these initial chapters and where they are stored. Their complete details will come in future.</p>
+<p>Here is the output of first 1k of data that was printed in previous to previous chapter via our <code>hex_view</code> function:</p>
+<pre><code>0x00000000 |  F9 BE B4 D9 1D 01 00 00  01 00 00 00 00 00 00 00  | ................
+0x00000010 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000020 |  00 00 00 00 00 00 00 00  00 00 00 00 3B A3 ED FD  | ............;...
+0x00000030 |  7A 7B 12 B2 7A C7 2C 3E  67 76 8F 61 7F C8 1B C3  | z{..z.,&gt;gv.a....
+0x00000040 |  88 8A 51 32 3A 9F B8 AA  4B 1E 5E 4A 29 AB 5F 49  | ..Q2:...K.^J)._I
+0x00000050 |  FF FF 00 1D 1D AC 2B 7C  01 01 00 00 00 01 00 00  | ......+|........
+0x00000060 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000070 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 FF FF  | ................
+0x00000080 |  FF FF 4D 04 FF FF 00 1D  01 04 45 54 68 65 20 54  | ..M.......EThe T
+0x00000090 |  69 6D 65 73 20 30 33 2F  4A 61 6E 2F 32 30 30 39  | imes 03/Jan/2009
+0x000000A0 |  20 43 68 61 6E 63 65 6C  6C 6F 72 20 6F 6E 20 62  |  Chancellor on b
+0x000000B0 |  72 69 6E 6B 20 6F 66 20  73 65 63 6F 6E 64 20 62  | rink of second b
+0x000000C0 |  61 69 6C 6F 75 74 20 66  6F 72 20 62 61 6E 6B 73  | ailout for banks
+0x000000D0 |  FF FF FF FF 01 00 F2 05  2A 01 00 00 00 43 41 04  | ........*....CA.
+0x000000E0 |  67 8A FD B0 FE 55 48 27  19 67 F1 A6 71 30 B7 10  | g....UH&#39;.g..q0..
+0x000000F0 |  5C D6 A8 28 E0 39 09 A6  79 62 E0 EA 1F 61 DE B6  | \..(.9..yb...a..
+0x00000100 |  49 F6 BC 3F 4C EF 38 C4  F3 55 04 E5 1E C1 12 DE  | I..?L.8..U......
+0x00000110 |  5C 38 4D F7 BA 0B 8D 57  8A 4C 70 2B 6B F1 1D 5F  | \8M....W.Lp+k.._
+0x00000120 |  AC 00 00 00 00 F9 BE B4  D9 D7 00 00 00 01 00 00  | ................
+0x00000130 |  00 6F E2 8C 0A B6 F1 B3  72 C1 A6 A2 46 AE 63 F7  | .o......r...F.c.
+0x00000140 |  4F 93 1E 83 65 E1 5A 08  9C 68 D6 19 00 00 00 00  | O...e.Z..h......
+0x00000150 |  00 98 20 51 FD 1E 4B A7  44 BB BE 68 0E 1F EE 14  | .. Q..K.D..h....
+0x00000160 |  67 7B A1 A3 C3 54 0B F7  B1 CD B6 06 E8 57 23 3E  | g{...T.......W#&gt;
+0x00000170 |  0E 61 BC 66 49 FF FF 00  1D 01 E3 62 99 01 01 00  | .a.fI......b....
+0x00000180 |  00 00 01 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000190 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x000001A0 |  00 00 00 FF FF FF FF 07  04 FF FF 00 1D 01 04 FF  | ................
+0x000001B0 |  FF FF FF 01 00 F2 05 2A  01 00 00 00 43 41 04 96  | .......*....CA..
+0x000001C0 |  B5 38 E8 53 51 9C 72 6A  2C 91 E6 1E C1 16 00 AE  | .8.SQ.rj,.......
+0x000001D0 |  13 90 81 3A 62 7C 66 FB  8B E7 94 7B E6 3C 52 DA  | ...:b|f....{.&lt;R.
+0x000001E0 |  75 89 37 95 15 D4 E0 A6  04 F8 14 17 81 E6 22 94  | u.7...........&quot;.
+0x000001F0 |  72 11 66 BF 62 1E 73 A8  2C BF 23 42 C8 58 EE AC  | r.f.b.s.,.#B.X..
+0x00000200 |  00 00 00 00 F9 BE B4 D9  D7 00 00 00 01 00 00 00  | ................
+0x00000210 |  48 60 EB 18 BF 1B 16 20  E3 7E 94 90 FC 8A 42 75  | H`..... .~....Bu
+0x00000220 |  14 41 6F D7 51 59 AB 86  68 8E 9A 83 00 00 00 00  | .Ao.QY..h.......
+0x00000230 |  D5 FD CC 54 1E 25 DE 1C  7A 5A DD ED F2 48 58 B8  | ...T.%..zZ...HX.
+0x00000240 |  BB 66 5C 9F 36 EF 74 4E  E4 2C 31 60 22 C9 0F 9B  | .f\.6.tN.,1`&quot;...
+0x00000250 |  B0 BC 66 49 FF FF 00 1D  08 D2 BD 61 01 01 00 00  | ..fI.......a....
+0x00000260 |  00 01 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000270 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000280 |  00 00 FF FF FF FF 07 04  FF FF 00 1D 01 0B FF FF  | ................
+0x00000290 |  FF FF 01 00 F2 05 2A 01  00 00 00 43 41 04 72 11  | ......*....CA.r.
+0x000002A0 |  A8 24 F5 5B 50 52 28 E4  C3 D5 19 4C 1F CF AA 15  | .$.[PR(....L....
+0x000002B0 |  A4 56 AB DF 37 F9 B9 D9  7A 40 40 AF C0 73 DE E6  | .V..7...z@@..s..
+0x000002C0 |  C8 90 64 98 4F 03 38 52  37 D9 21 67 C1 3E 23 64  | ..d.O.8R7.!g.&gt;#d
+0x000002D0 |  46 B4 17 AB 79 A0 FC AE  41 2A E3 31 6B 77 AC 00  | F...y...A*.1kw..
+0x000002E0 |  00 00 00 F9 BE B4 D9 D7  00 00 00 01 00 00 00 BD  | ................
+0x000002F0 |  DD 99 CC FD A3 9D A1 B1  08 CE 1A 5D 70 03 8D 0A  | ...........]p...
+0x00000300 |  96 7B AC B6 8B 6B 63 06  5F 62 6A 00 00 00 00 44  | .{...kc._bj....D
+0x00000310 |  F6 72 22 60 90 D8 5D B9  A9 F2 FB FE 5F 0F 96 09  | .r&quot;`..]....._...
+0x00000320 |  B3 87 AF 7B E5 B7 FB B7  A1 76 7C 83 1C 9E 99 5D  | ...{.....v|....]
+0x00000330 |  BE 66 49 FF FF 00 1D 05  E0 ED 6D 01 01 00 00 00  | .fI.......m.....
+0x00000340 |  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000350 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000360 |  00 FF FF FF FF 07 04 FF  FF 00 1D 01 0E FF FF FF  | ................
+0x00000370 |  FF 01 00 F2 05 2A 01 00  00 00 43 41 04 94 B9 D3  | .....*....CA....
+0x00000380 |  E7 6C 5B 16 29 EC F9 7F  FF 95 D7 A4 BB DA C8 7C  | .l[.)..........|
+0x00000390 |  C2 60 99 AD A2 80 66 C6  FF 1E B9 19 12 23 CD 89  | .`....f......#..
+0x000003A0 |  71 94 A0 8D 0C 27 26 C5  74 7F 1D B4 9E 8C F9 0E  | q....&#39;&amp;.t.......
+0x000003B0 |  75 DC 3E 35 50 AE 9B 30  08 6F 3C D5 AA AC 00 00  | u.&gt;5P..0.o&lt;.....
+0x000003C0 |  00 00 F9 BE B4 D9 D7 00  00 00 01 00 00 00 49 44  | ..............ID
+0x000003D0 |  46 95 62 AE 1C 2C 74 D9  A5 35 E0 0B 6F 3E 40 FF  | F.b..,t..5..o&gt;@.
+0x000003E0 |  BA D4 F2 FD A3 89 55 01                           | ......U.</code></pre>
+<div id="terminologies" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Terminologies<a href="lifecycle-of-blockchain---blocks.html#terminologies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>On top level, we see the concept of a <strong>block</strong>. A <strong>block</strong> is a <em>set</em> of <strong>transactions</strong>. What do we mean by <em>set</em>? A <code>C++</code> standard container <code>std::set</code>? Mathematical <code>set</code>? What? By <em>set</em>, we just mean a box which can accommodate multiple <em>transactions</em>. How they are stored, is irrelevant to the block.</p>
+<p>The first block is known in the community as <strong>genesis block</strong>. Whenever we see the term <strong>genesis block</strong>, we should remind ourselves of the first block in the blockchain and it doesn’t refer to any other block in entire blockchain.</p>
+<p>What is a <strong>transaction</strong>? A <strong>transaction</strong> is an entry in ledger. As an example, the record of user <span class="math inline">\(A\)</span> sending money to user <span class="math inline">\(B\)</span> counts as a transaction. We don’t bother about structure of a transaction for now but keep in mind that Bitcoin is nothing without proper transaction management.</p>
+<p>How they fit the big picture? Many transactions are generated in Bitcoin in the world per unit of time. As per the records, it is about <span class="math inline">\(250\)</span>k to <span class="math inline">\(400\)</span>k transactions per day. There is no limit on number of transactions we can have, it is just the summary of what is actually happening. We collect few transactions and store them in a block. Nothing else. Who stores them? Who decides what block should have what transactions? We will discuss them in coming chapters.</p>
+<p>In this chapter, we will cover the structure of a block. How new blocks are added, is discussed in coming chapters.</p>
+</div>
+<div id="theory" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Theory<a href="lifecycle-of-blockchain---blocks.html#theory" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="structure-of-a-block" class="section level3 hasAnchor" number="4.2.1">
+<h3><span class="header-section-number">4.2.1</span> Structure of a block<a href="lifecycle-of-blockchain---blocks.html#structure-of-a-block" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Every block starts with a <strong>magic number</strong> of <span class="math inline">\(4\)</span> bytes. What is this magic number? A magic number, in programming, can be explained as a value which have an unexplained meaning and it can be replaced by a named variable to provide more context. Strange? Maybe. It basically says that the number exists there, it serves some purpose, but its intended usage was/is in the mind of programmer writing that and its meaning is not obvious just by looking at it. Some more context is required to see what a magic number is doing there.</p>
+<p>Bitcoin have its own magic number: <code>0xD9B4BEF9</code>. Every block will start with this number, no matter which block we are referring to. Maybe it indicates that a block starts here, maybe we can use its occurrence to count how many blocks are there in blockchain, maybe something else. We don’t know why this specific value is used and it is irrelevant to us as long as working of blockchain is concerned.</p>
+<p>But wait, we see that we have <code>F9 BE B4 D9</code> in the hex output above. What is going on? Remember that things are stored in little endian encoding in our computers. Thus, we see the reversed bytes instead of <code>D9 B4 BE F9</code>.</p>
+<p>Next, we have the <strong>size of block</strong> which is stored in <span class="math inline">\(4\)</span> bytes. If <span class="math inline">\(100\)</span> is stored in size field, then the size of block will be <span class="math inline">\(100\)</span> bytes but it will actually take space of <span class="math inline">\(108\)</span> bytes. These extra <span class="math inline">\(8\)</span> bytes are there because <strong>size</strong> specifies how many “more” bytes are occupied by the block. This is a little optimization so that program doesn’t have to subtract <span class="math inline">\(8\)</span> from the size field. So, remember, a block of size <span class="math inline">\(x\)</span> bytes will take <span class="math inline">\(x+8\)</span> bytes in storage and size field will store <span class="math inline">\(x\)</span> as the size of block. We can see in the code at the end how this helps us in writing clean code without extra steps.</p>
+<p>What is the maximum size a block can take? For <span class="math inline">\(4\)</span> bytes, we have <span class="math inline">\(2^{32}\)</span> bytes which mean, theoretically, we can have blocks as large as <span class="math inline">\(4\)</span>GB! But, Satoshi Nakamoto had other plans and Satoshi silently introduced the limit as <span class="math inline">\(1\)</span>mb. Refer “<a href="https://en.bitcoin.it/wiki/Block_size_limit_controversy">Block size limit controversy</a>” on the internet for more details.</p>
+<p>What is the size of genesis block? If we see next <span class="math inline">\(4\)</span> bytes, we see <code>1D 01 00 00</code>. Converting to big endian, we get <code>00 00 01 1D</code>, which is equivalent to <span class="math inline">\(285\)</span> in decimal. So, our genesis block is of <span class="math inline">\(285\)</span> bytes, but takes <span class="math inline">\(285+8=293\)</span> bytes in storage. Interesting… Can we verify it? Yes. We know that blocks are placed one after another. So, after initial <span class="math inline">\(293\)</span> bytes, we should be able to see the most popular version number: <code>F9 BE B4 D9</code> (little endian, what is actually stored). Let’s check. Initial <code>293</code> bytes for genesis block means genesis block takes the byte range <span class="math inline">\(0\)</span>-<span class="math inline">\(292\)</span>. This means next block starts at index <span class="math inline">\(293\)</span>. <span class="math inline">\(293\)</span> in hexadecimal means <code>0x125</code>. Going to the row having prefix <code>0x00000120</code>, we see that <code>0x120</code>th byte is <code>AC</code>. Going on, we see <code>0x121</code>th byte is <code>00</code>, …, we see the <code>0x125</code>th byte is <code>F9</code>. Reading three more bytes and we see our pattern in byte range <code>0x125 - 0x128</code>: <code>F9 BE B4 D9</code>. We can play this game for next block and you are encouraged to perform the calculations on your own. You should see that next block starts at hex offset <code>0x204</code>.</p>
+<p>Next, we have <strong>block header</strong> of <span class="math inline">\(80\)</span> bytes. We will explain it in next section.</p>
+<p>Next, we have <strong>payload</strong>. What is this? In context of any header-data based structure, metadata refers to the header while payload refers to the data. In payload, we have two things: The number of transactions, and transactions themselves. All the transactions of a particular block are stored here. Remember one thing: we will treat transactions as black box. We will see how multiple “transaction boxes” are placed, not the actual content of “boxes”. Content of these “boxes” is the core interest of volume 2.</p>
+</div>
+<div id="structure-of-block-header" class="section level3 hasAnchor" number="4.2.2">
+<h3><span class="header-section-number">4.2.2</span> Structure of block header<a href="lifecycle-of-blockchain---blocks.html#structure-of-block-header" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In above section, we saw that we have a block header of <span class="math inline">\(80\)</span> bytes. What is the meaning of header? Why is it used? A header is used to identify some properties about the <strong>payload</strong>. For example, header of a song file may contain information about artist name, song name, the size of song in bytes, etc. Similarly, we need some information about <strong>payload</strong> before exploring its contents. What is the <strong>payload</strong> here? It is the set of transactions that we talked about earlier. Remember, a block acts as a bucket of transactions, nothing else.</p>
+<p>The first field in header is of size <span class="math inline">\(4\)</span> bytes, and is known as <strong>version</strong>. The genesis block had version <span class="math inline">\(1\)</span> and as of now, there are <span class="math inline">\(4\)</span> versions of Bitcoin (source - <a href="https://developer.bitcoin.org/reference/block_chain.html#block-versions">Block Versions</a>). What is a version or what does it specify? It can be thought of as a message which specifies how the things are placed in the block. The structure of block header which we are going to study corresponds to version <span class="math inline">\(1\)</span> and it can be different for different versions. The version number helps us programmatically take care of various changes in the rules of data storage of blockchain under single implementation and make code compatible across versions. Or, it helps us split the code in <em>if-else</em> statements to handle different type of blocks.</p>
+<p>Next field is of <span class="math inline">\(32\)</span> bytes and is known as <strong>previous block hash field</strong>. What is this? This can be thought of as the “previous pointer” in our linked list analogy. But this does more than that. This makes sure that no data is changed in previous block! We will not go into exactly how a hash is calculated and the proof of its properties, because that will require a strong mathematical background and that is not relevant to the working of blockchain. We will just mention that it is double SHA-<span class="math inline">\(256\)</span> hash of previous block. Wait.. double hash? Why a double hash? Why not single SHA-256 hash? The answer is: We don’t know why Satoshi Nakamoto made this decision and there are many conjectures over this. We simply accept this and move on.</p>
+<p>As we know, all entries should be valid for every block in the system. For new blocks, the “previous hash” field is well defined and we can compute it. But what about the previous hash of genesis block? This is hardcoded as <code>0x0...0</code> and this is the only block which has previous block hash set as all zeros.</p>
+<p>Next field is also of <span class="math inline">\(32\)</span> bytes and is <strong>merkle hash</strong>. We will cover how to compute this in next chapter. But remember one thing, the value of current hash is also double SHA-<span class="math inline">\(256\)</span> hash of input. This is basically a “proof” that “payload” is what it claims.</p>
+<p>Next field is the time stamp and is stored in <span class="math inline">\(4\)</span> bytes. There are two category of questions that can arise for this field: how we are storing time in <span class="math inline">\(4\)</span> bytes (only) and what does it represent.</p>
+<p>We are storing the <strong>Unix epoch time</strong>. What is it? This is widely used date-time unit in computing and it specifies the number of seconds elapsed since <code>00:00:00 UTC on 1 Jan, 1970</code>. As a fact, the Unix epoch value <span class="math inline">\(1000000000\)</span> corresponds to <code>9 September 2001, 01:46:40 UTC</code>. It was celebrated in Copenhagen, Denmark held by the Danish UNIX User Group at <code>03:46:40</code> local time.</p>
+<p>What does it represent? It specifies the time <em>miner</em> started hashing current block (time as per the system time of miner). Who is <em>miner</em>? Miner is responsible to add new blocks in the system. We will cover more about them in later chapters.</p>
+<p>Next <span class="math inline">\(4\)</span> bytes are <strong>difficulty</strong> and next <span class="math inline">\(4\)</span> bytes are <strong>nonce</strong>. What are they? They are used by miners and are the proof that block is a “valid” block. Don’t worry about them for now. We will cover them later in full glory.</p>
+</div>
+<div id="number-of-transactions" class="section level3 hasAnchor" number="4.2.3">
+<h3><span class="header-section-number">4.2.3</span> Number of transactions<a href="lifecycle-of-blockchain---blocks.html#number-of-transactions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Developers of Bitcoin are very intelligent. They use a very beautiful trick to store the number of transactions. More generally, they use different type of “integer” to store the count of anything in Bitcoin. They use what is known as “variable integer”. So, how does this integer work? This integer can store as long as <span class="math inline">\(8\)</span> byte number and as low as <span class="math inline">\(1\)</span> byte number. How?</p>
+<p>Here is the scheme: For every number between <span class="math inline">\(0\)</span> and <span class="math inline">\(252\)</span> (both included), use <span class="math inline">\(1\)</span> byte for storage. If the byte is <span class="math inline">\(253\)</span>, it means that the integer value is stored in next <span class="math inline">\(2\)</span> bytes. If the byte is <span class="math inline">\(254\)</span>, it means that the integer value is stored in next <span class="math inline">\(4\)</span> bytes. And lastly, if the byte is <span class="math inline">\(255\)</span>, it means that the integer value is stored in next <span class="math inline">\(8\)</span> bytes!</p>
+<p>Sounds complicated? Here is the pseudo code for this scheme:</p>
+<pre><code>x = next byte;
+if (x &gt;= 0 and x &lt;= 252)
+  set y = x
+else if x is 253:
+  set y = two bytes after x
+else if x is 254:
+  set y = 4 bytes after x
+else if x is 255:
+  set y = 8 bytes after x
+
+return y as the integer value</code></pre>
+<p>So, are we using <span class="math inline">\(3\)</span> bytes to store <span class="math inline">\(2\)</span> byte number? Yes. Are we using <span class="math inline">\(9\)</span> bytes to store <span class="math inline">\(8\)</span> byte number? Yes. Are we using <span class="math inline">\(2\)</span> bytes to store <span class="math inline">\(1\)</span> byte number? NO! It depends. If the number is less than <span class="math inline">\(253\)</span>, then we are only using <span class="math inline">\(1\)</span> byte. Here is the table summary for the size:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Range</th>
+<th align="center">Value of First byte</th>
+<th align="center">Extra bytes to get number</th>
+<th align="center">Total size (in bytes)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(0\)</span> to <span class="math inline">\(252\)</span></td>
+<td align="center">Number</td>
+<td align="center">-</td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(253\)</span> to <span class="math inline">\(2^{16}-1\)</span></td>
+<td align="center"><span class="math inline">\(253\)</span></td>
+<td align="center"><span class="math inline">\(2\)</span></td>
+<td align="center"><span class="math inline">\(3\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(2^{16}\)</span> to <span class="math inline">\(2^{32}-1\)</span></td>
+<td align="center"><span class="math inline">\(254\)</span></td>
+<td align="center"><span class="math inline">\(4\)</span></td>
+<td align="center"><span class="math inline">\(5\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(2^{32}\)</span> to <span class="math inline">\(2^{64}-1\)</span></td>
+<td align="center"><span class="math inline">\(255\)</span></td>
+<td align="center"><span class="math inline">\(8\)</span></td>
+<td align="center"><span class="math inline">\(9\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Here are some examples. Say, we want to store <span class="math inline">\(200\)</span>. We have to follow this scheme:</p>
+<ol style="list-style-type: decimal">
+<li>Convert <span class="math inline">\((200)_{10}\)</span> (which means that the number is in decimal) to hexadecimal: <span class="math inline">\((C8)_{16}\)</span> or <code>0xC8</code>.</li>
+<li>We see that given number is less than <span class="math inline">\(253\)</span>. Thus, this will be stored in <span class="math inline">\(1\)</span> byte.</li>
+<li>What is little endian of <code>C8</code>? It is the same number! So, we will just store <code>C8</code> in storage.</li>
+</ol>
+<p>What if we want to store <span class="math inline">\(35467\)</span>? We have to follow the following steps:
+1. Convert <span class="math inline">\((35467)_{10}\)</span> to hexadecimal: <span class="math inline">\((8A8B)_{16}\)</span> or <code>0x8A8B</code>.
+2. We see that given number actually require <span class="math inline">\(2\)</span> bytes to be represented. So, we have to go with scheme of <span class="math inline">\(3\)</span> bytes and store <code>FD</code> (hexadecimal of <span class="math inline">\(253\)</span>) in first byte.
+3. What is the little endian of <code>8A 8B</code>? It is <code>8B 8A</code>. So, we will store <code>FD 8B 8A</code> in storage.</p>
+<p>Let’s cover a corner case. What if we have to store <span class="math inline">\(254\)</span>?
+1. Convert <span class="math inline">\((254)_{10}\)</span> to hexadecimal: <span class="math inline">\((FE)_{16}\)</span> or <code>0xFE</code>.
+2. We see that given number actually require <span class="math inline">\(1\)</span> byte to be represented but it is more than <span class="math inline">\(252\)</span>. So, we we have to with scheme of <span class="math inline">\(3\)</span> bytes.
+3. Before converting to little endian, we have to represent <code>FE</code> in <span class="math inline">\(2\)</span> bytes: <code>00 FE</code>. Little endian of this becomes: <code>FE 00</code>. Thus, we store <span class="math inline">\(254\)</span> as: <code>FD FE 00</code>.</p>
+<p>Let’s see what genesis block stores for this value. Going to byte offset <span class="math inline">\((88)_{10}\)</span> or <code>0x58</code>, we see the entry as <code>0x01</code>. So, the genesis block have only one transaction. This is lame… we can’t verify what we just studied. To verify, there are two ways: Either check the internet about what we studied or find a block having some interesting size in the code! Just iterate over blocks (in code) till you find a block with more than <span class="math inline">\(252\)</span> transactions. Or, you can go to structure of transactions mentioned next and apply these concepts whenever you encounter a “variable integer”.</p>
+</div>
+<div id="transactions" class="section level3 hasAnchor" number="4.2.4">
+<h3><span class="header-section-number">4.2.4</span> Transactions<a href="lifecycle-of-blockchain---blocks.html#transactions" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>After number of transactions, we have those many number of transactions placed one after another. As promised, we will treat them as black box. One thing that we should know is that transaction can have any size. So, if we treat transactions as black box, how we can predict the size of them? Good question. Here’s when we actually need to go into structure of a transaction. We will just mention what each field is, but this will be covered in great detail in next volume. Ready?</p>
+<ul>
+<li>First, we have <span class="math inline">\(4\)</span> byte version number.</li>
+<li>Second, we have number of “inputs” to transaction stored in “variable integer”. So, this field can be as low as <span class="math inline">\(1\)</span> byte or as long as <span class="math inline">\(9\)</span> bytes. Next, we will have corresponding input structures. For each input:
+<ul>
+<li>We have <span class="math inline">\(32\)</span> byte of “previous transaction hash.</li>
+<li>We have <span class="math inline">\(4\)</span> byte of “output index”.</li>
+<li>We have “variable integer” bytes for “signature script”, which store how many bytes “signature script” will take next.</li>
+<li>We have the actual “signature script”, having length specified in previous field.</li>
+<li>We have <span class="math inline">\(4\)</span> byte sequence number.</li>
+</ul></li>
+<li>Then, we have number of “outputs” to transaction stored in “variable integer”. So, this field can also be as low as <span class="math inline">\(1\)</span> byte or as long as <span class="math inline">\(9\)</span> bytes. Next, we will have corresponding output structures. For each output:
+<ul>
+<li>We have <span class="math inline">\(8\)</span> bytes for number of “Satoshis”. This is the unit of measurement of Bitcoin inside Bitcoin code. And people say programmers have no sense of humour.</li>
+<li>We have “variable integer” bytes for length of “public key script”, which is stored next.</li>
+<li>We have the actual “script”, whose length was specified in previous field.</li>
+</ul></li>
+<li>Then we have a “lock time” of <span class="math inline">\(4\)</span> bytes.</li>
+</ul>
+<p>Able to grasp everything? Don’t worry if you are unable to understand meaning of any field. We just need to see the bytes used by each field. We will just read those many number of bytes and ignore them. That’s how we will reach to the start of next transaction (if any). After all the transactions are processed, we will be at the beginning of next block and the process repeats.</p>
+</div>
+<div id="blockchain-layout-summary" class="section level3 hasAnchor" number="4.2.5">
+<h3><span class="header-section-number">4.2.5</span> Blockchain layout summary<a href="lifecycle-of-blockchain---blocks.html#blockchain-layout-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In summary, we covered first <span class="math inline">\(88\)</span> bytes of a block. Here is the tabular summary of above:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Byte Range</th>
+<th align="center">Size (bytes)</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0-3</td>
+<td align="center">4</td>
+<td align="left">Magic Number</td>
+</tr>
+<tr class="even">
+<td align="center">4-7</td>
+<td align="center">4</td>
+<td align="left">Size</td>
+</tr>
+<tr class="odd">
+<td align="center">8-87</td>
+<td align="center">80</td>
+<td align="left">Header</td>
+</tr>
+<tr class="even">
+<td align="center">88-*</td>
+<td align="center">1-*</td>
+<td align="left">payload</td>
+</tr>
+</tbody>
+</table>
+<p>Header Information:</p>
+<table style="width:100%;">
+<colgroup>
+<col width="21%" />
+<col width="21%" />
+<col width="21%" />
+<col width="14%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Byte Range</th>
+<th align="center">Header offset</th>
+<th align="center">Size (bytes)</th>
+<th align="left">Meaning</th>
+<th align="center">Is covered completely till now</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">8-11</td>
+<td align="center">0-3</td>
+<td align="center">4</td>
+<td align="left">Version Number</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="even">
+<td align="center">12-43</td>
+<td align="center">4-35</td>
+<td align="center">32</td>
+<td align="left">Previous Block Hash</td>
+<td align="center">No</td>
+</tr>
+<tr class="odd">
+<td align="center">44-75</td>
+<td align="center">36-67</td>
+<td align="center">32</td>
+<td align="left">Current Merkle Hash</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">76-79</td>
+<td align="center">68-71</td>
+<td align="center">4</td>
+<td align="left">Time</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="odd">
+<td align="center">80-83</td>
+<td align="center">72-75</td>
+<td align="center">4</td>
+<td align="left">Difficulty</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">84-87</td>
+<td align="center">76-79</td>
+<td align="center">4</td>
+<td align="left">Nonce</td>
+<td align="center">No</td>
+</tr>
+</tbody>
+</table>
+<p>We are not going to print the table for the structure of transactions. We are not concerned about their meaning here.</p>
+</div>
+</div>
+<div id="genesis-block-header" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Genesis block Header<a href="lifecycle-of-blockchain---blocks.html#genesis-block-header" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ol style="list-style-type: decimal">
+<li>We see that initial <span class="math inline">\(4\)</span> bytes match <code>F9 BE B4 D9</code>, which corresponds to little endian of <code>0xD9B4BEF9</code>. This is a match.</li>
+<li>Next <span class="math inline">\(4\)</span> bytes read as <code>1D 01 00 00</code>, which corresponds to little endian of <code>0x0000011D</code>. This implies that block is spanning in more <span class="math inline">\(285\)</span> bytes. This makes genesis block have storage space of <span class="math inline">\(285+8=293\)</span> bytes. This means that first block is stored in offset <span class="math inline">\(0\)</span>-<span class="math inline">\(292\)</span> and next block starts at offset <span class="math inline">\(293\)</span>. We can confirm it by going to hexadecimal index <code>0x125</code> (which is equivalent to decimal of <span class="math inline">\(293\)</span>) and reading the magic number. This process can be repeated to see that third block starts at hex offset <code>0x205</code> and so on..</li>
+<li>Next <span class="math inline">\(4\)</span> bytes corresponds to version number which is specified as <code>01 00 00 00</code> which is little endian equivalent to <span class="math inline">\(1\)</span>.</li>
+<li>Next <span class="math inline">\(32\)</span> bytes specify the previous block hash. This is specified as <code>0x00</code> repeated <span class="math inline">\(32\)</span> times till hex index <code>0x2C</code>.</li>
+<li>Next <span class="math inline">\(32\)</span> bytes specify the merkle hash. These are <code>3B A3 ED FD 7A 7B 12 B2 7A C7 2C 3E 67 76 8F 61 7F C8 1B C3 88 8A 51 32 3A 9F B8 AA 4B 1E 5E 4A</code> which is the little endian of <code>0x4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B</code>.</li>
+<li>Next <span class="math inline">\(4\)</span> bytes refers to time. The value is <code>29 AB 5F 49</code> which is little endian of <code>0x495FAB29</code>. Putting this value in online time converter gives the time as <code>GMT: Saturday, January 3, 2009 6:15:05 PM</code>.</li>
+<li>Next <span class="math inline">\(4\)</span> bytes specify the nonce which is <code>0x1D00FFFF</code> (after converting to big endian) - <span class="math inline">\(486604799\)</span> in decimal.</li>
+<li>Next <span class="math inline">\(4\)</span> bytes specify the difficulty as <code>0x7C2BAC1D</code> (after converting to big endian) - <span class="math inline">\(2083236893\)</span> in decimal.</li>
+</ol>
+</div>
+<div id="c-codes" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> C++ codes<a href="lifecycle-of-blockchain---blocks.html#c-codes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we will print information about individual blocks by skipping over transactions. Later, we will read data about each transaction, compute size of individual size of each transaction and display the offsets.</p>
+<div id="header-summary" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Header summary<a href="lifecycle-of-blockchain---blocks.html#header-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="c-code-for-header-summary" class="section level4 hasAnchor" number="4.4.1.1">
+<h4><span class="header-section-number">4.4.1.1</span> C++ Code for Header Summary<a href="lifecycle-of-blockchain---blocks.html#c-code-for-header-summary" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Here, we present the C++ code to show information about initial <span class="math inline">\(4\)</span> blocks of Bitcoin (As initial <span class="math inline">\(1\)</span>k data have <span class="math inline">\(4\)</span> blocks only). The genesis block have index of <span class="math inline">\(0\)</span>.</p>
+<pre class="{c++}"><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec
+
+// Returns the file contents as C++ string
+std::string get_file_contents(const char *filename)
+{
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (!in)
+    {
+        std::cerr &lt;&lt; &quot;Error in opening file&quot; &lt;&lt; std::endl;
+        throw errno;
+    }
+
+    std::string contents;
+
+    // Allocate required memory in heap for string
+    in.seekg(0, std::ios::end);
+    contents.resize(in.tellg());
+
+    // Copy contents from file to string
+    in.seekg(0, std::ios::beg);
+    in.read(&amp;contents[0], (int)contents.size());
+
+    // return the string
+    return contents;
+}
+
+struct BlockHeader
+{
+    std::uint32_t version_number;
+    std::uint8_t prev_hash[32];
+    std::uint8_t merkle_hash[32];
+    std::uint32_t time;
+    std::uint32_t difficulty;
+    std::uint32_t nonce;
+};
+
+struct Block
+{
+    std::uint32_t magic_number{};
+    std::uint32_t block_size{};
+    BlockHeader header{};
+};
+
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+    {
+        std::cerr &lt;&lt; &quot;Usage: ./reader.out &lt;block_data&gt;&quot; &lt;&lt; std::endl;
+        exit(-1);
+    }
+
+    const char* FILE_PATH = argv[1];
+    auto contents = get_file_contents(FILE_PATH);
+    std::uint32_t offset = 0;
+    for (int i = 0; i &lt; 4; ++i)
+    {
+        // create a block
+        Block block;
+
+        // copy initial 88 bytes from contents
+        memcpy(&amp;block, contents.c_str() + offset, 88);
+
+        std::cout &lt;&lt; &quot;Offsets of block #&quot; &lt;&lt; i &lt;&lt; &quot;: 0x&quot; &lt;&lt; HEX(offset, 4) &lt;&lt; &quot; to 0x&quot; &lt;&lt; HEX(offset + block.block_size + 8 - 1, 4) &lt;&lt; std::endl;
+
+        // Print current block information
+        std::cout &lt;&lt; &quot;Magic Number: &quot; &lt;&lt; HEX(block.magic_number, 4) &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;Blockchain Size: &quot; &lt;&lt; block.block_size &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;Header Info: &quot; &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tVersion Number          : &quot; &lt;&lt; block.header.version_number &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tPrevious Hash           : &quot;;
+        for (int j = 31; j &gt;= 0; --j)
+            std::cout &lt;&lt; HEX(block.header.prev_hash[j], 1);
+        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tMerkle Hash (Stored)    : &quot;;
+        for (int j = 31; j &gt;= 0; --j)
+            std::cout &lt;&lt; HEX(block.header.merkle_hash[j], 1);
+
+        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tTime of Block Creation  : &quot;;
+        std::time_t temp = block.header.time;
+        std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S %p&quot;) &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tDifficulty              : &quot; &lt;&lt; HEX(block.header.difficulty, 4) &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tNonce                   : &quot; &lt;&lt; block.header.nonce &lt;&lt; std::endl &lt;&lt; std::endl;
+
+        // make offset point to next block
+        offset += block.block_size + 8;
+    }
+}</code></pre>
+<p>Compile the above code using the following command:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="lifecycle-of-blockchain---blocks.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> main.cpp <span class="at">-o</span> reader.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
+<p>A file <code>reader.out</code> will be created which is our executable. Run the file using the following command:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="lifecycle-of-blockchain---blocks.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
+<p>Here is the output of running above code on initial <span class="math inline">\(1k\)</span> Bitcoin data:</p>
+<pre><code>Offsets of block #0: 0x00000000 to 0x00000124
+Magic Number: D9B4BEF9
+Blockchain Size: 285
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
+    Merkle Hash (Stored)    : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
+    Time of Block Creation  : 2009-01-03 06:15:05 PM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2083236893
+
+Offsets of block #1: 0x00000125 to 0x00000203
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+    Merkle Hash (Stored)    : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
+    Time of Block Creation  : 2009-01-09 02:54:25 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2573394689
+
+Offsets of block #2: 0x00000204 to 0x000002E2
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+    Merkle Hash (Stored)    : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
+    Time of Block Creation  : 2009-01-09 02:55:44 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1639830024
+
+Offsets of block #3: 0x000002E3 to 0x000003C1
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
+    Merkle Hash (Stored)    : 999E1C837C76A1B7FBB7E57BAF87B309960F5FFEFBF2A9B95DD890602272F644
+    Time of Block Creation  : 2009-01-09 03:02:53 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1844305925
+</code></pre>
+<p>As we can see, the code outputs exactly what we predicted via manual reading and decoding of genesis block. Refer to next section to get into details of how the code is working.</p>
+</div>
+<div id="working" class="section level4 hasAnchor" number="4.4.1.2">
+<h4><span class="header-section-number">4.4.1.2</span> Working<a href="lifecycle-of-blockchain---blocks.html#working" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>We can see that we have two structs in above code: <code>BlockHeader</code> and <code>Block</code>. <code>BlockHeader</code> consumes <span class="math inline">\(80\)</span> bytes of space in memory, and it is enforced by choosing the data types of appropriate size so that no padding is there. We have <code>Block</code> with magic number and size as <span class="math inline">\(4\)</span> bytes each, and block header just after them. Overall, we have no padding in the struct and blocks can be placed consecutively without wasting space. This allows us to use <code>memcpy</code> to copy bytes directly to struct without manually copying the bytes for individual fields. And people say python allows us to write small code…</p>
+<p>Inside the main, we first read the file contents as binary file into a string. Then, we are printing the information about first <span class="math inline">\(3\)</span> blocks of Bitcoin. We first copy <span class="math inline">\(88\)</span> bytes from source file to a block, which completely fills all the fields of above block. Then, we print the information about them by iterating over each field, so there is nothing new here. One thing to note is that we are printing the hash in reverse order, and it is because we don’t have 256-bit data type in C++. We are manually printing it in big-endian format.</p>
+<p>After printing information about block, we update our <code>offset</code> variable by <code>8 + block size</code> to make it point to next block.</p>
+</div>
+<div id="printing-date" class="section level4 hasAnchor" number="4.4.1.3">
+<h4><span class="header-section-number">4.4.1.3</span> Printing Date<a href="lifecycle-of-blockchain---blocks.html#printing-date" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>One thing that we can notice is the code to print date from Unix Format. The code is:</p>
+<pre class="{c++}"><code>std::time_t temp = block.header.time;
+std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S %p&quot;) &lt;&lt; std::endl;</code></pre>
+<p>We don’t have to worry about how above code is working. Explaining it requires to explain how date is handled in <code>C++</code>, which is not our concern.</p>
+</div>
+</div>
+<div id="compute-transaction-offsets" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Compute transaction offsets<a href="lifecycle-of-blockchain---blocks.html#compute-transaction-offsets" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The following code is a variation of above code. Earlier, we just copied the block header and displayed its values. Now, we go a step further and iterate over each transaction. As we are not concerned with actual transactional data, we will just keep updating our offset without printing anything in between.</p>
+<div id="c-code-to-read-variable-integer" class="section level4 hasAnchor" number="4.4.2.1">
+<h4><span class="header-section-number">4.4.2.1</span> C++ code to read variable integer<a href="lifecycle-of-blockchain---blocks.html#c-code-to-read-variable-integer" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Before going into actual code, we need to see how to work with variable integers. Since we are just reading the data, we will only consider the code to print the value. The reader is encouraged to write a code which takes an <code>std::uint64_t</code> as input and prints the corresponding hex value on screen. Why <span class="math inline">\(8\)</span> byte integer? Good question. In the code, we just need to use integer, no matter how it is stored on actual storage. What data type should we choose in code to work with? Most practical choice will be to store everything in <span class="math inline">\(8\)</span> byte integer and work with it. When we want to store it in Bitcoin storage, we can apply checks and write corresponding hex output.</p>
+<p>Here is the code which reads from memory location <code>str</code>, and perform two things: reads the variable integer starting from <code>str</code> into <span class="math inline">\(8\)</span> byte integer (no matter the actual bytes used in storage) and increment the <code>delta</code> value by corresponding amount of bytes from storage. Why are we increasing the <code>delta</code> instead of setting it to exact values? What is <code>delta</code>? We are using a trick and think about what will happen if we pass <code>delta</code> as offset and <code>str</code> as base address where byte <span class="math inline">\(0\)</span> is stored + <code>offset</code>?</p>
+<pre class="{c++}"><code>uint64_t read_varint(const char* str, size_t&amp; delta)
+{
+    uint64_t output = 0;
+
+    memcpy(&amp;output, str, 1);
+    if (output &lt; 0xFD)
+        delta += 1;
+    else if (output == 0xFD)
+        output = *(uint16_t*)(str + 1), delta += 3;
+    else if (output == 0xFE)
+        output = *(uint32_t*)(str + 1), delta += 5;
+    else
+        output = *(uint64_t*)(str + 1), delta += 9;
+
+    return output;
+}</code></pre>
+</div>
+<div id="c-code-for-transaction-offsets" class="section level4 hasAnchor" number="4.4.2.2">
+<h4><span class="header-section-number">4.4.2.2</span> C++ Code for Transaction offsets<a href="lifecycle-of-blockchain---blocks.html#c-code-for-transaction-offsets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The following code is self explanatory:</p>
+<pre class="{c++}"><code>...
+
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+    {
+        std::cerr &lt;&lt; &quot;Usage: ./reader.out &lt;block_data&gt;&quot; &lt;&lt; std::endl;
+        exit(-1);
+    }
+
+    const char* FILE_PATH = argv[1];
+    auto contents = get_file_contents(FILE_PATH);
+    auto block_base = contents.c_str();
+    size_t offset = 0;
+    for (int i = 0; i &lt; 4; ++i)
+    {
+        // create a block
+        Block block;
+
+        // copy initial 88 bytes from contents
+        memcpy(&amp;block, block_base + offset, 88);
+        auto next_block_location = offset + 8 + block.block_size;
+
+        // offset points to number of transactions
+        std::cout &lt;&lt; &quot;Offsets of block #&quot; &lt;&lt; i &lt;&lt; &quot;: 0x&quot; &lt;&lt; HEX(offset, 4) &lt;&lt; &quot; to 0x&quot; &lt;&lt; HEX(offset + block.block_size + 8 - 1, 4) &lt;&lt; std::endl;
+        offset += 88;
+
+        // Print current block information
+        std::cout &lt;&lt; &quot;Magic Number: &quot; &lt;&lt; HEX(block.magic_number, 4) &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;Blockchain Size: &quot; &lt;&lt; block.block_size &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;Header Info: &quot; &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tVersion Number          : &quot; &lt;&lt; block.header.version_number &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tPrevious Hash           : &quot;;
+        for (int j = 31; j &gt;= 0; --j)
+            std::cout &lt;&lt; HEX(block.header.prev_hash[j], 1);
+        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tMerkle Hash (Stored)    : &quot;;
+        for (int j = 31; j &gt;= 0; --j)
+            std::cout &lt;&lt; HEX(block.header.merkle_hash[j], 1);
+
+        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tTime of Block Creation  : &quot;;
+        std::time_t temp = block.header.time;
+        std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S %p&quot;) &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tDifficulty              : &quot; &lt;&lt; HEX(block.header.difficulty, 4) &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;\tNonce                   : &quot; &lt;&lt; block.header.nonce &lt;&lt; std::endl;
+
+        // Read the number of transactions
+        auto n_transactions = read_varint(block_base + offset, offset);
+        std::cout &lt;&lt; &quot;\tNumber of Transactions  : &quot; &lt;&lt; n_transactions &lt;&lt; std::endl;
+
+        // Read the actual transactions, offset now points to beginning of first transaction
+        for (std::uint64_t transaction_index = 0; transaction_index &lt; n_transactions; ++transaction_index)
+        {
+            std::cout &lt;&lt; &quot;\t\tTransaction #&quot; &lt;&lt; transaction_index &lt;&lt; &quot; offsets: 0x&quot; &lt;&lt; HEX(offset, 4) &lt;&lt; &quot; to 0x&quot;;
+
+            // skip version number
+            offset += 4;
+
+            // read input
+            auto n_inputs = read_varint(block_base + offset, offset);
+
+            // read all inputs
+            while (n_inputs--)
+            {
+                // skip previous transaction hash and output index
+                offset += 36;
+
+                // read signature script length
+                auto script_len = read_varint(block_base + offset, offset);
+
+                // skip script and sequence number
+                offset += script_len + 4;
+            }
+
+            // read outputs
+            auto n_outputs = read_varint(block_base + offset, offset);
+
+            // read all outputs
+            while (n_outputs--)
+            {
+                // skip Satoshis
+                offset += 8;
+
+                // read length of public key script
+                auto script_len = read_varint(block_base + offset, offset);
+
+                // skip key script
+                offset += script_len;
+            }
+
+            // skip lock time
+            offset += 4;
+
+            std::cout &lt;&lt; HEX(offset - 1, 4) &lt;&lt; std::endl &lt;&lt; std::endl;
+        }
+    }
+}</code></pre>
+<p>Here is the output of above code which you are encouraged to compute by hands from hexadecimal values:</p>
+<pre><code>Offsets of block #0: 0x00000000 to 0x00000124
+Magic Number: D9B4BEF9
+Blockchain Size: 285
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
+    Merkle Hash (Stored)    : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
+    Time of Block Creation  : 2009-01-03 06:15:05 PM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2083236893
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x00000059 to 0x00000124
+
+Offsets of block #1: 0x00000125 to 0x00000203
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+    Merkle Hash (Stored)    : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
+    Time of Block Creation  : 2009-01-09 02:54:25 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2573394689
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x0000017E to 0x00000203
+
+Offsets of block #2: 0x00000204 to 0x000002E2
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+    Merkle Hash (Stored)    : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
+    Time of Block Creation  : 2009-01-09 02:55:44 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1639830024
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x0000025D to 0x000002E2
+
+Offsets of block #3: 0x000002E3 to 0x000003C1
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
+    Merkle Hash (Stored)    : 999E1C837C76A1B7FBB7E57BAF87B309960F5FFEFBF2A9B95DD890602272F644
+    Time of Block Creation  : 2009-01-09 03:02:53 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1844305925
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x0000033C to 0x000003C1
+</code></pre>
+<p>Running above code on second transaction of my <code>blk000001.dat</code> file gives (Your output may differ):</p>
+<pre><code>Offsets of block #1: 0x000095A3 to 0x0000A1F9
+Magic Number: D9B4BEF9
+Blockchain Size: 3151
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000000000985E2FC8F34C3A8366F5D6ADBFCC0D8ECA085F892E4AA35C67D3
+    Merkle Hash (Stored)    : 711CB96802EF2D2455F9F006720AA6464CFCD8E23565BE05083B768B5CA290D1
+    Time of Block Creation  : 2011-04-24 07:18:36 PM
+    Difficulty              : 1B00B5AC
+    Nonce                   : 1627589838
+    Number of Transactions  : 10
+        Transaction #0 offsets: 0x000095FC to 0x00009681
+        Transaction #1 offsets: 0x00009682 to 0x00009761
+        Transaction #2 offsets: 0x00009762 to 0x00009842
+        Transaction #3 offsets: 0x00009843 to 0x00009BEF
+        Transaction #4 offsets: 0x00009BF0 to 0x00009CF0
+        Transaction #5 offsets: 0x00009CF1 to 0x00009DF1
+        Transaction #6 offsets: 0x00009DF2 to 0x00009EF3
+        Transaction #7 offsets: 0x00009EF4 to 0x00009FF6
+        Transaction #8 offsets: 0x00009FF7 to 0x0000A0F7
+        Transaction #9 offsets: 0x0000A0F8 to 0x0000A1F9</code></pre>
+</div>
+</div>
+</div>
+<div id="summary-1" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Summary<a href="lifecycle-of-blockchain---blocks.html#summary-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This was a long chapter. We studied various things and now, it is time to see what questions we answered. You are requested to try to answer these questions on your own first, and then go back into the chapter to see the possible answers:</p>
+<ul>
+<li>What are the similarities between linked list and block chain as data structures?</li>
+<li>What is the relation between blocks and transactions from storage point of view? Is it one-one/many-one/one-many/many-many?</li>
+<li>What are the four entries of blockchain? What are their sizes? What purpose do they serve in the plan of <del>God</del> Satoshi Nakamoto?</li>
+<li>Why a header is required in blockchain?</li>
+<li>How <code>size</code> field of block differs from the actual size of block?</li>
+<li>What are the header entries? What are their sizes? What do you know about time stamp field?</li>
+<li>What is Unix epoch time? What is the maximum time you can store in the time stamp field of blockchain? (we didn’t cover this, but you can do it. Right?)</li>
+<li>How a Variable Integer is stored in Bitcoin? Mention all the cases for integers from <span class="math inline">\(0\)</span> to <span class="math inline">\(2^{64}-1\)</span>.</li>
+<li>We covered the code to read from storage and get the result in <span class="math inline">\(8\)</span> byte unsigned integer. Write a function that takes an <span class="math inline">\(8\)</span> byte unsigned integer and returns a heap allocated memory of appropriate length in bytes. Remember, you have to allocate the required memory only. You can check that your function is working by passing the output from your function to <code>read_varint</code> we studied above.</li>
+<li>Without looking at above codes, try to replicate them in programming language of your choice.</li>
+<li>What were the questions you had in the beginning of this chapter? Make a list of them. You can mark those questions which are answered above. This list can be used to track the progress you are making while reading this book.</li>
+</ul>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="blockchain-vs-bitcoin.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-BlockHeader.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

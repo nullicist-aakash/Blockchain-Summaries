@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-05-06" />
+<meta name="date" content="2023-05-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="setting-up-the-environment.html"/>
-
+<link rel="next" href="lifecycle-of-blockchain---blocks.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -107,6 +107,26 @@
 <li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
 <li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
 </ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Blocks</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---blocks.html"><a href="lifecycle-of-blockchain---blocks.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -142,8 +162,8 @@
 <li>Check if the “address” of person <span class="math inline">\(B\)</span> is valid, and is registered in the system.</li>
 <li>Check if person <span class="math inline">\(A\)</span> have sufficient balance to send money to person <span class="math inline">\(B\)</span>.</li>
 <li>Verify that person who is sending money from account <span class="math inline">\(A\)</span>, is actually person <span class="math inline">\(A\)</span>.</li>
-<li>Subtract <span class="math inline">\(x\)</span> amount from balance of person <span class="math inline">\(A\)</span> and add <span class="math inline">\(x\)</span> amount in the balance of person <span class="math inline">\(B\)</span>.</li>
-<li>(Optional) Stores the time of this transaction.</li>
+<li>Update balance of individual people by subtracting <span class="math inline">\(x\)</span> amount from balance of person <span class="math inline">\(A\)</span> and adding <span class="math inline">\(x\)</span> amount in the balance of person <span class="math inline">\(B\)</span>.</li>
+<li>Stores the time of this transaction.</li>
 <li>Once a transaction is made, its entry should not be deleted!</li>
 <li>Once a transaction is made, no one should be able to change any entry! Not a single digit!</li>
 </ol>
@@ -186,15 +206,34 @@
 </div>
 <div id="blockchain-requirements" class="section level3 hasAnchor" number="3.2.3">
 <h3><span class="header-section-number">3.2.3</span> Blockchain Requirements<a href="blockchain-vs-bitcoin.html#blockchain-requirements" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>And there you have it. The idea of what this volume is all about. The idea of what Blockchain is all about. We don’t have any idea how it is implemented, but we have concrete idea of what we need. We need something to:</p>
+<p>And now you know: The idea of what this volume is all about. The idea of what Blockchain is all about. We don’t have any idea how it is implemented, but we have concrete idea of what we need. We need something to:</p>
 <ol style="list-style-type: decimal">
 <li>Add entries in the system and make sure they are not deleted in future.</li>
-<li>Once something is there in the system, it can’t be changed at all. Literally! If someone changes something, the system simply detects it and informs that something fishy is going on. And since data is stored on various computers, and computers can tell if their data is changed, we can literally recover the system if there is atleast one computer which is not infected. And this is not based on how many computers have majority of same data. Even if 1 billion devices are infected, they can simply tell their data is wrong. Someone changed the data. And there is one device, which reports that its data is not changed, which, everyone can verify, all 1 billion devices will accept that device data as genuine and the system will start working again.</li>
+<li>Once something is there in the system, it can’t be changed at all. Literally!</li>
 </ol>
-
-
-
+<p>If someone changes something, the system simply detects it and informs that something fishy is going on. And since data is stored on various computers, and computers can tell if their data is changed, we can literally recover the system if there is atleast one computer which is not infected. And the recovery is not based on how many computers have majority of same data. Even if 1 billion devices are infected, they can simply tell their data is wrong. Someone changed the data. And there is one device, which reports that its data is not changed, which everyone can verify, all 1 billion devices will accept that device data as genuine, download the copy of that device and the system will start working again.</p>
 </div>
+</div>
+<div id="summary" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Summary<a href="blockchain-vs-bitcoin.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>So, what did we cover in this lesson? Here are the questions you should be able to answer:</p>
+<ul>
+<li>What is the importance of a ledger in digital currencies? Why digital currencies can’t work without some kind of a ledger?</li>
+<li>What are the basic requirements of a company/entity/bank owned ledger? What minimal information should it store?</li>
+<li>Why we don’t want the ledger to be stored at a single company or entity? Why do we need to store ledger in every device that participate in transactions for the Bitcoin to work?</li>
+<li>What are the obvious issues of doing transactions with ledger that is stored on each device?</li>
+<li>Why we don’t want to store “net balance” in distributed ledger after each transaction?</li>
+<li>What are the storage requirements of a ledger? Why do we need the storage data to be fixed, once it is written?</li>
+<li>What hacks/exploits can one person use to play with the system if the storage was not fixed?</li>
+<li>How can the Blockchain system recover if the data of particular device is corrupted/modified/deleted?</li>
+<li>What problem does the Blockchain technology solve, and what is the role of Blockchain in the functioning of Bitcoin?</li>
+</ul>
+<p>And most importantly</p>
+<ul>
+<li>What are the feature requirements from a Blockchain technology?</li>
+</ul>
+<p>In next chapter, we will start with the lifecycle of Blockchain and study the individual fields of blockchain from the Bitcoin data!</p>
+
 </div>
 </div>
             </section>
@@ -202,8 +241,8 @@
           </div>
         </div>
       </div>
-<a href="setting-up-the-environment.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="setting-up-the-environment.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lifecycle-of-blockchain---blocks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

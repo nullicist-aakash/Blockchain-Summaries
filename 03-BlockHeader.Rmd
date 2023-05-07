@@ -1,245 +1,630 @@
-<!-- # Structure of a block -->
-<!-- In this chapter, we will see how the block header is structured. We will see that a block is splitted into four parts: $8$ byte pre-header, $80$ byte header, number of transactions and actual transactions. We will cover initial two of these four parts in this chapter and remaining two parts in next chapter. There are some concepts such as difficulty, hash, nonce which will be covered later in detail. These are just mentioned in these initial chapters and where they are stored. Their complete details will come in future. -->
+# Lifecycle of Blockchain - Blocks
+This chapter marks the beginning of our journey into the world of Bitcoin. As already discussed in last chapter, we know the difference between Bitcoin and Blockchain. We also mentioned that this volume is all about the Blockchain, next volume is going to be about individual transactions of Bitcoin. Let's get started!
 
-<!-- ## Terminologies -->
-<!-- As explained earlier, this book will not tell you why Bitcoin is successful as a technology. Rather, it will tell you the working of each and every byte behind the technology. So, let's start with the building blocks of the Bitcoin entries. -->
+Blockchain-type technology was first discussed in a dissertation of 1982 by David Chaum: "Computer Systems Established, Maintained, and Trusted by Mutually Suspicious Groups." There are few attempts after it to implement the technology, but the first decentralized Blockchain was conceptualized in 2008, by Satoshi Nakamoto. Satoshi used "block" and "chain" separately in the 2008 paper. This means something. This means that we have to study two things to actually understand the blockchain.
 
-<!-- On top level, we see the concept of a __block__. A __block__ is a _set_ of __transactions__. What do we mean by _set_? A `C++` standard container `std::set`? Mathematical `set`? What?  By _set_, we just mean a box which can accommodate multiple _transactions_. How they are stored, is irrelevant to the block. -->
+There are few aspects of blockchain as a data structure:
 
-<!-- The first block is known in the community as __genesis block__. Whenever you see the term __genesis block__, you should remind yourself of the first block in the blockchain and it doesn't refer to any other block in entire blockchain. -->
+- Add new data at the end - Required.
+- Change existing entries - Should not be allowed.
+- Delete existing entries - Should not be allowed.
+- Iterate over data - Required.
 
-<!-- What is a __transaction__? A __transaction__ consists of a set of inputs and set of outputs, nothing else. As an example, the record of user $A$ sending money to user $B$ counts as a transaction. We don't bother about structure of a transaction for now but keep in mind that Bitcoin is everything about transaction. -->
+We don't have any update query. We need some type of search query, but that will be taken care in volume 2. What data structure best fits the above requirements if thought as an API question? Linked Lists. In Blockchain, instead of nodes, we say __blocks__. In place of pointer to next or previous element, we say __chain__. Thus, the name: Blockchain.
 
-<!-- In this chapter, we will cover the structure of a block in bitcoin. -->
+In this chapter, we will see how the block header is structured. We will see that a block is splitted into four parts: $8$ byte pre-header, $80$ byte header, number of transactions and actual transactions. There are some concepts such as difficulty, hash, nonce which will be covered later in detail. These are just mentioned in these initial chapters and where they are stored. Their complete details will come in future.
 
-<!-- ## Theory -->
-<!-- ### Structure of a block -->
-<!-- Every block starts with a __magic number__ of $4$ bytes. What is this magic number? A magic number, in programming, can be explained as a value which have an unexplained meaning in the context and it can be replaced by a named variable to provide more context. Strange? Maybe. It basically says that the number exists there, it serves some purpose, but its intended usage was/is in the mind of programmer writing that and its meaning is not obvious just by looking at it. Some more context is required to see what a magic number is doing there. -->
+Here is the output of first 1k of data that was printed in previous to previous chapter via our `hex_view` function:
+```{}
+0x00000000 |  F9 BE B4 D9 1D 01 00 00  01 00 00 00 00 00 00 00  | ................
+0x00000010 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000020 |  00 00 00 00 00 00 00 00  00 00 00 00 3B A3 ED FD  | ............;...
+0x00000030 |  7A 7B 12 B2 7A C7 2C 3E  67 76 8F 61 7F C8 1B C3  | z{..z.,>gv.a....
+0x00000040 |  88 8A 51 32 3A 9F B8 AA  4B 1E 5E 4A 29 AB 5F 49  | ..Q2:...K.^J)._I
+0x00000050 |  FF FF 00 1D 1D AC 2B 7C  01 01 00 00 00 01 00 00  | ......+|........
+0x00000060 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000070 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 FF FF  | ................
+0x00000080 |  FF FF 4D 04 FF FF 00 1D  01 04 45 54 68 65 20 54  | ..M.......EThe T
+0x00000090 |  69 6D 65 73 20 30 33 2F  4A 61 6E 2F 32 30 30 39  | imes 03/Jan/2009
+0x000000A0 |  20 43 68 61 6E 63 65 6C  6C 6F 72 20 6F 6E 20 62  |  Chancellor on b
+0x000000B0 |  72 69 6E 6B 20 6F 66 20  73 65 63 6F 6E 64 20 62  | rink of second b
+0x000000C0 |  61 69 6C 6F 75 74 20 66  6F 72 20 62 61 6E 6B 73  | ailout for banks
+0x000000D0 |  FF FF FF FF 01 00 F2 05  2A 01 00 00 00 43 41 04  | ........*....CA.
+0x000000E0 |  67 8A FD B0 FE 55 48 27  19 67 F1 A6 71 30 B7 10  | g....UH'.g..q0..
+0x000000F0 |  5C D6 A8 28 E0 39 09 A6  79 62 E0 EA 1F 61 DE B6  | \..(.9..yb...a..
+0x00000100 |  49 F6 BC 3F 4C EF 38 C4  F3 55 04 E5 1E C1 12 DE  | I..?L.8..U......
+0x00000110 |  5C 38 4D F7 BA 0B 8D 57  8A 4C 70 2B 6B F1 1D 5F  | \8M....W.Lp+k.._
+0x00000120 |  AC 00 00 00 00 F9 BE B4  D9 D7 00 00 00 01 00 00  | ................
+0x00000130 |  00 6F E2 8C 0A B6 F1 B3  72 C1 A6 A2 46 AE 63 F7  | .o......r...F.c.
+0x00000140 |  4F 93 1E 83 65 E1 5A 08  9C 68 D6 19 00 00 00 00  | O...e.Z..h......
+0x00000150 |  00 98 20 51 FD 1E 4B A7  44 BB BE 68 0E 1F EE 14  | .. Q..K.D..h....
+0x00000160 |  67 7B A1 A3 C3 54 0B F7  B1 CD B6 06 E8 57 23 3E  | g{...T.......W#>
+0x00000170 |  0E 61 BC 66 49 FF FF 00  1D 01 E3 62 99 01 01 00  | .a.fI......b....
+0x00000180 |  00 00 01 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000190 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x000001A0 |  00 00 00 FF FF FF FF 07  04 FF FF 00 1D 01 04 FF  | ................
+0x000001B0 |  FF FF FF 01 00 F2 05 2A  01 00 00 00 43 41 04 96  | .......*....CA..
+0x000001C0 |  B5 38 E8 53 51 9C 72 6A  2C 91 E6 1E C1 16 00 AE  | .8.SQ.rj,.......
+0x000001D0 |  13 90 81 3A 62 7C 66 FB  8B E7 94 7B E6 3C 52 DA  | ...:b|f....{.<R.
+0x000001E0 |  75 89 37 95 15 D4 E0 A6  04 F8 14 17 81 E6 22 94  | u.7...........".
+0x000001F0 |  72 11 66 BF 62 1E 73 A8  2C BF 23 42 C8 58 EE AC  | r.f.b.s.,.#B.X..
+0x00000200 |  00 00 00 00 F9 BE B4 D9  D7 00 00 00 01 00 00 00  | ................
+0x00000210 |  48 60 EB 18 BF 1B 16 20  E3 7E 94 90 FC 8A 42 75  | H`..... .~....Bu
+0x00000220 |  14 41 6F D7 51 59 AB 86  68 8E 9A 83 00 00 00 00  | .Ao.QY..h.......
+0x00000230 |  D5 FD CC 54 1E 25 DE 1C  7A 5A DD ED F2 48 58 B8  | ...T.%..zZ...HX.
+0x00000240 |  BB 66 5C 9F 36 EF 74 4E  E4 2C 31 60 22 C9 0F 9B  | .f\.6.tN.,1`"...
+0x00000250 |  B0 BC 66 49 FF FF 00 1D  08 D2 BD 61 01 01 00 00  | ..fI.......a....
+0x00000260 |  00 01 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000270 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000280 |  00 00 FF FF FF FF 07 04  FF FF 00 1D 01 0B FF FF  | ................
+0x00000290 |  FF FF 01 00 F2 05 2A 01  00 00 00 43 41 04 72 11  | ......*....CA.r.
+0x000002A0 |  A8 24 F5 5B 50 52 28 E4  C3 D5 19 4C 1F CF AA 15  | .$.[PR(....L....
+0x000002B0 |  A4 56 AB DF 37 F9 B9 D9  7A 40 40 AF C0 73 DE E6  | .V..7...z@@..s..
+0x000002C0 |  C8 90 64 98 4F 03 38 52  37 D9 21 67 C1 3E 23 64  | ..d.O.8R7.!g.>#d
+0x000002D0 |  46 B4 17 AB 79 A0 FC AE  41 2A E3 31 6B 77 AC 00  | F...y...A*.1kw..
+0x000002E0 |  00 00 00 F9 BE B4 D9 D7  00 00 00 01 00 00 00 BD  | ................
+0x000002F0 |  DD 99 CC FD A3 9D A1 B1  08 CE 1A 5D 70 03 8D 0A  | ...........]p...
+0x00000300 |  96 7B AC B6 8B 6B 63 06  5F 62 6A 00 00 00 00 44  | .{...kc._bj....D
+0x00000310 |  F6 72 22 60 90 D8 5D B9  A9 F2 FB FE 5F 0F 96 09  | .r"`..]....._...
+0x00000320 |  B3 87 AF 7B E5 B7 FB B7  A1 76 7C 83 1C 9E 99 5D  | ...{.....v|....]
+0x00000330 |  BE 66 49 FF FF 00 1D 05  E0 ED 6D 01 01 00 00 00  | .fI.......m.....
+0x00000340 |  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000350 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000360 |  00 FF FF FF FF 07 04 FF  FF 00 1D 01 0E FF FF FF  | ................
+0x00000370 |  FF 01 00 F2 05 2A 01 00  00 00 43 41 04 94 B9 D3  | .....*....CA....
+0x00000380 |  E7 6C 5B 16 29 EC F9 7F  FF 95 D7 A4 BB DA C8 7C  | .l[.)..........|
+0x00000390 |  C2 60 99 AD A2 80 66 C6  FF 1E B9 19 12 23 CD 89  | .`....f......#..
+0x000003A0 |  71 94 A0 8D 0C 27 26 C5  74 7F 1D B4 9E 8C F9 0E  | q....'&.t.......
+0x000003B0 |  75 DC 3E 35 50 AE 9B 30  08 6F 3C D5 AA AC 00 00  | u.>5P..0.o<.....
+0x000003C0 |  00 00 F9 BE B4 D9 D7 00  00 00 01 00 00 00 49 44  | ..............ID
+0x000003D0 |  46 95 62 AE 1C 2C 74 D9  A5 35 E0 0B 6F 3E 40 FF  | F.b..,t..5..o>@.
+0x000003E0 |  BA D4 F2 FD A3 89 55 01                           | ......U.
+```
 
-<!-- Bitcoin have its own magic number: `0xD9B4BEF9`. Every block will start with this number, no matter which block you are referring to. Maybe it indicates that a block starts here, maybe you can use it to count how many blocks are there, maybe something else. We don't know why this specific value is used and it is irrelevant to us as long as working of blockchain is concerned. -->
 
-<!-- But wait, we see that we have `F9 BE B4 D9` in the hex output of previous chapter. What is going on? Remember that things are stored in little endian encoding in our computers. Thus, we see the reversed bytes instead of `D9 B4 BE F9`. -->
 
-<!-- Next, we have the __size of block__ which is stored in $4$ bytes. If $100$ is stored in size field, then the size of block will be $100$ bytes but it will actually take space of $108$ bytes. These extra $8$ bytes are there because __size__ specifies how many more bytes are occupied by the block. This is a little optimization so that program doesn't have to subtract $8$ from the size field. So, remember, a block of size $x$ bytes will take $x+8$ bytes in storage and size field will store $x$ as the size of block. -->
+## Terminologies
+On top level, we see the concept of a __block__. A __block__ is a _set_ of __transactions__. What do we mean by _set_? A `C++` standard container `std::set`? Mathematical `set`? What?  By _set_, we just mean a box which can accommodate multiple _transactions_. How they are stored, is irrelevant to the block.
 
-<!-- What is the maximum size a block can take? For $4$ bytes, we have $2^{32}$ bytes which mean, theoretically, we can have blocks as large as $4$GB! But, Satoshi Nakamoto had other plans and he silently introduced the limit as $1$mb. Refer [Block size limit controversy](https://en.bitcoin.it/wiki/Block_size_limit_controversy) for more details. -->
+The first block is known in the community as __genesis block__. Whenever we see the term __genesis block__, we should remind ourselves of the first block in the blockchain and it doesn't refer to any other block in entire blockchain.
 
-<!-- Next, we have __block header__ of $80$ bytes. We will explain it in next section. -->
+What is a __transaction__? A __transaction__ is an entry in ledger. As an example, the record of user $A$ sending money to user $B$ counts as a transaction. We don't bother about structure of a transaction for now but keep in mind that Bitcoin is nothing without proper transaction management.
 
-<!-- Next, we have a field of $1$ byte, which helps us in determination of the number of transactions. This is half truth, but will be explored in next chapter. Don't say that number of transactions are stored in this $1$ byte. -->
+How they fit the big picture? Many transactions are generated in Bitcoin in the world per unit of time. As per the records, it is about $250$k to $400$k transactions per day. There is no limit on number of transactions we can have, it is just the summary of what is actually happening. We collect few transactions and store them in a block. Nothing else. Who stores them? Who decides what block should have what transactions? We will discuss them in coming chapters.
 
-<!-- After that, we have the transaction data which will be explored in later chapters. -->
+In this chapter, we will cover the structure of a block. How new blocks are added, is discussed in coming chapters.
 
-<!-- ### Structure of block header -->
-<!-- In above section, we saw that we have a block header of $80$ bytes. What is the meaning of header? Why is it used? A header is used to identify some properties about the __payload__. For example, header of a song file may contain information about artist name, song name, the size of song in bytes, etc. Similarly, we need some information about __payload__ before exploring its contents. What is the __payload__ here? It is the set of transactions that we talked about earlier. Remember, a block acts as a bucket of transactions, nothing else. -->
+## Theory
+### Structure of a block
+Every block starts with a __magic number__ of $4$ bytes. What is this magic number? A magic number, in programming, can be explained as a value which have an unexplained meaning and it can be replaced by a named variable to provide more context. Strange? Maybe. It basically says that the number exists there, it serves some purpose, but its intended usage was/is in the mind of programmer writing that and its meaning is not obvious just by looking at it. Some more context is required to see what a magic number is doing there.
 
-<!-- The first field in header is of size $4$ bytes, and is known as __version__. The genesis block had version $1$ and as of now, there are $4$ versions of bitcoin. What is a version or what does it specify? It can be thought of as a message which specifies how the things are placed in the block. The structure of block header which we are going to study corresponds to version $1$ and it can be different for different versions. The version number helps us programmatically take care of various changes in the rules of data storage/updations of blockchain under single implementation and make code compatible across versions. Or, it helps us split the code in _if-else_ statements to handle different type of blocks. -->
+Bitcoin have its own magic number: `0xD9B4BEF9`. Every block will start with this number, no matter which block we are referring to. Maybe it indicates that a block starts here, maybe we can use its occurrence to count how many blocks are there in blockchain, maybe something else. We don't know why this specific value is used and it is irrelevant to us as long as working of blockchain is concerned.
 
-<!-- Next field is of $32$ bytes and is known as __previous block hash field__. Since it is assumed you know basics of Bitcoin, we will not go into what a hash is. We will just mention that it is double SHA-$256$ hash of previous block. Wait.. double hash? Why a double hash? The answer is: We don't know why Satoshi Nakamoto made this decision and there are many conjectures over this. We simply accept this and move on. -->
+But wait, we see that we have `F9 BE B4 D9` in the hex output above. What is going on? Remember that things are stored in little endian encoding in our computers. Thus, we see the reversed bytes instead of `D9 B4 BE F9`.
 
-<!-- What about the previous hash of genesis block? This is hardcoded as `0x0...0` and this is the only block which has previous block hash set as all zeros. -->
+Next, we have the __size of block__ which is stored in $4$ bytes. If $100$ is stored in size field, then the size of block will be $100$ bytes but it will actually take space of $108$ bytes. These extra $8$ bytes are there because __size__ specifies how many "more" bytes are occupied by the block. This is a little optimization so that program doesn't have to subtract $8$ from the size field. So, remember, a block of size $x$ bytes will take $x+8$ bytes in storage and size field will store $x$ as the size of block. We can see in the code at the end how this helps us in writing clean code without extra steps.
 
-<!-- Next field is also of $32$ bytes and is __merkle hash__. What is used to calculate this? This will be discussed later in current chapter. But remember one thing, the value of current hash is also double SHA-$256$ hash of input. -->
+What is the maximum size a block can take? For $4$ bytes, we have $2^{32}$ bytes which mean, theoretically, we can have blocks as large as $4$GB! But, Satoshi Nakamoto had other plans and Satoshi silently introduced the limit as $1$mb. Refer "[Block size limit controversy](https://en.bitcoin.it/wiki/Block_size_limit_controversy)" on the internet for more details.
 
-<!-- Next field is the time stamp and is stored in $4$ bytes. There are two category of questions that can arise for this field: how we are storing time in $4$ bytes (only) and what does it represent. -->
+What is the size of genesis block? If we see next $4$ bytes, we see `1D 01 00 00`. Converting to big endian, we get `00 00 01 1D`, which is equivalent to $285$ in decimal. So, our genesis block is of $285$ bytes, but takes $285+8=293$ bytes in storage. Interesting... Can we verify it? Yes. We know that blocks are placed one after another. So, after initial $293$ bytes, we should be able to see the most popular version number: `F9 BE B4 D9` (little endian, what is actually stored). Let's check. Initial `293` bytes for genesis block means genesis block takes the byte range $0$-$292$. This means next block starts at index $293$. $293$ in hexadecimal means `0x125`. Going to the row having prefix `0x00000120`, we see that `0x120`th byte is `AC`. Going on, we see `0x121`th byte is `00`, ..., we see the `0x125`th byte is `F9`. Reading three more bytes and we see our pattern in byte range `0x125 - 0x128`: `F9 BE B4 D9`. We can play this game for next block and you are encouraged to perform the calculations on your own. You should see that next block starts at hex offset `0x204`.
 
-<!-- We are storing the __Unix epoch time__. What is it? This is widely used date-time unit in computing and it specifies the number of seconds elapsed since `00:00:00 UTC on 1 Jan, 1970`. As a fact, the Unix epoch value $1000000000$ corresponds to `9 September 2001, 01:46:40 UTC`. It was celebrated in Copenhagen, Denmark held by the Danish UNIX User Group at `03:46:40` local time. -->
+Next, we have __block header__ of $80$ bytes. We will explain it in next section.
 
-<!-- What does it represent? It specifies the time _miner_ started hashing current block (time as per the system time of miner). Who is _miner_? We will cover it in later chapters. -->
+Next, we have __payload__. What is this? In context of any header-data based structure, metadata refers to the header while payload refers to the data. In payload, we have two things: The number of transactions, and transactions themselves. All the transactions of a particular block are stored here. Remember one thing: we will treat transactions as black box. We will see how multiple "transaction boxes" are placed, not the actual content of "boxes". Content of these "boxes" is the core interest of volume 2.
 
-<!-- Next $4$ bytes are __difficulty__ and next $4$ bytes are __nonce__. What are they? Again, we will cover them in later chapters. -->
+### Structure of block header
+In above section, we saw that we have a block header of $80$ bytes. What is the meaning of header? Why is it used? A header is used to identify some properties about the __payload__. For example, header of a song file may contain information about artist name, song name, the size of song in bytes, etc. Similarly, we need some information about __payload__ before exploring its contents. What is the __payload__ here? It is the set of transactions that we talked about earlier. Remember, a block acts as a bucket of transactions, nothing else.
 
-<!-- ### Calculation of current hash -->
-<!-- Note one thing: Hash of block is not equal to its Merkle hash. Hash of block is defined as the hash of header. Header have one field which stores the Merkle hash. How Merkle hash is computed is covered when we cover the structure of payload. So, we have following relations: -->
+The first field in header is of size $4$ bytes, and is known as __version__. The genesis block had version $1$ and as of now, there are $4$ versions of Bitcoin (source - [Block Versions](https://developer.bitcoin.org/reference/block_chain.html#block-versions)). What is a version or what does it specify? It can be thought of as a message which specifies how the things are placed in the block. The structure of block header which we are going to study corresponds to version $1$ and it can be different for different versions. The version number helps us programmatically take care of various changes in the rules of data storage of blockchain under single implementation and make code compatible across versions. Or, it helps us split the code in _if-else_ statements to handle different type of blocks.
 
-<!-- - Previous hash entry in block number $i$ = `SHA256(SHA256(header of block number (i - 1)))`. -->
-<!-- - Previous hash entry in block number $0$ = Hard coded as all $00$. -->
-<!-- - Merkle hash entry in block number $i$ = Explained in later chapters. -->
+Next field is of $32$ bytes and is known as __previous block hash field__. What is this? This can be thought of as the "previous pointer" in our linked list analogy. But this does more than that. This makes sure that no data is changed in previous block! We will not go into exactly how a hash is calculated and the proof of its properties, because that will require a strong mathematical background and that is not relevant to the working of blockchain. We will just mention that it is double SHA-$256$ hash of previous block. Wait.. double hash? Why a double hash? Why not single SHA-256 hash? The answer is: We don't know why Satoshi Nakamoto made this decision and there are many conjectures over this. We simply accept this and move on.
 
-<!-- Here is the list of hashes a block have: -->
+As we know, all entries should be valid for every block in the system. For new blocks, the "previous hash" field is well defined and we can compute it. But what about the previous hash of genesis block? This is hardcoded as `0x0...0` and this is the only block which has previous block hash set as all zeros.
 
-<!-- - Merkle hash - Hash which is taken for all the transactions in the block. The input for double hash `SHA` function is payload. The output is stored in block header. -->
-<!-- - Block hash - Hash which is taken for entire block. This includes the transactions and metadata about transactions. The input is the block header and this value is not stored anywhere in current block. This is used by next block to refer current block in chain. -->
+Next field is also of $32$ bytes and is __merkle hash__. We will cover how to compute this in next chapter. But remember one thing, the value of current hash is also double SHA-$256$ hash of input. This is basically a "proof" that "payload" is what it claims.
 
-<!-- ### Summary -->
-<!-- In summary, we covered first $89$ bytes of a block. Here is the tabular summary of above: -->
+Next field is the time stamp and is stored in $4$ bytes. There are two category of questions that can arise for this field: how we are storing time in $4$ bytes (only) and what does it represent.
 
-<!-- |  Byte Range  |  Meaning  | -->
-<!-- | :-: | :- | -->
-<!-- | 0-3 | Magic Number | -->
-<!-- | 4-7 | Size | -->
-<!-- | 8-87 | Header | -->
-<!-- | 88-88 | Number of transactions (will cover in later chapter) | -->
-<!-- | 89-* | payload | -->
+We are storing the __Unix epoch time__. What is it? This is widely used date-time unit in computing and it specifies the number of seconds elapsed since `00:00:00 UTC on 1 Jan, 1970`. As a fact, the Unix epoch value $1000000000$ corresponds to `9 September 2001, 01:46:40 UTC`. It was celebrated in Copenhagen, Denmark held by the Danish UNIX User Group at `03:46:40` local time.
 
-<!-- Header Information: -->
+What does it represent? It specifies the time _miner_ started hashing current block (time as per the system time of miner). Who is _miner_? Miner is responsible to add new blocks in the system. We will cover more about them in later chapters.
 
-<!-- | Byte Range | Header offset | Meaning | Is covered completely till now | -->
-<!-- | :-: | :-: | :- | :-: | -->
-<!-- | 8-11 | 0-3 | Version Number | Yes | -->
-<!-- | 12-43 | 4-35 | Previous Block Hash  | Yes | -->
-<!-- | 44-75 | 36-67 | Current Merkle Hash | Yes | -->
-<!-- | 76-79 | 68-71 | Time | Yes | -->
-<!-- | 80-83 | 72-75 | Difficulty | No | -->
-<!-- | 84-87 | 76-79 | Nonce | No | -->
+Next $4$ bytes are __difficulty__ and next $4$ bytes are __nonce__. What are they? They are used by miners and are the proof that block is a "valid" block. Don't worry about them for now. We will cover them later in full glory.
 
-<!-- ## Reading Genesis block Header -->
-<!-- 1. We see that initial $4$ bytes match `F9 BE B4 D9`, which corresponds to little endian of `0xD9B4BEF9`. This is a match. -->
-<!-- 2. Next $4$ bytes read as `1D 01 00 00`, which corresponds to little endian of `0x0000011D`. This implies that block is spanning in more $285$ bytes. This makes genesis block have storage space of $285+8=293$ bytes. This means that first block is stored in offset $0$-$292$ and next block starts at offset $293$. We can confirm it by going to hexadecimal index `0x125` (which is equivalent to decimal of $293$) and reading the magic number. This process can be repeated to see that third block starts at hex offset `0x205` and so on.. -->
-<!-- 3. Next $4$ bytes corresponds to version number which is specified as `01 00 00 00` which is little endian equivalent to $1$. -->
-<!-- 4. Next $32$ bytes specify the previous block hash. This is specified as `0x00` repeated $32$ times till hex index `0x2C`. -->
-<!-- 5. Next $32$ bytes are `3B A3 ED FD 7A 7B 12 B2 7A C7 2C 3E 67 76 8F 61 7F C8 1B C3 88 8A 51 32 3A 9F B8 AA 4B 1E 5E 4A` which is the little endian of `0x4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B`. -->
-<!-- 6. Next $4$ bytes refers to time. The value is `29 AB 5F 49` which is little endian of `0x495FAB29`. Putting this value in online time converter gives the time as `GMT: Saturday, January 3, 2009 6:15:05 PM`. -->
-<!-- 7. Next $4$ bytes specify the nonce which is `0x1D00FFFF` (after converting to big endian) - $486604799$ in decimal. -->
-<!-- 8. Next $4$ bytes specify the difficulty as `0x7C2BAC1D` (after converting to big endian) - $2083236893$ in decimal. -->
+### Number of transactions
+Developers of Bitcoin are very intelligent. They use a very beautiful trick to store the number of transactions. More generally, they use different type of "integer" to store the count of anything in Bitcoin. They use what is known as "variable integer". So, how does this integer work? This integer can store as long as $8$ byte number and as low as $1$ byte number. How?
 
-<!-- ## C++ code to read the data -->
-<!-- ### Complete Code -->
-<!-- Here, we present the C++ code to show information about initial 3 blocks of bitcoin. The genesis block have index of $0$. -->
-<!-- ```{C++} -->
-<!-- #include <iostream> -->
-<!-- #include <fstream> -->
-<!-- #include <algorithm> -->
-<!-- #include <string> -->
-<!-- #define HEX( x, len ) std::setw(2 * len) << std::setfill('0') << std::hex << std::uppercase << (((1ll << (8 * len)) - 1) & (unsigned int)( x )) << std::dec -->
+Here is the scheme: For every number between $0$ and $252$ (both included), use $1$ byte for storage. If the byte is $253$, it means that the integer value is stored in next $2$ bytes. If the byte is $254$, it means that the integer value is stored in next $4$ bytes. And lastly, if the byte is $255$, it means that the integer value is stored in next $8$ bytes!
 
-<!-- // Returns the file contents as C++ string -->
-<!-- std::string get_file_contents(const char *filename) -->
-<!-- { -->
-<!--     std::ifstream in(filename, std::ios::in | std::ios::binary); -->
-<!--     if (!in) -->
-<!--     { -->
-<!--         std::cerr << "Error in opening file" << std::endl; -->
-<!--         throw errno; -->
-<!--     } -->
+Sounds complicated? Here is the pseudo code for this scheme:
 
-<!--     std::string contents; -->
+```{}
+x = next byte;
+if (x >= 0 and x <= 252)
+  set y = x
+else if x is 253:
+  set y = two bytes after x
+else if x is 254:
+  set y = 4 bytes after x
+else if x is 255:
+  set y = 8 bytes after x
 
-<!--     // Allocate required memory in heap for string -->
-<!--     in.seekg(0, std::ios::end); -->
-<!--     contents.resize(in.tellg()); -->
+return y as the integer value
+```
 
-<!--     // Copy contents from file to string -->
-<!--     in.seekg(0, std::ios::beg); -->
-<!--     in.read(&contents[0], (int)contents.size()); -->
+So, are we using $3$ bytes to store $2$ byte number? Yes. Are we using $9$ bytes to store $8$ byte number? Yes. Are we using $2$ bytes to store $1$ byte number? NO! It depends. If the number is less than $253$, then we are only using $1$ byte. Here is the table summary for the size:
 
-<!--     // return the string -->
-<!--     return contents; -->
-<!-- } -->
+| Range | Value of First byte | Extra bytes to get number | Total size (in bytes) |
+| :-: | :-: | :-: | :-: |
+| $0$ to $252$ | Number | - | $1$ |
+| $253$ to $2^{16}-1$ | $253$ | $2$ | $3$ |
+| $2^{16}$ to $2^{32}-1$ | $254$ | $4$ | $5$ |
+| $2^{32}$ to $2^{64}-1$ | $255$ | $8$ | $9$ |
 
-<!-- struct BlockHeader -->
-<!-- { -->
-<!--     std::uint32_t version_number; -->
-<!--     std::uint8_t prev_hash[32]; -->
-<!--     std::uint8_t merkle_hash[32]; -->
-<!--     std::uint32_t time; -->
-<!--     std::uint32_t difficulty; -->
-<!--     std::uint32_t nonce; -->
-<!-- }; -->
+Here are some examples. Say, we want to store $200$. We have to follow this scheme:
 
-<!-- struct Block -->
-<!-- { -->
-<!--     std::uint32_t magic_number{}; -->
-<!--     std::uint32_t block_size{}; -->
-<!--     BlockHeader header{}; -->
-<!-- }; -->
+1. Convert $(200)_{10}$ (which means that the number is in decimal) to hexadecimal: $(C8)_{16}$ or `0xC8`.
+2. We see that given number is less than $253$. Thus, this will be stored in $1$ byte.
+3. What is little endian of `C8`? It is the same number! So, we will just store `C8` in storage.
 
-<!-- int main() -->
-<!-- { -->
-<!--     const char* FILE_PATH = "<file path here>"; -->
-<!--     auto contents = get_file_contents(FILE_PATH); -->
-<!--     std::uint32_t offset = 0; -->
-<!--     for (int i = 0; i < 3; ++i) -->
-<!--     { -->
-<!--         std::cout << "Information about block #" << i << std::endl; -->
+What if we want to store $35467$? We have to follow the following steps:
+1. Convert $(35467)_{10}$ to hexadecimal: $(8A8B)_{16}$ or `0x8A8B`.
+2. We see that given number actually require $2$ bytes to be represented. So, we have to go with scheme of $3$ bytes and store `FD` (hexadecimal of $253$) in first byte.
+3. What is the little endian of `8A 8B`? It is `8B 8A`. So, we will store `FD 8B 8A` in storage.
 
-<!--         // create a block -->
-<!--         Block block; -->
+Let's cover a corner case. What if we have to store $254$?
+1. Convert $(254)_{10}$ to hexadecimal: $(FE)_{16}$ or `0xFE`.
+2. We see that given number actually require $1$ byte to be represented but it is more than $252$. So, we we have to with scheme of $3$ bytes.
+3. Before converting to little endian, we have to represent `FE` in $2$ bytes: `00 FE`. Little endian of this becomes: `FE 00`. Thus, we store $254$ as: `FD FE 00`.
 
-<!--         // copy initial 88 bytes from contents -->
-<!--         memcpy(&block, contents.c_str() + offset, 88); -->
+Let's see what genesis block stores for this value. Going to byte offset $(88)_{10}$ or `0x58`, we see the entry as `0x01`. So, the genesis block have only one transaction. This is lame... we can't verify what we just studied. To verify, there are two ways: Either check the internet about what we studied or find a block having some interesting size in the code! Just iterate over blocks (in code) till you find a block with more than $252$ transactions. Or, you can go to structure of transactions mentioned next and apply these concepts whenever you encounter a "variable integer".
 
-<!--         // make offset point to next block -->
-<!--         offset += block.block_size + 8; -->
+### Transactions
+After number of transactions, we have those many number of transactions placed one after another. As promised, we will treat them as black box. One thing that we should know is that transaction can have any size. So, if we treat transactions as black box, how we can predict the size of them? Good question. Here's when we actually need to go into structure of a transaction. We will just mention what each field is, but this will be covered in great detail in next volume. Ready?
 
-<!--         // Print current block information -->
+- First, we have $4$ byte version number.
+- Second, we have number of "inputs" to transaction stored in "variable integer". So, this field can be as low as $1$ byte or as long as $9$ bytes. Next, we will have corresponding input structures. For each input:
+  - We have $32$ byte of "previous transaction hash.
+  - We have $4$ byte of "output index".
+  - We have "variable integer" bytes for "signature script", which store how many bytes "signature script" will take next.
+  - We have the actual "signature script", having length specified in previous field.
+  - We have $4$ byte sequence number.
+- Then, we have number of "outputs" to transaction stored in "variable integer". So, this field can also be as low as $1$ byte or as long as $9$ bytes. Next, we will have corresponding output structures. For each output:
+   - We have $8$ bytes for number of "Satoshis". This is the unit of measurement of Bitcoin inside Bitcoin code. And people say programmers have no sense of humour.
+   - We have "variable integer" bytes for length of "public key script", which is stored next.
+   - We have the actual "script", whose length was specified in previous field.
+- Then we have a "lock time" of $4$ bytes.
 
-<!--         std::cout << "Magic Number: " << HEX(block.magic_number, 4) << std::endl; -->
-<!--         std::cout << "Blockchain Size: " << block.block_size << std::endl; -->
-<!--         std::cout << "Header Info: " << std::endl; -->
-<!--         std::cout << "\tVersion Number          : " << block.header.version_number << std::endl; -->
-<!--         std::cout << "\tPrevious Hash           : "; -->
-<!--         for (int j = 31; j >= 0; --j) -->
-<!--             std::cout << HEX(block.header.prev_hash[j], 1); -->
-<!--         std::cout << std::endl << "\tMerkle Hash (Stored)    : "; -->
-<!--         for (int j = 31; j >= 0; --j) -->
-<!--             std::cout << HEX(block.header.merkle_hash[j], 1); -->
+Able to grasp everything? Don't worry if you are unable to understand meaning of any field. We just need to see the bytes used by each field. We will just read those many number of bytes and ignore them. That's how we will reach to the start of next transaction (if any). After all the transactions are processed, we will be at the beginning of next block and the process repeats.
 
-<!--         std::cout << std::endl << "\tTime of Block Creation  : "; -->
-<!--         std::time_t temp = block.header.time; -->
-<!--         std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl; -->
-<!--         std::cout << "\tDifficulty              : " << HEX(block.header.difficulty, 4) << std::endl; -->
-<!--         std::cout << "\tNonce                   : " << block.header.nonce << std::endl; -->
-<!--     } -->
-<!-- } -->
-<!-- ``` -->
+### Blockchain layout summary
+In summary, we covered first $88$ bytes of a block. Here is the tabular summary of above:
 
-<!-- Here is the output of above code: -->
+|  Byte Range  | Size (bytes) | Meaning  |
+| :-: | :-: | :- |
+| 0-3 | 4 | Magic Number |
+| 4-7 | 4 | Size |
+| 8-87 | 80 | Header |
+| 88-* | 1-* | payload |
 
-<!-- ```{} -->
-<!-- Information about block #0 -->
-<!-- Magic Number: D9B4BEF9 -->
-<!-- Blockchain Size: 285 -->
-<!-- Header Info: -->
-<!--         Version Number          : 1 -->
-<!--         Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000 -->
-<!--         Merkle Hash (Stored)    : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B -->
-<!--         Time of Block Creation  : 2009-01-03 06:15:05 PM -->
-<!--         Difficulty              : 1D00FFFF -->
-<!--         Nonce                   : 2083236893 -->
-<!-- Information about block #1 -->
-<!-- Magic Number: D9B4BEF9 -->
-<!-- Blockchain Size: 215 -->
-<!-- Header Info: -->
-<!--         Version Number          : 1 -->
-<!--         Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F -->
-<!--         Merkle Hash (Stored)    : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098 -->
-<!--         Time of Block Creation  : 2009-01-09 02:54:25 AM -->
-<!--         Difficulty              : 1D00FFFF -->
-<!--         Nonce                   : 2573394689 -->
-<!-- Information about block #2 -->
-<!-- Magic Number: D9B4BEF9 -->
-<!-- Blockchain Size: 215 -->
-<!-- Header Info: -->
-<!--         Version Number          : 1 -->
-<!--         Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048 -->
-<!--         Merkle Hash (Stored)    : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5 -->
-<!--         Time of Block Creation  : 2009-01-09 02:55:44 AM -->
-<!--         Difficulty              : 1D00FFFF -->
-<!--         Nonce                   : 1639830024 -->
-<!-- ``` -->
+Header Information:
 
-<!-- As you can see, the code outputs exactly what we predicted via manual reading and decoding. Refer to next section to get into details of how the code is working. -->
+| Byte Range | Header offset | Size (bytes) | Meaning | Is covered completely till now |
+| :-: | :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | 4 | Version Number | Yes |
+| 12-43 | 4-35 | 32 | Previous Block Hash  | No |
+| 44-75 | 36-67 | 32 | Current Merkle Hash | No |
+| 76-79 | 68-71 | 4 | Time | Yes |
+| 80-83 | 72-75 | 4 | Difficulty | No |
+| 84-87 | 76-79 | 4 | Nonce | No |
 
-<!-- ### Working -->
-<!-- You can see that we have two structs in above code: `BlockHeader` and `Block`. `BlockHeader` consumes $80$ bytes of space in memory, and it is enforced by choosing the data types of appropriate size so that no padding is there. We have `Block` with magic number and size as $4$ bytes each, and block header just after them. Overall, we have no padding in the struct and blocks can be placed consecutively without wasting space. This allows us to use `memcpy` to copy bytes directly to struct without manually copying the bytes for individual fields. -->
+We are not going to print the table for the structure of transactions. We are not concerned about their meaning here.
 
-<!-- Inside the main, we first read the file contents as binary file into a string. Then, we are printing the information about first $3$ blocks of bitcoin. We first copy $88$ bytes from source file to a block, which completely fills all the fields of above block. Then, we print the information about them by iterating over each field, so there is nothing new here. One thing to note is that we are printing the hash in reverse order, and it is because we don't have 256-bit data type in C++. We are manually printing it in big-endian format. -->
+## Genesis block Header
+1. We see that initial $4$ bytes match `F9 BE B4 D9`, which corresponds to little endian of `0xD9B4BEF9`. This is a match.
+2. Next $4$ bytes read as `1D 01 00 00`, which corresponds to little endian of `0x0000011D`. This implies that block is spanning in more $285$ bytes. This makes genesis block have storage space of $285+8=293$ bytes. This means that first block is stored in offset $0$-$292$ and next block starts at offset $293$. We can confirm it by going to hexadecimal index `0x125` (which is equivalent to decimal of $293$) and reading the magic number. This process can be repeated to see that third block starts at hex offset `0x205` and so on..
+3. Next $4$ bytes corresponds to version number which is specified as `01 00 00 00` which is little endian equivalent to $1$.
+4. Next $32$ bytes specify the previous block hash. This is specified as `0x00` repeated $32$ times till hex index `0x2C`.
+5. Next $32$ bytes specify the merkle hash. These are `3B A3 ED FD 7A 7B 12 B2 7A C7 2C 3E 67 76 8F 61 7F C8 1B C3 88 8A 51 32 3A 9F B8 AA 4B 1E 5E 4A` which is the little endian of `0x4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B`.
+6. Next $4$ bytes refers to time. The value is `29 AB 5F 49` which is little endian of `0x495FAB29`. Putting this value in online time converter gives the time as `GMT: Saturday, January 3, 2009 6:15:05 PM`.
+7. Next $4$ bytes specify the nonce which is `0x1D00FFFF` (after converting to big endian) - $486604799$ in decimal.
+8. Next $4$ bytes specify the difficulty as `0x7C2BAC1D` (after converting to big endian) - $2083236893$ in decimal.
 
-<!-- After printing information about block, we update our `offset` variable by `8 + block size` to make it point to next block. -->
+## C++ codes
+First, we will print information about individual blocks by skipping over transactions. Later, we will read data about each transaction, compute size of individual size of each transaction and display the offsets.
 
-<!-- ### Printing Date -->
-<!-- One thing that you can notice is the code to print date from Unix Format. The code is: -->
-<!-- ```{C++} -->
-<!-- std::time_t temp = block.header.time; -->
-<!-- std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl; -->
-<!-- ``` -->
+### Header summary
+#### C++ Code for Header Summary
+Here, we present the C++ code to show information about initial $4$ blocks of Bitcoin (As initial $1$k data have $4$ blocks only). The genesis block have index of $0$.
+```{C++}
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#define HEX( x, len ) std::setw(2 * len) << std::setfill('0') << std::hex << std::uppercase << (((1ll << (8 * len)) - 1) & (unsigned int)( x )) << std::dec
 
-<!-- I have no idea how above code is working. I just copied it from internet. As we are concerned about Bitcoin, we are not going to explore how it is working. It is just a block box which gives us date-time in required format, which we can verify from online sources. -->
+// Returns the file contents as C++ string
+std::string get_file_contents(const char *filename)
+{
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (!in)
+    {
+        std::cerr << "Error in opening file" << std::endl;
+        throw errno;
+    }
 
-<!-- ## Topics left for future chapters -->
-<!-- - How to read the number of transactions? -->
-<!-- - What is the structure of transaction payload? -->
-<!-- - How is Merkle hash and block hash calculated? -->
-<!-- - Who is a Miner? -->
-<!-- - What are difficulty and nonce fields? -->
+    std::string contents;
+
+    // Allocate required memory in heap for string
+    in.seekg(0, std::ios::end);
+    contents.resize(in.tellg());
+
+    // Copy contents from file to string
+    in.seekg(0, std::ios::beg);
+    in.read(&contents[0], (int)contents.size());
+
+    // return the string
+    return contents;
+}
+
+struct BlockHeader
+{
+    std::uint32_t version_number;
+    std::uint8_t prev_hash[32];
+    std::uint8_t merkle_hash[32];
+    std::uint32_t time;
+    std::uint32_t difficulty;
+    std::uint32_t nonce;
+};
+
+struct Block
+{
+    std::uint32_t magic_number{};
+    std::uint32_t block_size{};
+    BlockHeader header{};
+};
+
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+    {
+        std::cerr << "Usage: ./reader.out <block_data>" << std::endl;
+        exit(-1);
+    }
+
+    const char* FILE_PATH = argv[1];
+    auto contents = get_file_contents(FILE_PATH);
+    std::uint32_t offset = 0;
+    for (int i = 0; i < 4; ++i)
+    {
+        // create a block
+        Block block;
+
+        // copy initial 88 bytes from contents
+        memcpy(&block, contents.c_str() + offset, 88);
+
+        std::cout << "Offsets of block #" << i << ": 0x" << HEX(offset, 4) << " to 0x" << HEX(offset + block.block_size + 8 - 1, 4) << std::endl;
+
+        // Print current block information
+        std::cout << "Magic Number: " << HEX(block.magic_number, 4) << std::endl;
+        std::cout << "Blockchain Size: " << block.block_size << std::endl;
+        std::cout << "Header Info: " << std::endl;
+        std::cout << "\tVersion Number          : " << block.header.version_number << std::endl;
+        std::cout << "\tPrevious Hash           : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.prev_hash[j], 1);
+        std::cout << std::endl << "\tMerkle Hash (Stored)    : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.merkle_hash[j], 1);
+
+        std::cout << std::endl << "\tTime of Block Creation  : ";
+        std::time_t temp = block.header.time;
+        std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl;
+        std::cout << "\tDifficulty              : " << HEX(block.header.difficulty, 4) << std::endl;
+        std::cout << "\tNonce                   : " << block.header.nonce << std::endl << std::endl;
+
+        // make offset point to next block
+        offset += block.block_size + 8;
+    }
+}
+```
+
+Compile the above code using the following command:
+```{bash eval=FALSE}
+g++ main.cpp -o reader.out -std=c++17
+```
+
+A file `reader.out` will be created which is our executable. Run the file using the following command:
+```{bash eval=FALSE}
+./reader.out data/1k.dat 
+```
+
+Here is the output of running above code on initial $1k$ Bitcoin data:
+```{}
+Offsets of block #0: 0x00000000 to 0x00000124
+Magic Number: D9B4BEF9
+Blockchain Size: 285
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
+    Merkle Hash (Stored)    : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
+    Time of Block Creation  : 2009-01-03 06:15:05 PM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2083236893
+
+Offsets of block #1: 0x00000125 to 0x00000203
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+    Merkle Hash (Stored)    : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
+    Time of Block Creation  : 2009-01-09 02:54:25 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2573394689
+
+Offsets of block #2: 0x00000204 to 0x000002E2
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+    Merkle Hash (Stored)    : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
+    Time of Block Creation  : 2009-01-09 02:55:44 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1639830024
+
+Offsets of block #3: 0x000002E3 to 0x000003C1
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
+    Merkle Hash (Stored)    : 999E1C837C76A1B7FBB7E57BAF87B309960F5FFEFBF2A9B95DD890602272F644
+    Time of Block Creation  : 2009-01-09 03:02:53 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1844305925
+
+```
+
+As we can see, the code outputs exactly what we predicted via manual reading and decoding of genesis block. Refer to next section to get into details of how the code is working.
+
+#### Working
+We can see that we have two structs in above code: `BlockHeader` and `Block`. `BlockHeader` consumes $80$ bytes of space in memory, and it is enforced by choosing the data types of appropriate size so that no padding is there. We have `Block` with magic number and size as $4$ bytes each, and block header just after them. Overall, we have no padding in the struct and blocks can be placed consecutively without wasting space. This allows us to use `memcpy` to copy bytes directly to struct without manually copying the bytes for individual fields. And people say python allows us to write small code...
+
+Inside the main, we first read the file contents as binary file into a string. Then, we are printing the information about first $3$ blocks of Bitcoin. We first copy $88$ bytes from source file to a block, which completely fills all the fields of above block. Then, we print the information about them by iterating over each field, so there is nothing new here. One thing to note is that we are printing the hash in reverse order, and it is because we don't have 256-bit data type in C++. We are manually printing it in big-endian format.
+
+After printing information about block, we update our `offset` variable by `8 + block size` to make it point to next block.
+
+#### Printing Date
+One thing that we can notice is the code to print date from Unix Format. The code is:
+```{C++}
+std::time_t temp = block.header.time;
+std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl;
+```
+
+We don't have to worry about how above code is working. Explaining it requires to explain how date is handled in `C++`, which is not our concern.
+
+### Compute transaction offsets
+The following code is a variation of above code. Earlier, we just copied the block header and displayed its values. Now, we go a step further and iterate over each transaction. As we are not concerned with actual transactional data, we will just keep updating our offset without printing anything in between.
+
+#### C++ code to read variable integer
+Before going into actual code, we need to see how to work with variable integers. Since we are just reading the data, we will only consider the code to print the value. The reader is encouraged to write a code which takes an `std::uint64_t` as input and prints the corresponding hex value on screen. Why $8$ byte integer? Good question. In the code, we just need to use integer, no matter how it is stored on actual storage. What data type should we choose in code to work with? Most practical choice will be to store everything in $8$ byte integer and work with it. When we want to store it in Bitcoin storage, we can apply checks and write corresponding hex output.
+
+Here is the code which reads from memory location `str`, and perform two things: reads the variable integer starting from `str` into $8$ byte integer (no matter the actual bytes used in storage) and increment the `delta` value by corresponding amount of bytes from storage. Why are we increasing the `delta` instead of setting it to exact values? What is `delta`? We are using a trick and think about what will happen if we pass `delta` as offset and `str` as base address where byte $0$ is stored + `offset`?
+
+```{C++}
+uint64_t read_varint(const char* str, size_t& delta)
+{
+    uint64_t output = 0;
+
+    memcpy(&output, str, 1);
+    if (output < 0xFD)
+        delta += 1;
+    else if (output == 0xFD)
+        output = *(uint16_t*)(str + 1), delta += 3;
+    else if (output == 0xFE)
+        output = *(uint32_t*)(str + 1), delta += 5;
+    else
+        output = *(uint64_t*)(str + 1), delta += 9;
+
+    return output;
+}
+```
+
+#### C++ Code for Transaction offsets
+The following code is self explanatory:
+```{C++}
+...
+
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+    {
+        std::cerr << "Usage: ./reader.out <block_data>" << std::endl;
+        exit(-1);
+    }
+
+    const char* FILE_PATH = argv[1];
+    auto contents = get_file_contents(FILE_PATH);
+    auto block_base = contents.c_str();
+    size_t offset = 0;
+    for (int i = 0; i < 4; ++i)
+    {
+        // create a block
+        Block block;
+
+        // copy initial 88 bytes from contents
+        memcpy(&block, block_base + offset, 88);
+        auto next_block_location = offset + 8 + block.block_size;
+
+        // offset points to number of transactions
+        std::cout << "Offsets of block #" << i << ": 0x" << HEX(offset, 4) << " to 0x" << HEX(offset + block.block_size + 8 - 1, 4) << std::endl;
+        offset += 88;
+
+        // Print current block information
+        std::cout << "Magic Number: " << HEX(block.magic_number, 4) << std::endl;
+        std::cout << "Blockchain Size: " << block.block_size << std::endl;
+        std::cout << "Header Info: " << std::endl;
+        std::cout << "\tVersion Number          : " << block.header.version_number << std::endl;
+        std::cout << "\tPrevious Hash           : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.prev_hash[j], 1);
+        std::cout << std::endl << "\tMerkle Hash (Stored)    : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.merkle_hash[j], 1);
+
+        std::cout << std::endl << "\tTime of Block Creation  : ";
+        std::time_t temp = block.header.time;
+        std::cout << std::put_time(std::gmtime(&temp), "%Y-%m-%d %I:%M:%S %p") << std::endl;
+        std::cout << "\tDifficulty              : " << HEX(block.header.difficulty, 4) << std::endl;
+        std::cout << "\tNonce                   : " << block.header.nonce << std::endl;
+
+        // Read the number of transactions
+        auto n_transactions = read_varint(block_base + offset, offset);
+        std::cout << "\tNumber of Transactions  : " << n_transactions << std::endl;
+
+        // Read the actual transactions, offset now points to beginning of first transaction
+        for (std::uint64_t transaction_index = 0; transaction_index < n_transactions; ++transaction_index)
+        {
+            std::cout << "\t\tTransaction #" << transaction_index << " offsets: 0x" << HEX(offset, 4) << " to 0x";
+
+            // skip version number
+            offset += 4;
+
+            // read input
+            auto n_inputs = read_varint(block_base + offset, offset);
+
+            // read all inputs
+            while (n_inputs--)
+            {
+                // skip previous transaction hash and output index
+                offset += 36;
+
+                // read signature script length
+                auto script_len = read_varint(block_base + offset, offset);
+
+                // skip script and sequence number
+                offset += script_len + 4;
+            }
+
+            // read outputs
+            auto n_outputs = read_varint(block_base + offset, offset);
+
+            // read all outputs
+            while (n_outputs--)
+            {
+                // skip Satoshis
+                offset += 8;
+
+                // read length of public key script
+                auto script_len = read_varint(block_base + offset, offset);
+
+                // skip key script
+                offset += script_len;
+            }
+
+            // skip lock time
+            offset += 4;
+
+            std::cout << HEX(offset - 1, 4) << std::endl << std::endl;
+        }
+    }
+}
+```
+
+Here is the output of above code which you are encouraged to compute by hands from hexadecimal values:
+```{}
+Offsets of block #0: 0x00000000 to 0x00000124
+Magic Number: D9B4BEF9
+Blockchain Size: 285
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
+    Merkle Hash (Stored)    : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
+    Time of Block Creation  : 2009-01-03 06:15:05 PM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2083236893
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x00000059 to 0x00000124
+
+Offsets of block #1: 0x00000125 to 0x00000203
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+    Merkle Hash (Stored)    : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
+    Time of Block Creation  : 2009-01-09 02:54:25 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 2573394689
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x0000017E to 0x00000203
+
+Offsets of block #2: 0x00000204 to 0x000002E2
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+    Merkle Hash (Stored)    : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
+    Time of Block Creation  : 2009-01-09 02:55:44 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1639830024
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x0000025D to 0x000002E2
+
+Offsets of block #3: 0x000002E3 to 0x000003C1
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
+    Merkle Hash (Stored)    : 999E1C837C76A1B7FBB7E57BAF87B309960F5FFEFBF2A9B95DD890602272F644
+    Time of Block Creation  : 2009-01-09 03:02:53 AM
+    Difficulty              : 1D00FFFF
+    Nonce                   : 1844305925
+    Number of Transactions  : 1
+        Transaction #0 offsets: 0x0000033C to 0x000003C1
+
+```
+
+Running above code on second transaction of my `blk000001.dat` file gives (Your output may differ):
+```{}
+Offsets of block #1: 0x000095A3 to 0x0000A1F9
+Magic Number: D9B4BEF9
+Blockchain Size: 3151
+Header Info: 
+    Version Number          : 1
+    Previous Hash           : 000000000000985E2FC8F34C3A8366F5D6ADBFCC0D8ECA085F892E4AA35C67D3
+    Merkle Hash (Stored)    : 711CB96802EF2D2455F9F006720AA6464CFCD8E23565BE05083B768B5CA290D1
+    Time of Block Creation  : 2011-04-24 07:18:36 PM
+    Difficulty              : 1B00B5AC
+    Nonce                   : 1627589838
+    Number of Transactions  : 10
+        Transaction #0 offsets: 0x000095FC to 0x00009681
+        Transaction #1 offsets: 0x00009682 to 0x00009761
+        Transaction #2 offsets: 0x00009762 to 0x00009842
+        Transaction #3 offsets: 0x00009843 to 0x00009BEF
+        Transaction #4 offsets: 0x00009BF0 to 0x00009CF0
+        Transaction #5 offsets: 0x00009CF1 to 0x00009DF1
+        Transaction #6 offsets: 0x00009DF2 to 0x00009EF3
+        Transaction #7 offsets: 0x00009EF4 to 0x00009FF6
+        Transaction #8 offsets: 0x00009FF7 to 0x0000A0F7
+        Transaction #9 offsets: 0x0000A0F8 to 0x0000A1F9
+```
+
+## Summary
+This was a long chapter. We studied various things and now, it is time to see what questions we answered. You are requested to try to answer these questions on your own first, and then go back into the chapter to see the possible answers:
+
+- What are the similarities between linked list and block chain as data structures?
+- What is the relation between blocks and transactions from storage point of view? Is it one-one/many-one/one-many/many-many?
+- What are the four entries of blockchain? What are their sizes? What purpose do they serve in the plan of ~~God~~ Satoshi Nakamoto?
+- Why a header is required in blockchain?
+- How `size` field of block differs from the actual size of block?
+- What are the header entries? What are their sizes? What do you know about time stamp field?
+- What is Unix epoch time? What is the maximum time you can store in the time stamp field of blockchain? (we didn't cover this, but you can do it. Right?)
+- How a Variable Integer is stored in Bitcoin? Mention all the cases for integers from $0$ to $2^{64}-1$.
+- We covered the code to read from storage and get the result in $8$ byte unsigned integer. Write a function that takes an $8$ byte unsigned integer and returns a heap allocated memory of appropriate length in bytes. Remember, you have to allocate the required memory only. You can check that your function is working by passing the output from your function to `read_varint` we studied above.
+- Without looking at above codes, try to replicate them in programming language of your choice.
+- What were the questions you had in the beginning of this chapter? Make a list of them. You can mark those questions which are answered above. This list can be used to track the progress you are making while reading this book.
