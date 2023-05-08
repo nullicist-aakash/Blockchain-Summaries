@@ -1,0 +1,103 @@
+# Lifecycle of Blockchain - Chaining blocks together
+In previous chapter, we studied the structure of block header. Here is the summary of what we studied in the header:
+
+| Byte Range | Header offset | Size (bytes) | Meaning | Is covered completely till now |
+| :-: | :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | 4 | Version Number | Yes |
+| 12-43 | 4-35 | 32 | Previous Block Hash  | No |
+| 44-75 | 36-67 | 32 | Current Merkle Hash | No |
+| 76-79 | 68-71 | 4 | Time | Yes |
+| 80-83 | 72-75 | 4 | Difficulty | No |
+| 84-87 | 76-79 | 4 | Nonce | No |
+
+In this chapter, we will study the meaning, usage and consequences of "Previous Block Hash" field and "Current Merkle Hash" field. But before answering them, we need to know what exactly is the meaning of "hash" here? What properties a cryptographic hash function should have, in order for it to be the core requirement of a financial system - Bitcoin. We will not go into the details of how these functions are calculated. We will not prove that specific hash functions posses the property of a cryptographic hash function. These details are best left for the mathematicians and security experts. We will state the general hash properties, try to understand their consequences and state the specific functions used in Bitcoin. After that, we will directly go into the above two hash fields. We will discuss how they are used, how they fit in the big picture. We will answer one of the most important question of Blockchain: How to make sure that what is written in blockchain stays there forever. We will try to do some attacks on Blockchain and see how they are impractical and thus, understand why the system is stable enough to withstand any "technological" attacks for changes in storage.
+
+Let's get started.
+
+## Theory
+As mentioned above, we will first study the requirements and properties of cryptographic hash functions. After that, we will jump into details of how they are used in Blockchain and Bitcoin, specially `SHA-256` hash function. You can directly jump to \@ref(HashSummary) if you want to see the summary of Section \@ref(HashSection).
+
+### Cryptographic Hash Functions {#HashSection}
+Let's understand what "hash" functions mean in the context of computer science. After that, we will jump right into cryptographic hash functions.
+
+We can think that using a hash function generates the "signature" of a large (or small) file (or any input). What do we mean by signature? Before going into the actual details and jargon, let's take a problem and see how hash functions help us in this solution.
+
+#### Using hash functions in online education
+
+You are a teacher. COVID pandemic hits the country and the institute switches to online mode of education. This is the time of exam, when students write their answers and upload their answers using email or other web service. There is a hard time limit after which their submission should not be considered. So, you set the deadline to end time of exam, plus additional $10$ minutes of time to upload their answers. But you are worried of one problem: students can use the extra time to write their answer instead of scanning their work. They can claim that their internet speed is slow, that's why there is a delay in uploading their answers. What can you do in this situation? You have no way to check if the problem is genuine or they are taking benefit of the situation. As a person of basic computer knowledge, can you do anything to separate the genuine students from others? 
+
+Yes, there is a solution. Provide a hash function script to students, and tell them to either send their submission before deadline or send the hash of their file which they are supposed to submit using the provided script. This script basically calculates the hash or signature of their submission file. The output will be few bytes long, literally less than $1$ kilobyte. Once they send that hash, you can be sure that whatever file they upload in future, was actually scanned before the deadline!
+
+This seems too good to be true. Assuming this type of hash function exist, what properties do you want from the signature? Here are few:
+
+1. _The signature should be very small_, so that students can upload it in any network speed without any delay.
+2. _Any change in the original file should result in different signatures_, otherwise the system will fail. This implies that we want to produce different signatures for different files.
+3. _Students should be able to compute signature without consuming much time_, otherwise the deadline will be crossed.
+4. _Any type of file should be supported_, otherwise students will put themselves in situation to create unsupported files by mistake. This imposes the condition that we should read each byte of the input, and the hash function should not assume anything about the structure of input data.
+5. Anything you would like to add?
+
+Cryptographic hash functions not only guarantee above properties, but they have few more beautiful properties that allow them to be used in modern computer securities, secure communication between two parties, etc. Next, we will see those properties in more structured manner.
+
+#### Properties of hash functions
+Let's start with hash functions. These are the mathematical functions, having the following properties:
+
+1. Input can be any length of string. Here, a string mean a sequence of bytes. This fulfills the requirement $4$ of online exam problem above.
+2. Output (the signature) is of fixed size. This doesn't restrict the output to be small. In practice, the output is small. For instance, `SHA-256` only generates $32$ bytes of output. This the the function which is used in Blockchain for hashing! But remember, being "small" is not the requirement of this definition. This fulfills the requirement $1$ of online exam problem.
+3. The computation time should be fast/efficient. This means that our algorithm should be very fast, typically of the order of $O(n)$ where $n$ is the number of bytes of input.This fulfills the requirement $3$ of online exam problem.
+
+The above definition of hash function is very generic, and it doesn't fulfill all the properties we want. For instance, the following function is a valid hash function: $$f(x)=0\text{, for all input $x$.}$$ Or, you can see the following pseudo code:
+
+```{}
+function calculate_hash(input):
+  return 0
+```
+
+All it does is generates $0$ for any input. We can verify that this is a "valid" hash function in light of above properties. We need to be more creative. There is a branch of mathematics that is dedicated to study of cryptographic hash functions, and that is __cryptography__.
+
+#### Properties of cryptographic hash functions
+As mentioned earlier, we will not go into the exact details but just state the additional properties that a cryptographic hash function should have, in addition to above mentioned $3$ properties:
+
+4. Collision Resistance.
+5. Irreversibility.
+6. One small change for input, one giant leap in signature.
+
+Here is the explanation of above three properties:
+
+By collision resistance, we don't mean that for two different inputs, the output should be different. This is impossible for any hash function! On one side, we are allowing the input to be any size, and on another side, we are allowing output to be of fixed size. Here is the algorithm to find same signature for different inputs:
+
+```{}
+seen = collection of hashes seen thus far, initially empty.
+i = 0
+
+Do the following in repetition:
+  x = hash of i
+  increment i by 1
+  check if x is in `seen`. If yes, we have a collision.
+  If no, put x in `seen`
+```
+
+Will the above algorithm ever find a collision? Guaranteed! Why? The output size is fixed. Say, we can have $m$ distinct outputs. We compute hash for $m+1$ distinct integers. Logic says there will be some repetition.
+
+So, what do we mean by collision resistance? We mean that for given hash function, it is _not practical_ to find two values $x$ and $y$ such that hash of both of them are same. And what do we mean by "not practical"? One way to think this is that number of possible outputs is so huge that we can't even go over every output. Meaning by, that above algorithm will take so much time, that is not possible to go over $m+1$ distinct values, no matter the speed of computers. Need some values? `SHA-256` algorithm generates an output of length $256$ bits. This mean that there are distinct $2^{256}$ values that this function can generate. But how large is this number? Age of universe is estimated to be $13.7$ billion years. Rounding up to $15$ billion years, we have $15\times 365 \times 24 \times 60 \times 60$ billion seconds. This is equivalent to $4.73\times {10}^{17}$ seconds. How much is $2^{256}$ in powers of $10$? Say $$10^x=2^{256}$$ which gives $$x=\frac{256 \times log{2}}{\log{10}}$$ which gives $$x \approx 77.064$$. Let's compare. Age of universe is about $4.73\times {10}^{17}$ seconds and `SHA-256` is able to generate $10^{77}$ distinct values! The scale of things is unimaginable. And compare this to the time in years we have computers with us. This is significantly small time. No matter the speed of computers, above algorithm can never be used!
+
+Next, what do we mean by irreversibility? This means that given a signature, we can't infer anything about the input! We can understand the consequence of this property using an example. What if you make a prediction of something, write it, put it in an envelope, and put it on table for the world. You want to reveal the contents of envelope to the world after the time has passed, without anyone getting a hint of what you predicted. Then, you open the envelope in future and everyone will be amazed on the accuracy of your prediction. And the best part? You can prove this is exactly what you wrote in the past. You can be sure that your prediction is not leaked. World will be sure that you never changed the contents of envelope. Think about how this can be achieved using hash functions in practice.
+
+Don't worry if you are unable to see the usefulness of above thought example. Remember this: irreversibility tell us that the function is "one-way" function. By input and hash function, you can calculate the output. But by output and hash function, you can't predict the input. Let's see an example of what this doesn't mean. Someone rolls a dice, and gives you the hash of the top number on dice after rolling. Can you predict the input? Think about it before going further.
+
+The answer is yes. You can calculate the hash of each value from $1$ to $6$, and match that with the hash provided to you. Easy. Did the above property fail here? Again, think about it.
+
+The answer is no. Above property says that given the _output_ and _hash function_, we can't predict anything about the input. Here, we had knowledge about the inputs! We knew exactly what are the possible input values and it was possible to simply go over every input. We used our knowledge of "6 possible outcomes of dice" to reverse the output of hash function. Let's change the game to something like this: Compute the hash of configuration of a chess board using a hash function. You are told about the final hash output and the hash function used. If the hash function has irreversibility property, you are doomed.
+
+At last, we have the property of randomness. This doesn't mean that for fixed input, your output will be different. This means that if you make a small change in the input, even for one bit, the output hash will be "completely different" from the original hash. What do we exactly mean by "completely different"? This practically means that if you change anything in input of hash and you have the hash of original input, you can't predict what the hash of new input is. You best guess will be as good as a monkey typing on typewriter. This also means that if you generate hashes for any number of inputs/any type of inputs/any similar inputs/anything, you are unable to use that information to infer the hash of any new input you encounter. You can't even bet on a particular "bit" or "byte" of the hash of any new input better than a monkey placing a bet without any knowledge.
+
+#### Quick Summary of cryptographic hash functions {#HashSummary}
+You should be able to remember above $6$ properties. But for the general discussion, you can have the following mental model:
+1. Hash functions takes anything as input, do some magic, and provide a fixed size output.
+2. You can't predict anything about the output of this magic machine for any input, without actually computing the output using this magic machine.
+3. The machine works very fast.
+4. (Probably necessary to state) You can't predict the input from its hash.
+
+Here are some diagrams for you to help remember above properties:
+```{r echo=FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics('static/Hash Function.png')
+```

@@ -8,7 +8,7 @@ Why do we need a ledger at all? Isn't the money different from ledger? Isn't the
 ### Requirements of a ledger
 How a ledger fits in this big picture? Say person $A$ sends $x$ amount of money to person $B$. A ledger is supposed to keep track of this in a legitimate manner. A ledger is supposed to do something in the lines of:
 
-1. Check if the "address" of person $A$ is valid, is registered in the system.
+1. Check if the "address" of person $A$ is valid, and is registered in the system.
 2. Check if the "address" of person $B$ is valid, and is registered in the system.
 3. Check if person $A$ have sufficient balance to send money to person $B$.
 4. Verify that person who is sending money from account $A$, is actually person $A$.
