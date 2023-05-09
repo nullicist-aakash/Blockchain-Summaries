@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-05-08" />
+<meta name="date" content="2023-05-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="blockchain-vs-bitcoin.html"/>
-<link rel="next" href="lifecycle-of-blockchain---chaining-blocks-together.html"/>
+<link rel="next" href="cryptographic-hash-functions.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -192,12 +192,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="lifecycle-of-blockchain---chaining-blocks-together.html"><a href="lifecycle-of-blockchain---chaining-blocks-together.html"><i class="fa fa-check"></i><b>5</b> Lifecycle of Blockchain - Chaining blocks together</a>
+<li class="chapter" data-level="5" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html"><i class="fa fa-check"></i><b>5</b> Cryptographic hash functions</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="lifecycle-of-blockchain---chaining-blocks-together.html"><a href="lifecycle-of-blockchain---chaining-blocks-together.html#theory-1"><i class="fa fa-check"></i><b>5.1</b> Theory</a>
+<li class="chapter" data-level="5.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#cryptographic-hash-functions-1"><i class="fa fa-check"></i><b>5.1</b> Cryptographic Hash Functions</a>
 <ul>
-<li class="chapter" data-level="5.1.1" data-path="lifecycle-of-blockchain---chaining-blocks-together.html"><a href="lifecycle-of-blockchain---chaining-blocks-together.html#HashSection"><i class="fa fa-check"></i><b>5.1.1</b> Cryptographic Hash Functions</a></li>
+<li class="chapter" data-level="5.1.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#using-hash-functions-in-online-education"><i class="fa fa-check"></i><b>5.1.1</b> Using hash functions in online education</a></li>
+<li class="chapter" data-level="5.1.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-hash-functions"><i class="fa fa-check"></i><b>5.1.2</b> Properties of hash functions</a></li>
+<li class="chapter" data-level="5.1.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-cryptographic-hash-functions"><i class="fa fa-check"></i><b>5.1.3</b> Properties of cryptographic hash functions</a></li>
+<li class="chapter" data-level="5.1.4" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#HashSummary"><i class="fa fa-check"></i><b>5.1.4</b> Summary of cryptographic hash functions</a></li>
 </ul></li>
+<li class="chapter" data-level="5.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#c-code-1"><i class="fa fa-check"></i><b>5.2</b> C++ Code</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#obtaining-the-code-for-sha-256-in-c"><i class="fa fa-check"></i><b>5.2.1</b> Obtaining the code for SHA-256 in <code>C++</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#calculating-sha-256"><i class="fa fa-check"></i><b>5.2.2</b> Calculating SHA-256</a></li>
+<li class="chapter" data-level="5.2.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#considerations-inside-bitcoin"><i class="fa fa-check"></i><b>5.2.3</b> Considerations inside Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#summary-2"><i class="fa fa-check"></i><b>5.3</b> Summary</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -301,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>On top level, we see the concept of a <strong>block</strong>. A <strong>block</strong> is a <em>set</em> of <strong>transactions</strong>. What do we mean by <em>set</em>? A <code>C++</code> standard container <code>std::set</code>? Mathematical <code>set</code>? What? By <em>set</em>, we just mean a box which can accommodate multiple <em>transactions</em>. How they are stored, is irrelevant to the block.</p>
 <p>The first block is known in the community as <strong>genesis block</strong>. Whenever we see the term <strong>genesis block</strong>, we should remind ourselves of the first block in the blockchain and it doesn’t refer to any other block in entire blockchain.</p>
 <p>What is a <strong>transaction</strong>? A <strong>transaction</strong> is an entry in ledger. As an example, the record of user <span class="math inline">\(A\)</span> sending money to user <span class="math inline">\(B\)</span> counts as a transaction. We don’t bother about structure of a transaction for now but keep in mind that Bitcoin is nothing without proper transaction management.</p>
-<p>How they fit the big picture? Many transactions are generated in Bitcoin in the world per unit of time. As per the records, it is about <span class="math inline">\(250\)</span>k to <span class="math inline">\(400\)</span>k transactions per day. There is no limit on number of transactions we can have, it is just the summary of what is actually happening. We collect few transactions and store them in a block. Nothing else. Who stores them? Who decides what block should have what transactions? We will discuss them in coming chapters.</p>
+<p>How they fit the big picture? Many transactions are generated in Bitcoin in the world per unit of time. As per the records, it is about <span class="math inline">\(250\)</span>k to <span class="math inline">\(400\)</span>k transactions per day. There is no limit on number of transactions we can have, it is just the summary of what is actually happening. We collect few transactions and store them in a block. Nothing else. Who stores them? Who decides what block should have what transactions?</p>
 <p>In this chapter, we will cover the structure of a block. How new blocks are added, is discussed in coming chapters.</p>
 </div>
 <div id="theory" class="section level2 hasAnchor" number="4.2">
@@ -323,7 +333,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The first field in header is of size <span class="math inline">\(4\)</span> bytes, and is known as <strong>version</strong>. The genesis block had version <span class="math inline">\(1\)</span> and as of now, there are <span class="math inline">\(4\)</span> versions of Bitcoin (source - <a href="https://developer.bitcoin.org/reference/block_chain.html#block-versions">Block Versions</a>). What is a version or what does it specify? It can be thought of as a message which specifies how the things are placed in the block. The structure of block header which we are going to study corresponds to version <span class="math inline">\(1\)</span> and it can be different for different versions. The version number helps us programmatically take care of various changes in the rules of data storage of blockchain under single implementation and make code compatible across versions. Or, it helps us split the code in <em>if-else</em> statements to handle different type of blocks.</p>
 <p>Next field is of <span class="math inline">\(32\)</span> bytes and is known as <strong>previous block hash field</strong>. What is this? This can be thought of as the “previous pointer” in our linked list analogy. But this does more than that. This makes sure that no data is changed in previous block! We will not go into exactly how a hash is calculated and the proof of its properties, because that requires a strong mathematical background and that is not relevant to the working of blockchain. We will just mention that it is double SHA-<span class="math inline">\(256\)</span> hash of previous block. Wait.. double hash? Why a double hash? Why not single SHA-256 hash? The answer is: We don’t know why Satoshi Nakamoto made this decision and there are many conjectures over this. We simply accept this and move on. We will study this in more detail in coming chapters.</p>
 <p>As we know, all entries should be valid for every block in the system. For new blocks, the “previous hash” field is well defined and we can compute it. But what about the previous hash of genesis block? This is hardcoded as <code>0x0...0</code> and this is the only block which has previous block hash set as all zeros.</p>
-<p>Next field is also of <span class="math inline">\(32\)</span> bytes and is <strong>merkle hash</strong>. We will cover how to compute this in next chapter. But remember one thing, the value of current hash is also double SHA-<span class="math inline">\(256\)</span> hash of input. This is basically a “proof” that “payload” is what it claims.</p>
+<p>Next field is also of <span class="math inline">\(32\)</span> bytes and is <strong>merkle hash</strong>. Remember one thing, the value of current hash is also double SHA-<span class="math inline">\(256\)</span> hash of input. This is basically a “proof” that “payload” is what it claims.</p>
 <p>Next field is the time stamp and is stored in <span class="math inline">\(4\)</span> bytes. There are two category of questions that can arise for this field: how we are storing time in <span class="math inline">\(4\)</span> bytes (only) and what does it represent.</p>
 <p>We are storing the <strong>Unix epoch time</strong>. What is it? This is widely used date-time unit in computing and it specifies the number of seconds elapsed since <code>00:00:00 UTC on 1 Jan, 1970</code>. As a fact, the Unix epoch value <span class="math inline">\(1000000000\)</span> corresponds to <code>9 September 2001, 01:46:40 UTC</code>. It was celebrated in Copenhagen, Denmark held by the Danish UNIX User Group at <code>03:46:40</code> local time.</p>
 <p>What does it represent? It specifies the time <em>miner</em> started hashing current block (time as per the system time of miner). Who is <em>miner</em>? Miner is responsible to add new blocks in the system. We will cover more about them in later chapters.</p>
@@ -929,7 +939,7 @@ Header Info:
         </div>
       </div>
 <a href="blockchain-vs-bitcoin.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="lifecycle-of-blockchain---chaining-blocks-together.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="cryptographic-hash-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
