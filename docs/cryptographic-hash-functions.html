@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-05-09" />
+<meta name="date" content="2023-05-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="lifecycle-of-blockchain---structure-of-a-block.html"/>
-
+<link rel="next" href="lifecycle-of-blockchain---chaining.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -209,6 +209,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#summary-2"><i class="fa fa-check"></i><b>5.3</b> Summary</a></li>
 </ul></li>
+<li class="chapter" data-level="6" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html"><i class="fa fa-check"></i><b>6</b> Lifecycle of blockchain - Chaining</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#data-structures"><i class="fa fa-check"></i><b>6.1</b> Data Structures</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#linked-list"><i class="fa fa-check"></i><b>6.1.1</b> Linked list</a></li>
+</ul></li>
+</ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -319,7 +326,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Let’s start with hash functions. These are the mathematical functions, having the following properties:</p>
 <ol style="list-style-type: decimal">
 <li>Input can be any length of string. Here, a string mean a sequence of bytes. This fulfills the requirement <span class="math inline">\(4\)</span> of online exam problem above.</li>
-<li>Output (the signature) is of fixed size. This doesn’t restrict the output to be small. In practice, the output is small. For instance, <code>SHA-256</code> only generates <span class="math inline">\(32\)</span> bytes of output. This the the function which is used in Blockchain for hashing! But remember, being “small” is not the requirement of this definition. This fulfills the requirement <span class="math inline">\(1\)</span> of online exam problem.</li>
+<li>Output (the signature) is of fixed size. Theoretically, this doesn’t restrict the output to be small (a subjective term). In practice, the output is very small (from storage space perspective). For instance, <code>SHA-256</code> only generates <span class="math inline">\(32\)</span> bytes of output. This the the function which is used in Blockchain for hashing! But remember, being “small” is not the requirement of this definition. This fulfills the requirement <span class="math inline">\(1\)</span> of online exam problem.</li>
 <li>The computation time should be fast/efficient. This means that our algorithm should be very fast, typically of the order of <span class="math inline">\(O(n)\)</span> where <span class="math inline">\(n\)</span> is the number of bytes of input.This fulfills the requirement <span class="math inline">\(3\)</span> of online exam problem.</li>
 </ol>
 <p>The above definition of hash function is very generic, and it doesn’t fulfill all the properties we want. For instance, the following function is a valid hash function: <span class="math display">\[f(x)=0\text{, for all input $x$.}\]</span> Or, you can see the following pseudo code:</p>
@@ -346,20 +353,22 @@ Do the following in repetition:
   check if x is in `seen`. If yes, we have a collision.
   If no, put x in `seen`</code></pre>
 <p>Will the above algorithm ever find a collision? Guaranteed! Why? The output size is fixed. Say, we can have <span class="math inline">\(m\)</span> distinct outputs. We compute hash for <span class="math inline">\(m+1\)</span> distinct integers. Logic says there will be some repetition.</p>
-<p>So, what do we mean by collision resistance? We mean that for given hash function, it is <em>not practical</em> to find two values <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that hash of both of them are same. And what do we mean by “not practical”? One way to think this is that number of possible outputs is so huge that we can’t even go over every output. Meaning by, that above algorithm will take so much time, that is not possible to go over <span class="math inline">\(m+1\)</span> distinct values, no matter the speed of computers. Need some values? <code>SHA-256</code> algorithm generates an output of length <span class="math inline">\(256\)</span> bits. This mean that there are distinct <span class="math inline">\(2^{256}\)</span> values that this function can generate. But how large is this number? Age of universe is estimated to be <span class="math inline">\(13.7\)</span> billion years. Rounding up to <span class="math inline">\(15\)</span> billion years, we have <span class="math inline">\(15\times 365 \times 24 \times 60 \times 60\)</span> billion seconds. This is equivalent to <span class="math inline">\(4.73\times {10}^{17}\)</span> seconds. How much is <span class="math inline">\(2^{256}\)</span> in powers of <span class="math inline">\(10\)</span>? Say <span class="math display">\[10^x=2^{256}\]</span> which gives <span class="math display">\[x=\frac{256 \times log{2}}{\log{10}}\]</span> which gives <span class="math display">\[x \approx 77.064\]</span>. Let’s compare. Age of universe is about <span class="math inline">\(4.73\times {10}^{17}\)</span> seconds and <code>SHA-256</code> is able to generate <span class="math inline">\(10^{77}\)</span> distinct values! The scale of things is unimaginable. And compare this to the time in years we have computers with us. This is significantly small time. No matter the speed of computers, above algorithm can never be used!</p>
+<p>So, what do we mean by collision resistance? We mean that for given hash function, it is <em>not practical</em> to find two values <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that hash of both of them are same. And what do we mean by “not practical”? One way to think this is that number of possible outputs is so huge that we can’t even go over every output. Meaning by, that above algorithm will take so much time, that is not possible to go over <span class="math inline">\(m+1\)</span> distinct values, no matter the speed of computers. Need some values? <code>SHA-256</code> algorithm generates an output of length <span class="math inline">\(256\)</span> bits. This mean that there are distinct <span class="math inline">\(2^{256}\)</span> values that this function can generate. But how large is this number? Age of universe is estimated to be <span class="math inline">\(13.7\)</span> billion years. Rounding up to <span class="math inline">\(15\)</span> billion years, we have <span class="math inline">\(15\times 365 \times 24 \times 60 \times 60\)</span> billion seconds. This is equivalent to <span class="math inline">\(4.73\times {10}^{17}\)</span> seconds. How much is <span class="math inline">\(2^{256}\)</span> in powers of <span class="math inline">\(10\)</span>? Say <span class="math display">\[10^x=2^{256}\]</span> which gives <span class="math display">\[x=\frac{256 \times log{2}}{\log{10}}\]</span> which gives <span class="math display">\[x \approx 77.064\]</span> Let’s compare. Age of universe is about <span class="math inline">\(4.73\times {10}^{17}\)</span> seconds and <code>SHA-256</code> is able to generate <span class="math inline">\(10^{77}\)</span> distinct values! The scale of things is unimaginable. And compare this to the time in years we have computers with us. This is significantly small time. No matter the speed of computers, above algorithm can never be used!</p>
 <p>Next, what do we mean by irreversibility? This means that given a signature, we can’t infer anything about the input! We can understand the consequence of this property using an example. What if you make a prediction of something, write it, put it in an envelope, and put it on table for the world. You want to reveal the contents of envelope to the world after the time has passed, without anyone getting a hint of what you predicted. Then, you open the envelope in future and everyone will be amazed on the accuracy of your prediction. And the best part? You can prove this is exactly what you wrote in the past. You can be sure that your prediction is not leaked. World will be sure that you never changed the contents of envelope. Think about how this can be achieved using hash functions in practice.</p>
 <p>Don’t worry if you are unable to see the usefulness of above thought example. Remember this: irreversibility tell us that the function is “one-way” function. By input and hash function, you can calculate the output. But by output and hash function, you can’t predict the input. Let’s see an example of what this doesn’t mean. Someone rolls a dice, and gives you the hash of the top number on dice after rolling. Can you predict the input? Think about it before going further.</p>
 <p>The answer is yes. You can calculate the hash of each value from <span class="math inline">\(1\)</span> to <span class="math inline">\(6\)</span>, and match that with the hash provided to you. Easy. Did the above property fail here? Again, think about it.</p>
-<p>The answer is no. Above property says that given the <em>output</em> and <em>hash function</em>, we can’t predict anything about the input. Here, we had knowledge about the inputs! We knew exactly what are the possible input values and it was possible to simply go over every input. We used our knowledge of “6 possible outcomes of dice” to reverse the output of hash function. Let’s change the game to something like this: Compute the hash of configuration of a chess board using a hash function. You are told about the final hash output and the hash function used. If the hash function has irreversibility property, you are doomed.</p>
+<p>The answer is no. Above property says that given the <em>output</em> and <em>hash function</em>, we can’t predict anything about the input. Here, we had knowledge about the inputs! We knew exactly what are the possible input values and it was possible to simply go over every input. We used our knowledge of “6 possible outcomes of dice” to reverse the output of hash function. Let’s change the game to something like this: Compute the hash of configuration of a chess board using a given hash. You are told about the final hash output and the hash function used. If the hash function has irreversibility property, you are doomed.</p>
 <p>At last, we have the property of randomness. This doesn’t mean that for fixed input, your output will be different. This means that if you make a small change in the input, even for one bit, the output hash will be “completely different” from the original hash. What do we exactly mean by “completely different”? This practically means that if you change anything in input of hash and you have the hash of original input, you can’t predict what the hash of new input is. You best guess will be as good as a monkey typing on typewriter. This also means that if you generate hashes for any number of inputs/any type of inputs/any similar inputs/anything, you are unable to use that information to infer the hash of any new input you encounter. You can’t even bet on a particular “bit” or “byte” of the hash of any new input better than a monkey placing a bet without any knowledge.</p>
 </div>
 <div id="HashSummary" class="section level3 hasAnchor" number="5.1.4">
 <h3><span class="header-section-number">5.1.4</span> Summary of cryptographic hash functions<a href="cryptographic-hash-functions.html#HashSummary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>You should be able to remember above <span class="math inline">\(6\)</span> properties. But for the general discussion, you can have the following mental model:
-1. Hash functions takes anything as input, do some magic, and provide a fixed size output.
-2. You can’t predict anything about the output of this magic machine for any input, without actually computing the output using this magic machine.
-3. The machine works very fast.
-4. (Probably necessary to state) You can’t predict the input from its hash.</p>
+<p>You should be able to remember above <span class="math inline">\(6\)</span> properties. But for the general discussion, you can have the following mental model:</p>
+<ol style="list-style-type: decimal">
+<li>Hash functions takes anything as input, do some magic, and provide a fixed size output.</li>
+<li>You can’t predict anything about the output of this magic machine for any input, without actually computing the output using this magic machine.</li>
+<li>The machine works very fast.</li>
+<li>You can’t predict the input from its hash.</li>
+</ol>
 <p>Here are some diagrams for you to help remember above properties:
 <img src="static/Hash%20Function.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
@@ -697,7 +706,7 @@ int main()
 <div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="cryptographic-hash-functions.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Hash:</span> BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD</span>
 <span id="cb12-2"><a href="cryptographic-hash-functions.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hash:</span> DC1114CD074914BD872CC1F9A23EC910EA2203BC79779AB2E17DA25782A624FC</span>
 <span id="cb12-3"><a href="cryptographic-hash-functions.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hash:</span> BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD</span></code></pre></div>
-<p>We can see that <code>'\0'</code> is not included in calculation os <code>SHA-256</code> hash by checking that first and third hash are equal. You can also see that inclusion of ’‘\0’` completely changes the hash output!</p>
+<p>We can see that <code>'\0'</code> is not included in calculation of <code>SHA-256</code> hash by checking that first and third hash are equal. You can also see that inclusion of ’‘\0’` completely changes the hash output!</p>
 <p>Now, delete both <code>demo.cpp</code> and <code>demo.out</code> files as they are not required anymore.</p>
 </div>
 <div id="considerations-inside-bitcoin" class="section level3 hasAnchor" number="5.2.3">
@@ -718,20 +727,20 @@ auto digest2 = sha2.digest();
 // Remove old digest, as it is not required anymore
 delete[] digest;
 
-// Use digest2 as digest, and then free the memory
+// Use digest2 as hash, and then free the memory
 delete[] digest2;</code></pre>
 <p>We need to make sure to delete the memory after usage, otherwise there will be memory leak.</p>
 </div>
 <div id="little-endian-causing-problems" class="section level4 hasAnchor" number="5.2.3.2">
 <h4><span class="header-section-number">5.2.3.2</span> Little endian causing problems<a href="cryptographic-hash-functions.html#little-endian-causing-problems" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>The <code>SHA256</code> algorithm is endian agnostic. This means that we don’t know if the output of it is in big-endian format or little-endian format, as it is irrelevant to the working of algorithm. So, where is the problem?</p>
-<p>As we already mentioned, Bitcoin implements <code>uint256</code> datatype. As with all integers, they store everything as little endian. If we cast the results of above <code>SHA</code> algorithm to <code>uint256</code> and print the hex value, we should flip the bytes! This is the reason we print <code>previous hash</code> and <code>Merkle hash</code> in reverse order of bytes in previous chapter. Keep a note of this in future, otherwise you will be confused at some point when we will talk about <code>difficulty</code> and <code>nonce</code></p>
+<p>As we already mentioned, Bitcoin implements <code>uint256</code> datatype. As with all integers, they store everything as little endian. If we cast the results of above <code>SHA</code> algorithm to <code>uint256</code> and print the hex value, we should flip the bytes! This is the reason we print <code>previous hash</code> and <code>Merkle hash</code> in reverse order of bytes in previous chapter. Keep a note of this, otherwise you will be confused in future when we will talk about changing <code>nonce</code> to generate block hash.</p>
 </div>
 </div>
 </div>
 <div id="summary-2" class="section level2 hasAnchor" number="5.3">
 <h2><span class="header-section-number">5.3</span> Summary<a href="cryptographic-hash-functions.html#summary-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<Summary here>
+<p>In this chapter, we studied about cryptographic hash functions. We saw all the <span class="math inline">\(6\)</span> properties of hash functions and saw what features they provide us. After that, we saw a <code>C++</code> code which computes <code>SHA-256</code> for us and looked at its interface. We didn’t go into the actual implementation details of <code>SHA-256</code> because that comes under cryptography and the level of mathematics required to understand <code>SHA</code> is not helpful in Bitcoin. At last, we saw that Bitcoin protocol uses double hash <code>SHA-256</code> and little endian introduces a problem which we will see in future. In next chapter, we apply the properties studied in this chapter to see how the blockchain provides us the feature of permanent storage.</p>
 
 </div>
 </div>
@@ -740,8 +749,8 @@ delete[] digest2;</code></pre>
           </div>
         </div>
       </div>
-<a href="lifecycle-of-blockchain---structure-of-a-block.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="lifecycle-of-blockchain---structure-of-a-block.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lifecycle-of-blockchain---chaining.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -39,7 +39,7 @@ Cryptographic hash functions not only guarantee above properties, but they have 
 Let's start with hash functions. These are the mathematical functions, having the following properties:
 
 1. Input can be any length of string. Here, a string mean a sequence of bytes. This fulfills the requirement $4$ of online exam problem above.
-2. Output (the signature) is of fixed size. This doesn't restrict the output to be small. In practice, the output is small. For instance, `SHA-256` only generates $32$ bytes of output. This the the function which is used in Blockchain for hashing! But remember, being "small" is not the requirement of this definition. This fulfills the requirement $1$ of online exam problem.
+2. Output (the signature) is of fixed size. Theoretically, this doesn't restrict the output to be small (a subjective term). In practice, the output is very small (from storage space perspective). For instance, `SHA-256` only generates $32$ bytes of output. This the the function which is used in Blockchain for hashing! But remember, being "small" is not the requirement of this definition. This fulfills the requirement $1$ of online exam problem.
 3. The computation time should be fast/efficient. This means that our algorithm should be very fast, typically of the order of $O(n)$ where $n$ is the number of bytes of input.This fulfills the requirement $3$ of online exam problem.
 
 The above definition of hash function is very generic, and it doesn't fulfill all the properties we want. For instance, the following function is a valid hash function: $$f(x)=0\text{, for all input $x$.}$$ Or, you can see the following pseudo code:
@@ -75,7 +75,7 @@ Do the following in repetition:
 
 Will the above algorithm ever find a collision? Guaranteed! Why? The output size is fixed. Say, we can have $m$ distinct outputs. We compute hash for $m+1$ distinct integers. Logic says there will be some repetition.
 
-So, what do we mean by collision resistance? We mean that for given hash function, it is _not practical_ to find two values $x$ and $y$ such that hash of both of them are same. And what do we mean by "not practical"? One way to think this is that number of possible outputs is so huge that we can't even go over every output. Meaning by, that above algorithm will take so much time, that is not possible to go over $m+1$ distinct values, no matter the speed of computers. Need some values? `SHA-256` algorithm generates an output of length $256$ bits. This mean that there are distinct $2^{256}$ values that this function can generate. But how large is this number? Age of universe is estimated to be $13.7$ billion years. Rounding up to $15$ billion years, we have $15\times 365 \times 24 \times 60 \times 60$ billion seconds. This is equivalent to $4.73\times {10}^{17}$ seconds. How much is $2^{256}$ in powers of $10$? Say $$10^x=2^{256}$$ which gives $$x=\frac{256 \times log{2}}{\log{10}}$$ which gives $$x \approx 77.064$$. Let's compare. Age of universe is about $4.73\times {10}^{17}$ seconds and `SHA-256` is able to generate $10^{77}$ distinct values! The scale of things is unimaginable. And compare this to the time in years we have computers with us. This is significantly small time. No matter the speed of computers, above algorithm can never be used!
+So, what do we mean by collision resistance? We mean that for given hash function, it is _not practical_ to find two values $x$ and $y$ such that hash of both of them are same. And what do we mean by "not practical"? One way to think this is that number of possible outputs is so huge that we can't even go over every output. Meaning by, that above algorithm will take so much time, that is not possible to go over $m+1$ distinct values, no matter the speed of computers. Need some values? `SHA-256` algorithm generates an output of length $256$ bits. This mean that there are distinct $2^{256}$ values that this function can generate. But how large is this number? Age of universe is estimated to be $13.7$ billion years. Rounding up to $15$ billion years, we have $15\times 365 \times 24 \times 60 \times 60$ billion seconds. This is equivalent to $4.73\times {10}^{17}$ seconds. How much is $2^{256}$ in powers of $10$? Say $$10^x=2^{256}$$ which gives $$x=\frac{256 \times log{2}}{\log{10}}$$ which gives $$x \approx 77.064$$ Let's compare. Age of universe is about $4.73\times {10}^{17}$ seconds and `SHA-256` is able to generate $10^{77}$ distinct values! The scale of things is unimaginable. And compare this to the time in years we have computers with us. This is significantly small time. No matter the speed of computers, above algorithm can never be used!
 
 Next, what do we mean by irreversibility? This means that given a signature, we can't infer anything about the input! We can understand the consequence of this property using an example. What if you make a prediction of something, write it, put it in an envelope, and put it on table for the world. You want to reveal the contents of envelope to the world after the time has passed, without anyone getting a hint of what you predicted. Then, you open the envelope in future and everyone will be amazed on the accuracy of your prediction. And the best part? You can prove this is exactly what you wrote in the past. You can be sure that your prediction is not leaked. World will be sure that you never changed the contents of envelope. Think about how this can be achieved using hash functions in practice.
 
@@ -83,16 +83,17 @@ Don't worry if you are unable to see the usefulness of above thought example. Re
 
 The answer is yes. You can calculate the hash of each value from $1$ to $6$, and match that with the hash provided to you. Easy. Did the above property fail here? Again, think about it.
 
-The answer is no. Above property says that given the _output_ and _hash function_, we can't predict anything about the input. Here, we had knowledge about the inputs! We knew exactly what are the possible input values and it was possible to simply go over every input. We used our knowledge of "6 possible outcomes of dice" to reverse the output of hash function. Let's change the game to something like this: Compute the hash of configuration of a chess board using a hash function. You are told about the final hash output and the hash function used. If the hash function has irreversibility property, you are doomed.
+The answer is no. Above property says that given the _output_ and _hash function_, we can't predict anything about the input. Here, we had knowledge about the inputs! We knew exactly what are the possible input values and it was possible to simply go over every input. We used our knowledge of "6 possible outcomes of dice" to reverse the output of hash function. Let's change the game to something like this: Compute the hash of configuration of a chess board using a given hash. You are told about the final hash output and the hash function used. If the hash function has irreversibility property, you are doomed.
 
 At last, we have the property of randomness. This doesn't mean that for fixed input, your output will be different. This means that if you make a small change in the input, even for one bit, the output hash will be "completely different" from the original hash. What do we exactly mean by "completely different"? This practically means that if you change anything in input of hash and you have the hash of original input, you can't predict what the hash of new input is. You best guess will be as good as a monkey typing on typewriter. This also means that if you generate hashes for any number of inputs/any type of inputs/any similar inputs/anything, you are unable to use that information to infer the hash of any new input you encounter. You can't even bet on a particular "bit" or "byte" of the hash of any new input better than a monkey placing a bet without any knowledge.
 
 ### Summary of cryptographic hash functions {#HashSummary}
 You should be able to remember above $6$ properties. But for the general discussion, you can have the following mental model:
+
 1. Hash functions takes anything as input, do some magic, and provide a fixed size output.
 2. You can't predict anything about the output of this magic machine for any input, without actually computing the output using this magic machine.
 3. The machine works very fast.
-4. (Probably necessary to state) You can't predict the input from its hash.
+4. You can't predict the input from its hash.
 
 Here are some diagrams for you to help remember above properties:
 ```{r echo=FALSE, out.width='100%', fig.align='center'}
@@ -462,7 +463,7 @@ Hash: DC1114CD074914BD872CC1F9A23EC910EA2203BC79779AB2E17DA25782A624FC
 Hash: BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD
 ```
 
-We can see that `'\0'` is not included in calculation os `SHA-256` hash by checking that first and third hash are equal. You can also see that inclusion of ''\0'` completely changes the hash output!
+We can see that `'\0'` is not included in calculation of `SHA-256` hash by checking that first and third hash are equal. You can also see that inclusion of ''\0'` completely changes the hash output!
 
 Now, delete both `demo.cpp` and `demo.out` files as they are not required anymore.
 
@@ -484,7 +485,7 @@ auto digest2 = sha2.digest();
 // Remove old digest, as it is not required anymore
 delete[] digest;
 
-// Use digest2 as digest, and then free the memory
+// Use digest2 as hash, and then free the memory
 delete[] digest2;
 ```
 
@@ -493,7 +494,7 @@ We need to make sure to delete the memory after usage, otherwise there will be m
 #### Little endian causing problems
 The `SHA256` algorithm is endian agnostic. This means that we don't know if the output of it is in big-endian format or little-endian format, as it is irrelevant to the working of algorithm. So, where is the problem?
 
-As we already mentioned, Bitcoin implements `uint256` datatype. As with all integers, they store everything as little endian. If we cast the results of above `SHA` algorithm to `uint256` and print the hex value, we should flip the bytes! This is the reason we print `previous hash` and `Merkle hash` in reverse order of bytes in previous chapter. Keep a note of this in future, otherwise you will be confused at some point when we will talk about `difficulty` and `nonce`
+As we already mentioned, Bitcoin implements `uint256` datatype. As with all integers, they store everything as little endian. If we cast the results of above `SHA` algorithm to `uint256` and print the hex value, we should flip the bytes! This is the reason we print `previous hash` and `Merkle hash` in reverse order of bytes in previous chapter. Keep a note of this, otherwise you will be confused in future when we will talk about changing `nonce` to generate block hash.
 
 ## Summary
-<Summary here>
+In this chapter, we studied about cryptographic hash functions. We saw all the $6$ properties of hash functions and saw what features they provide us. After that, we saw a `C++` code which computes `SHA-256` for us and looked at its interface. We didn't go into the actual implementation details of `SHA-256` because that comes under cryptography and the level of mathematics required to understand `SHA` is not helpful in Bitcoin. At last, we saw that Bitcoin protocol uses double hash `SHA-256` and little endian introduces a problem which we will see in future. In next chapter, we apply the properties studied in this chapter to see how the blockchain provides us the feature of permanent storage.
