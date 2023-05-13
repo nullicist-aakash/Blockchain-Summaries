@@ -17,9 +17,8 @@ Here is the structure of header for reference:
 
 As mentioned earlier, blockchain is similar to a linked list. We saw that there is "Previous Block Hash" of $32$ bytes in the blockchain header. This is double `SHA256` hash of header of previous block. The Merkle hash of transactions is stored in the "Current Merkle Hash" field. Basically, transactions are hashed into Merkle Field and the "Previous Block Hash" of next block will just calculate the hash of $80$ byte header. Instead of calculating the hash of possible $1$ mb block, we are just calculating the hash of $80$ bytes to make sure everything is correct. The efficient design!
 
-## Data Structures
-### Linked list
-#### Motivation
+## Linked list
+### Motivation
 It is assumed that the reader already know about singly linked lists. 
 
 We already have all the data in disk stored consecutively. When new transactions come, they are going to be stored next to already existing transactions in disk. Since no old transactions are altered, we can simply assume that the storage follows the structure of increasing length arrays instead of linked list. So why are we wasting space in storing the hash of previous block in header when we can do that by our own for each block quite efficiently? Why did the developers of Bitcoin store the transactions in linked list type chain instead of array type data structures?
@@ -45,7 +44,7 @@ Say we have the following linked list of $3$ elements:
 
 Consider what happens if we change anything in the history of above linked list. We have to use one property of cryptographic hash functions: collision resistance. If we change anything in a node, its hash will completely change and we can match it with precomputed hash that is stored in next node! This seems like something we can test right now. Let's create a linked list, add some elements, change something and see if we can detect a change.
 
-#### Demo Code
+### Demo Code
 Here is the code which implements above idea:
 ```{C++}
 #include <iostream>
@@ -242,3 +241,94 @@ Expected node hash: 9C4F4D54A7031A8F6D7E7B9BDB63FE486397B41330464577FC751B212413
 Computed hash:      5B89651A25C3FA0C6DD2888A1F156F54DEA455D2847C77D0C4412DAE7CA88073
 List content is changed!!!
 ```
+
+### Attacking the list
+As you saw above, the hashed linked list is a very powerful data structure. An API can be constructed which hides the details of hashing from outside user, which makes it impossible for them to change or delete anything in list after it is inserted. But there is one limitation of above approach. Can you guess why this scheme is not secure?
+
+Remember that the ledger is distributed across devices and each device receives its copy of every block and transactions! Therefore, it is very easy to access the hash field from data storage and change the contents of it too. Basically anyone can do the following:
+
+1. Go to a block and change its contents.
+2. Calculate the hash and replace the old hash (original and correct one) with the new hash in next block's `prev_hash` field. (Read this again if the statement is not crystal clear).
+3. Since the `prev_hash` of next block is changed, we need to recalculate the hash of next block and store it in next to next block's `prev_hash`.
+4. Repeat above process till we reach tail.
+
+First things first, is there a point of doing above steps? The answer is yes! If we change the hash from past to tail of a target device, we effectively changed the history for that device and the device will fail to recognize any change in the data. This makes it possible to attack any system and take a control over it without much effort. Going over to next question, is it possible to alter the history in fast manner? Yes. All we did in above $4$ steps is to recalculate the hash and replace the contents of storage. As a hacker, we can do this because the hash calculation is one-way function and it is one of the requirements that hash should be computable in very less amount of time, and is of the order of $O(n)$.
+
+To summarize, let's say our target is to hack a computer and change the records of "append only" ledger. Assume that the task of hacking the device is done and now, we are in full control of storage. We change the target transaction. Since calculating hash is very very fast, we recalculate it from our targeted block to the tail of blocks and thus, the device owner will never know if anything is changed at all!
+
+Above process makes it impossible to have our required "append only" ledger which we formulated in the beginning. We can't go further to specifics of Bitcoin if our Blockchain is not resistant to this type of attack. Fortunately, the theory of computer science can help us here. We will discuss how to solve this problem in next chapter. You should be able to compute the double $SHA-256$ of header genesis block on your own and see that it is equal to `prev_hash` field of next block! Refer to the end of this chapter for the code on how to do it in `C++`.
+
+## Merkle Tree
+### Segment Trees
+Spoiler: If you know segment trees, you already know almost everything about operations of Merkle Trees.
+
+Before going into what are the features of Merkle Trees, we need to go into operations of segment trees. If we know about operations of segment trees, we can generalise them to Merkle Trees without any difficulty. There are various resources online about how a segment tree works, so you are free to refer them and skip this sub-section if you find them more suited for you. Let's begin.
+
+#### Speed gain of segment trees
+Consider a problem where a segment tree can be used: We are given an array of size $n$. The API of segment tree looks like this:
+
+1. Initialize with the initial array.
+2. Update function: Change the entry of array at specific index to specific value. This means we are given two things as input: index of array and the new value.
+3. Query function: Compute the "value" of range $[l,r]$. This means that we need to compute the "value" from the array index $l$ to $r$, both inclusive. The "value" can mean the "minimum of range", or "sum of values inside range", etc.
+
+Consider a segment tree where the "value" is the sum inside a range. Here is the example of what should be the output of API, with some random sequence of operations:
+
+1. Initialize our data structure with $[5,-3,6,1,0,-4,11,6,2,7]$. Here is the same array in tabular format:
+
+| Index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Value | 5 | -3 | 6 | 1 | 0 | -4 | 11 | 6 | 2 | 7 |
+
+2. Compute the answer for $[2,6]$: This means we want to take sum from index $2$ to $6$ (both included). Thus, the output of this function should be $14$.
+3. Compute the answer for $[0,3]$: This means we want to take sum from index $0$ to $3$ (both included). Thus, the output of this function should be $9$.
+4. Change the entry at index $4$ to $36$. This means that our new array should look like this:
+
+
+| Index | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Value | 5 | -3 | 6 | 1 | 36 | -4 | 11 | 6 | 2 | 7 |
+
+5. Compute the answer for $[1,6]$: This means we want to take sum from index $1$ to $6$ (both included). Thus, the output of this function should be $47$.
+
+So, what's the big deal in above operations? We can implement "change the entry" function in $O(1)$ time and "compute the value from range" function in $O(n)$ time. There is a problem in our "simple" solution: the runtime of $O(n)$ for our "query" function. Say we have an array of size $100,000$ and there are $1$ million queries, intermixed with a good number of "update" operations. All computations will take around $10^{11}$ operations. This is equivalent to around $100$ seconds on a normal computer, which is a very long time?
+
+Segment tree can help us here: The runtime of both operations is $\Theta (\log n)$. This means that instead of $O(1)$ time for update operation, a segment tree take $\Theta (\log n)$ time but for the query operation, it takes $\Theta (\log n)$ time instead of $O(n)$ time. Let's compute the time for above example. Number of computations for $q$ queries will be around $q\times \log n$. Since $n$ in above example is $100,000$, this gives $\log n\approx 16.6$. Thus, total computations are around $20\times 10^6$ which converts to $20$ $ms$ on same computer!! A huge speed gain.
+
+#### Why we need segment trees in Bitcoin
+This is not covered in this volume yet but the operations of Segment Trees are of huge advantage to the miners. Consider the following rule of getting hands on free Bitcoins: If you compute above queries correctly, earlier than everyone in the world, you will receive $6.25$ Bitcoins. So, do you want to go with algorithm which takes $100$ seconds or take $20$ $ms$? Just imagine how much you increase your chances of getting million of worth of Bitcoin in your wallet. Go to current conversion rate of Bitcoin on internet to imagine your wealth.
+
+Note: Above data is for illustration purposes only. Actual computational requirements of miners are not checked on internet by the author of this example. All these details will be covered later in this volume. So stay tuned!
+
+#### Implementing segment trees
+It is assumed that the reader is familiar with the jargon of Binary Trees. Refer to online resources or data structures book for refreshment on Complete Binary Trees and simple node count calculations. Just to be clear, Complete Binary Trees are those trees in which all levels are completely filled.
+
+<!-- #### Difficult problems in computer science -->
+
+<!-- Study of the "Theory of Computer Science" provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to problem is correct or not. For an example, given a very large number $n$, can we factor it into two numbers $x$ and $y$ such that -->
+
+<!-- 1. $1<x,y<n$. -->
+<!-- 2. $x\times y = n$. -->
+<!-- 3. $x,y\in \mathbb{N}$: $x$ and $y$ are natural numbers. -->
+
+<!-- It is currently the consensus in humanity that this problem is very very hard to solve "effectively" (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).  -->
+
+<!-- But if we are given $n$, $x$ and $y$, we can simply multiply $x$ and $y$ to see if their product is equal to $n$. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! We will cover the exact meaning of it in next volume, but just assume that this is very important for security of communication on internet. The world's trust on secure connection between any two devices rely on this "knowledge" that we can't factor two integers fast enough. -->
+
+<!-- We need to see an example why the standard $O(n)$ algorithm of finding factors from $1$ to $n$ will not work. Actually, this algorithm is "exponential", not linear. In computational theory, we use the "number of bits" to represent our length of input, instead of the number represented by those bits! For example, consider the number $(435835)_{10}$. The binary of it is $(110 1010 0110 0111 1011)_2$ which means that the number of bits are $19$. So, a loop running from $0$ to $(435835)_{10}$ will take around $O(2^{19})$ time (Don't be angry here if you know that this $O(1)$. What I am trying to say is that the algorithm is exponential - power of $2$ - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large "number of bits" is gone. Here are the time comparison for linear, quadratic and exponential algorithms to keep things in perspective: -->
+
+<!-- | $n$ | Time to compute $f(n)=n$ | Time to compute $f(n)=n^2$ | Time to compute $f(n)=2^n$ | -->
+<!-- | :-: | :-: | :-: | :-: | -->
+<!-- | $10$ | $0.01$ $\mu s$ | $0.1$ $\mu s$ | $1$ $\mu s$ | -->
+<!-- | $20$ | $0.02$ $\mu s$ | $0.4$ $\mu s$ | $1$ $ms$ | -->
+<!-- | $30$ | $0.03$ $\mu s$ | $0.9$ $\mu s$ | $1$ $sec$ | -->
+<!-- | $40$ | $0.04$ $\mu s$ | $1.6$ $\mu s$ | $18.3$ $min$ | -->
+<!-- | $50$ | $0.05$ $\mu s$ | $2.5$ $\mu s$ | $13$ $days$ | -->
+<!-- | $100$ | $0.1$ $\mu s$ | $10$ $\mu s$ | $4\times 10^{13}$ $years$ | -->
+<!-- | $1,000$ | $1$ $\mu s$ | $1$ $ms$ | - | -->
+<!-- | $10,000$ | $10$ $\mu s$ | $100$ $ms$ | - | -->
+<!-- | $100,000$ | $0.1$ $ms$ | $10$ $sec$ | - | -->
+
+<!-- As you can see, if our bits reach $100$, the running time reach $4\times 10^{13}$ $years$!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an $O(n^2)$ algorithm to find product of two numbers, where $n$ represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers. -->
+
+<!-- Above discussion should have given you a general idea of what we mean by "difficult to solve but easy to verify". We will use something like this to enforce a "practical" limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain. As a spoiler, the `difficulty` and `nonce` are used precisely for this purpose. -->
+

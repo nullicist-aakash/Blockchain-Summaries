@@ -64,3 +64,11 @@ data-structures
 linked-list
 motivation
 demo-code
+attacking-the-list
+an-introduction-to
+difficult-problems-in-computer-science
+merkle-tree
+segment-trees
+speed-gain-of-segment-trees
+why-we-need-segment-trees-in-bitcoin
+implementing-segment-trees

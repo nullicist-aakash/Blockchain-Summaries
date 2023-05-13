@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-05-10" />
+<meta name="date" content="2023-05-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -147,9 +147,15 @@
 </ul></li>
 <li class="chapter" data-level="6" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html"><i class="fa fa-check"></i><b>6</b> Lifecycle of blockchain - Chaining</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#data-structures"><i class="fa fa-check"></i><b>6.1</b> Data Structures</a>
+<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#linked-list"><i class="fa fa-check"></i><b>6.1</b> Linked list</a>
 <ul>
-<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#linked-list"><i class="fa fa-check"></i><b>6.1.1</b> Linked list</a></li>
+<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#motivation"><i class="fa fa-check"></i><b>6.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#demo-code"><i class="fa fa-check"></i><b>6.1.2</b> Demo Code</a></li>
+<li class="chapter" data-level="6.1.3" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#attacking-the-list"><i class="fa fa-check"></i><b>6.1.3</b> Attacking the list</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#merkle-tree"><i class="fa fa-check"></i><b>6.2</b> Merkle Tree</a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lifecycle-of-blockchain---chaining.html"><a href="lifecycle-of-blockchain---chaining.html#segment-trees"><i class="fa fa-check"></i><b>6.2.1</b> Segment Trees</a></li>
 </ul></li>
 </ul></li>
 <li class="divider"></li>
@@ -240,12 +246,10 @@
 </tbody>
 </table>
 <p>As mentioned earlier, blockchain is similar to a linked list. We saw that there is “Previous Block Hash” of <span class="math inline">\(32\)</span> bytes in the blockchain header. This is double <code>SHA256</code> hash of header of previous block. The Merkle hash of transactions is stored in the “Current Merkle Hash” field. Basically, transactions are hashed into Merkle Field and the “Previous Block Hash” of next block will just calculate the hash of <span class="math inline">\(80\)</span> byte header. Instead of calculating the hash of possible <span class="math inline">\(1\)</span> mb block, we are just calculating the hash of <span class="math inline">\(80\)</span> bytes to make sure everything is correct. The efficient design!</p>
-<div id="data-structures" class="section level2 hasAnchor" number="6.1">
-<h2><span class="header-section-number">6.1</span> Data Structures<a href="lifecycle-of-blockchain---chaining.html#data-structures" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div id="linked-list" class="section level3 hasAnchor" number="6.1.1">
-<h3><span class="header-section-number">6.1.1</span> Linked list<a href="lifecycle-of-blockchain---chaining.html#linked-list" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div id="motivation" class="section level4 hasAnchor" number="6.1.1.1">
-<h4><span class="header-section-number">6.1.1.1</span> Motivation<a href="lifecycle-of-blockchain---chaining.html#motivation" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="linked-list" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Linked list<a href="lifecycle-of-blockchain---chaining.html#linked-list" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="motivation" class="section level3 hasAnchor" number="6.1.1">
+<h3><span class="header-section-number">6.1.1</span> Motivation<a href="lifecycle-of-blockchain---chaining.html#motivation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>It is assumed that the reader already know about singly linked lists.</p>
 <p>We already have all the data in disk stored consecutively. When new transactions come, they are going to be stored next to already existing transactions in disk. Since no old transactions are altered, we can simply assume that the storage follows the structure of increasing length arrays instead of linked list. So why are we wasting space in storing the hash of previous block in header when we can do that by our own for each block quite efficiently? Why did the developers of Bitcoin store the transactions in linked list type chain instead of array type data structures?</p>
 <p>The answer lies in the benefits of hashed chain. Here are the two fields in a simple linked list structure:</p>
@@ -292,8 +296,8 @@
 </table>
 <p>Consider what happens if we change anything in the history of above linked list. We have to use one property of cryptographic hash functions: collision resistance. If we change anything in a node, its hash will completely change and we can match it with precomputed hash that is stored in next node! This seems like something we can test right now. Let’s create a linked list, add some elements, change something and see if we can detect a change.</p>
 </div>
-<div id="demo-code" class="section level4 hasAnchor" number="6.1.1.2">
-<h4><span class="header-section-number">6.1.1.2</span> Demo Code<a href="lifecycle-of-blockchain---chaining.html#demo-code" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div id="demo-code" class="section level3 hasAnchor" number="6.1.2">
+<h3><span class="header-section-number">6.1.2</span> Demo Code<a href="lifecycle-of-blockchain---chaining.html#demo-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Here is the code which implements above idea:</p>
 <pre class="{c++}"><code>#include &lt;iostream&gt;
 #include &lt;unistd.h&gt;
@@ -482,6 +486,144 @@ Node value is: 420975579
 Expected node hash: 9C4F4D54A7031A8F6D7E7B9BDB63FE486397B41330464577FC751B2124138F67
 Computed hash:      5B89651A25C3FA0C6DD2888A1F156F54DEA455D2847C77D0C4412DAE7CA88073
 List content is changed!!!</code></pre>
+</div>
+<div id="attacking-the-list" class="section level3 hasAnchor" number="6.1.3">
+<h3><span class="header-section-number">6.1.3</span> Attacking the list<a href="lifecycle-of-blockchain---chaining.html#attacking-the-list" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As you saw above, the hashed linked list is a very powerful data structure. An API can be constructed which hides the details of hashing from outside user, which makes it impossible for them to change or delete anything in list after it is inserted. But there is one limitation of above approach. Can you guess why this scheme is not secure?</p>
+<p>Remember that the ledger is distributed across devices and each device receives its copy of every block and transactions! Therefore, it is very easy to access the hash field from data storage and change the contents of it too. Basically anyone can do the following:</p>
+<ol style="list-style-type: decimal">
+<li>Go to a block and change its contents.</li>
+<li>Calculate the hash and replace the old hash (original and correct one) with the new hash in next block’s <code>prev_hash</code> field. (Read this again if the statement is not crystal clear).</li>
+<li>Since the <code>prev_hash</code> of next block is changed, we need to recalculate the hash of next block and store it in next to next block’s <code>prev_hash</code>.</li>
+<li>Repeat above process till we reach tail.</li>
+</ol>
+<p>First things first, is there a point of doing above steps? The answer is yes! If we change the hash from past to tail of a target device, we effectively changed the history for that device and the device will fail to recognize any change in the data. This makes it possible to attack any system and take a control over it without much effort. Going over to next question, is it possible to alter the history in fast manner? Yes. All we did in above <span class="math inline">\(4\)</span> steps is to recalculate the hash and replace the contents of storage. As a hacker, we can do this because the hash calculation is one-way function and it is one of the requirements that hash should be computable in very less amount of time, and is of the order of <span class="math inline">\(O(n)\)</span>.</p>
+<p>To summarize, let’s say our target is to hack a computer and change the records of “append only” ledger. Assume that the task of hacking the device is done and now, we are in full control of storage. We change the target transaction. Since calculating hash is very very fast, we recalculate it from our targeted block to the tail of blocks and thus, the device owner will never know if anything is changed at all!</p>
+<p>Above process makes it impossible to have our required “append only” ledger which we formulated in the beginning. We can’t go further to specifics of Bitcoin if our Blockchain is not resistant to this type of attack. Fortunately, the theory of computer science can help us here. We will discuss how to solve this problem in next chapter. You should be able to compute the double <span class="math inline">\(SHA-256\)</span> of header genesis block on your own and see that it is equal to <code>prev_hash</code> field of next block! Refer to the end of this chapter for the code on how to do it in <code>C++</code>.</p>
+</div>
+</div>
+<div id="merkle-tree" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Merkle Tree<a href="lifecycle-of-blockchain---chaining.html#merkle-tree" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="segment-trees" class="section level3 hasAnchor" number="6.2.1">
+<h3><span class="header-section-number">6.2.1</span> Segment Trees<a href="lifecycle-of-blockchain---chaining.html#segment-trees" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Spoiler: If you know segment trees, you already know almost everything about operations of Merkle Trees.</p>
+<p>Before going into what are the features of Merkle Trees, we need to go into operations of segment trees. If we know about operations of segment trees, we can generalise them to Merkle Trees without any difficulty. There are various resources online about how a segment tree works, so you are free to refer them and skip this sub-section if you find them more suited for you. Let’s begin.</p>
+<div id="speed-gain-of-segment-trees" class="section level4 hasAnchor" number="6.2.1.1">
+<h4><span class="header-section-number">6.2.1.1</span> Speed gain of segment trees<a href="lifecycle-of-blockchain---chaining.html#speed-gain-of-segment-trees" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Consider a problem where a segment tree can be used: We are given an array of size <span class="math inline">\(n\)</span>. The API of segment tree looks like this:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize with the initial array.</li>
+<li>Update function: Change the entry of array at specific index to specific value. This means we are given two things as input: index of array and the new value.</li>
+<li>Query function: Compute the “value” of range <span class="math inline">\([l,r]\)</span>. This means that we need to compute the “value” from the array index <span class="math inline">\(l\)</span> to <span class="math inline">\(r\)</span>, both inclusive. The “value” can mean the “minimum of range”, or “sum of values inside range”, etc.</li>
+</ol>
+<p>Consider a segment tree where the “value” is the sum inside a range. Here is the example of what should be the output of API, with some random sequence of operations:</p>
+<ol style="list-style-type: decimal">
+<li>Initialize our data structure with <span class="math inline">\([5,-3,6,1,0,-4,11,6,2,7]\)</span>. Here is the same array in tabular format:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Index</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Value</td>
+<td align="center">5</td>
+<td align="center">-3</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">-4</td>
+<td align="center">11</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">7</td>
+</tr>
+</tbody>
+</table>
+<ol start="2" style="list-style-type: decimal">
+<li>Compute the answer for <span class="math inline">\([2,6]\)</span>: This means we want to take sum from index <span class="math inline">\(2\)</span> to <span class="math inline">\(6\)</span> (both included). Thus, the output of this function should be <span class="math inline">\(14\)</span>.</li>
+<li>Compute the answer for <span class="math inline">\([0,3]\)</span>: This means we want to take sum from index <span class="math inline">\(0\)</span> to <span class="math inline">\(3\)</span> (both included). Thus, the output of this function should be <span class="math inline">\(9\)</span>.</li>
+<li>Change the entry at index <span class="math inline">\(4\)</span> to <span class="math inline">\(36\)</span>. This means that our new array should look like this:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Index</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Value</td>
+<td align="center">5</td>
+<td align="center">-3</td>
+<td align="center">6</td>
+<td align="center">1</td>
+<td align="center">36</td>
+<td align="center">-4</td>
+<td align="center">11</td>
+<td align="center">6</td>
+<td align="center">2</td>
+<td align="center">7</td>
+</tr>
+</tbody>
+</table>
+<ol start="5" style="list-style-type: decimal">
+<li>Compute the answer for <span class="math inline">\([1,6]\)</span>: This means we want to take sum from index <span class="math inline">\(1\)</span> to <span class="math inline">\(6\)</span> (both included). Thus, the output of this function should be <span class="math inline">\(47\)</span>.</li>
+</ol>
+<p>So, what’s the big deal in above operations? We can implement “change the entry” function in <span class="math inline">\(O(1)\)</span> time and “compute the value from range” function in <span class="math inline">\(O(n)\)</span> time. There is a problem in our “simple” solution: the runtime of <span class="math inline">\(O(n)\)</span> for our “query” function. Say we have an array of size <span class="math inline">\(100,000\)</span> and there are <span class="math inline">\(1\)</span> million queries, intermixed with a good number of “update” operations. All computations will take around <span class="math inline">\(10^{11}\)</span> operations. This is equivalent to around <span class="math inline">\(100\)</span> seconds on a normal computer, which is a very long time?</p>
+<p>Segment tree can help us here: The runtime of both operations is <span class="math inline">\(\Theta (\log n)\)</span>. This means that instead of <span class="math inline">\(O(1)\)</span> time for update operation, a segment tree take <span class="math inline">\(\Theta (\log n)\)</span> time but for the query operation, it takes <span class="math inline">\(\Theta (\log n)\)</span> time instead of <span class="math inline">\(O(n)\)</span> time. Let’s compute the time for above example. Number of computations for <span class="math inline">\(q\)</span> queries will be around <span class="math inline">\(q\times \log n\)</span>. Since <span class="math inline">\(n\)</span> in above example is <span class="math inline">\(100,000\)</span>, this gives <span class="math inline">\(\log n\approx 16.6\)</span>. Thus, total computations are around <span class="math inline">\(20\times 10^6\)</span> which converts to <span class="math inline">\(20\)</span> <span class="math inline">\(ms\)</span> on same computer!! A huge speed gain.</p>
+</div>
+<div id="why-we-need-segment-trees-in-bitcoin" class="section level4 hasAnchor" number="6.2.1.2">
+<h4><span class="header-section-number">6.2.1.2</span> Why we need segment trees in Bitcoin<a href="lifecycle-of-blockchain---chaining.html#why-we-need-segment-trees-in-bitcoin" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This is not covered in this volume yet but the operations of Segment Trees are of huge advantage to the miners. Consider the following rule of getting hands on free Bitcoins: If you compute above queries correctly, earlier than everyone in the world, you will receive <span class="math inline">\(6.25\)</span> Bitcoins. So, do you want to go with algorithm which takes <span class="math inline">\(100\)</span> seconds or take <span class="math inline">\(20\)</span> <span class="math inline">\(ms\)</span>? Just imagine how much you increase your chances of getting million of worth of Bitcoin in your wallet. Go to current conversion rate of Bitcoin on internet to imagine your wealth.</p>
+<p>Note: Above data is for illustration purposes only. Actual computational requirements of miners are not checked on internet by the author of this example. All these details will be covered later in this volume. So stay tuned!</p>
+</div>
+<div id="implementing-segment-trees" class="section level4 hasAnchor" number="6.2.1.3">
+<h4><span class="header-section-number">6.2.1.3</span> Implementing segment trees<a href="lifecycle-of-blockchain---chaining.html#implementing-segment-trees" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>It is assumed that the reader is familiar with the jargon of Binary Trees. Refer to online resources or data structures book for refreshment on Complete Binary Trees and simple node count calculations. Just to be clear, Complete Binary Trees are those trees in which all levels are completely filled.</p>
+<!-- #### Difficult problems in computer science -->
+<!-- Study of the "Theory of Computer Science" provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to problem is correct or not. For an example, given a very large number $n$, can we factor it into two numbers $x$ and $y$ such that -->
+<!-- 1. $1<x,y<n$. -->
+<!-- 2. $x\times y = n$. -->
+<!-- 3. $x,y\in \mathbb{N}$: $x$ and $y$ are natural numbers. -->
+<!-- It is currently the consensus in humanity that this problem is very very hard to solve "effectively" (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).  -->
+<!-- But if we are given $n$, $x$ and $y$, we can simply multiply $x$ and $y$ to see if their product is equal to $n$. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! We will cover the exact meaning of it in next volume, but just assume that this is very important for security of communication on internet. The world's trust on secure connection between any two devices rely on this "knowledge" that we can't factor two integers fast enough. -->
+<!-- We need to see an example why the standard $O(n)$ algorithm of finding factors from $1$ to $n$ will not work. Actually, this algorithm is "exponential", not linear. In computational theory, we use the "number of bits" to represent our length of input, instead of the number represented by those bits! For example, consider the number $(435835)_{10}$. The binary of it is $(110 1010 0110 0111 1011)_2$ which means that the number of bits are $19$. So, a loop running from $0$ to $(435835)_{10}$ will take around $O(2^{19})$ time (Don't be angry here if you know that this $O(1)$. What I am trying to say is that the algorithm is exponential - power of $2$ - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large "number of bits" is gone. Here are the time comparison for linear, quadratic and exponential algorithms to keep things in perspective: -->
+<!-- | $n$ | Time to compute $f(n)=n$ | Time to compute $f(n)=n^2$ | Time to compute $f(n)=2^n$ | -->
+<!-- | :-: | :-: | :-: | :-: | -->
+<!-- | $10$ | $0.01$ $\mu s$ | $0.1$ $\mu s$ | $1$ $\mu s$ | -->
+<!-- | $20$ | $0.02$ $\mu s$ | $0.4$ $\mu s$ | $1$ $ms$ | -->
+<!-- | $30$ | $0.03$ $\mu s$ | $0.9$ $\mu s$ | $1$ $sec$ | -->
+<!-- | $40$ | $0.04$ $\mu s$ | $1.6$ $\mu s$ | $18.3$ $min$ | -->
+<!-- | $50$ | $0.05$ $\mu s$ | $2.5$ $\mu s$ | $13$ $days$ | -->
+<!-- | $100$ | $0.1$ $\mu s$ | $10$ $\mu s$ | $4\times 10^{13}$ $years$ | -->
+<!-- | $1,000$ | $1$ $\mu s$ | $1$ $ms$ | - | -->
+<!-- | $10,000$ | $10$ $\mu s$ | $100$ $ms$ | - | -->
+<!-- | $100,000$ | $0.1$ $ms$ | $10$ $sec$ | - | -->
+<!-- As you can see, if our bits reach $100$, the running time reach $4\times 10^{13}$ $years$!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an $O(n^2)$ algorithm to find product of two numbers, where $n$ represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers. -->
+<!-- Above discussion should have given you a general idea of what we mean by "difficult to solve but easy to verify". We will use something like this to enforce a "practical" limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain. As a spoiler, the `difficulty` and `nonce` are used precisely for this purpose. -->
 
 </div>
 </div>
