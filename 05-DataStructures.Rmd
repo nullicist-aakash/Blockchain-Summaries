@@ -1,8 +1,8 @@
-# Lifecycle of blockchain - Chaining
+# Data Structures
 
-In this chapter, we will study the "chain" part from Satoshi Nakamoto's paper. We already covered the block and now, it is time to explore the chain. First, we will go into two hashing based data structures that are used in Bitcoin: hash based chain and Merkle Trees. After that, we will see how to compute the Merkle hash and previous hash field of block header. This is going to be a long and exciting chapter, and needs your full attention to understand what is actually happening.
+In this chapter, we mark the beginning of our study of "chain" part from Satoshi Nakamoto's paper. We already covered the block and now, it is time to explore the chain. First, we will go into two hashing based data structures that are used in Bitcoin: hash based chain and Merkle Trees. In next chapter, we will see how to compute the Merkle hash and previous hash field of block header. This is going to be a long and exciting chapter, and needs your full attention to understand what is actually happening.
 
-Once we cover this chapter, we will be able to understand the meaning of difficulty and nonce. We will be able to understand who are the miners and why they play a crucial role in whole Bitcoin ecosystem.
+It is important to remember that hash based chain is used in Blockchain while the Merkle Trees fall inside the category of Bitcoin. Therefore, the reader can safely skip the Merkle Trees for now and come back later when the time comes.
 
 Here is the structure of header for reference:
 
@@ -259,17 +259,17 @@ To summarize, let's say our target is to hack a computer and change the records 
 Above process makes it impossible to have our required "append only" ledger which we formulated in the beginning. We can't go further to specifics of Bitcoin if our Blockchain is not resistant to this type of attack. Fortunately, the theory of computer science can help us here. We will discuss how to solve this problem in next chapter. You should be able to compute the double $SHA-256$ of header genesis block on your own and see that it is equal to `prev_hash` field of next block! Refer to the end of this chapter for the code on how to do it in `C++`.
 
 ## Merkle Tree
-### Segment Trees
-Spoiler: If you know segment trees, you already know almost everything about operations of Merkle Trees.
+Spoiler: If you know segment trees, you already know almost everything about operations of Merkle Trees. You can skip this beautiful and complicated data structure for now. The usefulness of this will be revealed much later in the book, so you can come back here when that time comes.
 
 Before going into what are the features of Merkle Trees, we need to go into operations of segment trees. If we know about operations of segment trees, we can generalise them to Merkle Trees without any difficulty. There are various resources online about how a segment tree works, so you are free to refer them and skip this sub-section if you find them more suited for you. Let's begin.
 
-#### Speed gain of segment trees
+### Segment Trees
+#### Speed gain
 Consider a problem where a segment tree can be used: We are given an array of size $n$. The API of segment tree looks like this:
 
 1. Initialize with the initial array.
 2. Update function: Change the entry of array at specific index to specific value. This means we are given two things as input: index of array and the new value.
-3. Query function: Compute the "value" of range $[l,r]$. This means that we need to compute the "value" from the array index $l$ to $r$, both inclusive. The "value" can mean the "minimum of range", or "sum of values inside range", etc.
+3. Query function: Compute the "value" of range $[l,r]$. This means that we need to compute the "value" from the array index $l$ to $r$, both inclusive. The "value" can mean the "minimum of all values in range", or "sum of values inside range", etc.
 
 Consider a segment tree where the "value" is the sum inside a range. Here is the example of what should be the output of API, with some random sequence of operations:
 
@@ -292,7 +292,7 @@ Consider a segment tree where the "value" is the sum inside a range. Here is the
 
 So, what's the big deal in above operations? We can implement "change the entry" function in $O(1)$ time and "compute the value from range" function in $O(n)$ time. There is a problem in our "simple" solution: the runtime of $O(n)$ for our "query" function. Say we have an array of size $100,000$ and there are $1$ million queries, intermixed with a good number of "update" operations. All computations will take around $10^{11}$ operations. This is equivalent to around $100$ seconds on a normal computer, which is a very long time?
 
-Segment tree can help us here: The runtime of both operations is $\Theta (\log n)$. This means that instead of $O(1)$ time for update operation, a segment tree take $\Theta (\log n)$ time but for the query operation, it takes $\Theta (\log n)$ time instead of $O(n)$ time. Let's compute the time for above example. Number of computations for $q$ queries will be around $q\times \log n$. Since $n$ in above example is $100,000$, this gives $\log n\approx 16.6$. Thus, total computations are around $20\times 10^6$ which converts to $20$ $ms$ on same computer!! A huge speed gain.
+Segment tree can help us here: The runtime of both operations is $\Theta (\log n)$. This means that instead of $O(1)$ time for update operation, a segment tree take $\Theta (\log n)$ time. For the query operation, it takes $\Theta (\log n)$ time instead of $O(n)$ time. Let's compute the time for above example. Number of computations for $q$ queries will be around $q\times \log n$. Since $n$ in above example is $100,000$, this gives $\log n\approx 16.6$. Thus, total computations are around $20\times 10^6$ which converts to $20$ $ms$ on same computer!! A huge speed gain.
 
 #### Why we need segment trees in Bitcoin
 This is not covered in this volume yet but the operations of Segment Trees are of huge advantage to the miners. Consider the following rule of getting hands on free Bitcoins: If you compute above queries correctly, earlier than everyone in the world, you will receive $6.25$ Bitcoins. So, do you want to go with algorithm which takes $100$ seconds or take $20$ $ms$? Just imagine how much you increase your chances of getting million of worth of Bitcoin in your wallet. Go to current conversion rate of Bitcoin on internet to imagine your wealth.
@@ -301,6 +301,136 @@ Note: Above data is for illustration purposes only. Actual computational require
 
 #### Implementing segment trees
 It is assumed that the reader is familiar with the jargon of Binary Trees. Refer to online resources or data structures book for refreshment on Complete Binary Trees and simple node count calculations. Just to be clear, Complete Binary Trees are those trees in which all levels are completely filled.
+
+We will assume that the number of elements in our array is of the form $2^n$, i.e., array size should be one of $1,2,4,8,16,32,...$. Denote the size of array as $N$, so we have the relation $N=2^n$. How to handle other cases is dependent on the type of operation we are using and it will be covered later. We will treat the array elements as leaf nodes of a complete binary tree. Now, you are encouraged to find out the number of nodes on level just above leaf nodes, and above them and so on. Also, you are encouraged to calculate the height of binary tree. The height of tree is the maximum count of nodes that are present on a path from root to leaves. How many nodes are present in the tree (including the leaves)? Here is the answer for above questions:
+
+1. Number of nodes on level above leaf nodes is $N/2$ (or $2^{n-1}$).
+2. The height of binary tree is $\log (N) + 1$ (or $n+1$).
+3. Number of nodes in the binary tree is $2N-1$ (or $2^{n+1}-1$).
+
+We have our tree with us and the leaf nodes have values as given in the array. What are the values of internal nodes?
+
+That's where our operation comes into play. Say we want to compute the minimum of a range using this tree. What if a node always stores the minimum value of its direct child nodes? Or, we want to compute the sum of range in the array. What if a node always stores the sum of two elements that are just its descendants? It is always possible to compute the value of nodes as our tree is complete binary tree and leaf nodes are already filled with array values.
+
+For the case when we don't have array size as power of two: We need to append elements until the size of array becomes a valid power of two. For instance, if array size is $26$, we need to add $6$ more elements in the end to make the size equal to $32$, which is a power of two. Which element to fill is a different question. We want to fill the new entries with the element, whose existence doesn't change the output of operation. For instance, if we have to compute the sum of range, we need something $x$ such that $a+x=a$ for any $a$, where $a$ represents an element of array. This "effectively" means that the element we inserted is "consumed" without any effect in the answer. So, what do you think are the "elements" we should add to end of array if our operation is "sum"? What if our operation is range "minimum"? What about "maximum"? Think before going further. Here is the answer:
+
+1. We will use $0$ for addition.
+2. We will use $-\infty$ for maximum. In code, we should use `INT_MIN` or `LONG_MIN` based on data type.
+3. We will use $infty$ for minimum. In code, we should use `INT_MAX` or `LONG_MAX` based on data type.
+
+#### Operations on segment tree
+We are going into details that will make our discussion derailed from the discussion of Blockchain. If you are interested in details of exactly how segment tree calculates the answer for ranges and updates, you are requested to try that on your own based on some examples. Here are the steps that you can follow to get the feeling of how it is done:
+
+1. Fix the operation as addition operation.
+2. Take an array of size $11$ and fill it with some elements. Since the size of array is not a power of two, append elements to the end of array till the size becomes $16$ which is the nearest power of two we can achieve by adding elements. Which element to add is dependent on the type of operation on segment tree.
+3. Create the complete binary tree with $31$ nodes. This gives us $1$ node at root, $2$ nodes on level below that, ..., and $16$ nodes on leaf level. Fill the leaf with array elements of step $1$.
+4. Based on current operation, fill the tree from bottom up with values.
+5. Perform an update operation on index $3$. Say, you change the element from $65$ to $34$. See that you need to update only the nodes which are on the path from root to target node on leaf which is changed. What we mean by a change is that our tree should be consistent after the update operation. You will see that total number of updates we need is less than $\log(N) + 1$ (including leaf). Therefore, update is achieved in $\log N$ time.
+6. Calculating the range output is not required in Bitcoin. But it is done in following manner in general segment tree: Say you have to compute the answer for the range $[l, r]$. We start from corresponding leaf nodes and go up the tree simultaneously till they reach same node (this same node may or may not be a root, but a match will always be there as all paths merge to root). For the left node, we try to maintain the sum from current node to right of tree and for the movement from right node, we maintain the sum to the left of tree. Note that this sum will be computed and used above, and there is no change in the actual node values stored in the tree. When we reach the common node, we simply have the value we need and we return.
+
+Refer [cp-algorithms](https://cp-algorithms.com/data_structures/segment_tree.html) for code and details of segment tree. Next, we move on to the Merkle Trees.
+
+### Merkle Trees from Segment Trees
+If you look up the internet, you will see that segment trees are very useful data structures for competitive programming questions. But if you look into the practical applications of segment trees on internet, you will only example and that is Merkle Trees. Here are the details of operations that we need to do for a segment tree to act as merkle tree:
+
+1. Array size may or may not a power of two. We will assume that it is a power of two for now.
+2. The leaf node in binary tree stores the cryptographic hash of array entry instead of array value itself.
+3. As you might have guessed, the operation on tree is HASH function. The input for hash function is the hash of direct children, aligned consecutively. Say the output of hash is $32$ bytes. For current node, which is other than leaf, we take the hash of left child and append the hash of right child to the end. This means we take the $32$ bytes from left node, $32$ bytes from right node, append them to make the array of $64$ bytes and use these $64$ bytes as input to the hash function to calculate the $32$ byte value of current node. We repeat the process till we fill all the entries of nodes.
+4. What is the default value that we need to add to the end of array if our array is not a power of two? There isn't any answer here as adding anything to the input will drastically change the hash output. We will cover this case for how it is handled in Bitcoin in the next chapter.
+
+#### Segment tree code
+Here we present a working code for segment tree (taken from [Codeforces](https://codeforces.com/blog/entry/18051)). For advanced readers, we are not dealing with tree nodes explicitly. We are using the technique that is used in binary heap to store the tree in array. Also, we are not increasing the size of array to power of two, that was used for the sake of simplicity in above explanation.
+
+```{C++}
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class SegmentTree
+{
+    vector<int> tree;
+    const int n;
+
+    // return the computed value for the nodes
+    static int compute(int a, int b)
+    {
+        return a + b;
+    }
+
+public:
+    explicit SegmentTree(vector<int> &arr) : n { (int)arr.size() }, tree{ }
+    {
+        // Fill Leaf nodes
+        tree.resize(2 * n - 1);
+        for (int i = 0; i < n; ++i)
+            tree[i + arr.size()] = arr[i];
+
+        // Fill internal nodes
+        for (auto i = n - 1; i > 0; --i)
+            tree[i] = compute(tree[i << 1], tree[i << 1 | 1]);
+    }
+
+    // set value at position p
+    void modify(int p, int value)
+    {
+        for (tree[p += n] = value; p > 1; p >>= 1)
+            tree[p >> 1] = compute(tree[p], tree[p ^ 1]);
+    }
+
+    // sum on interval [l, r)
+    int query(int l, int r)
+    {
+        int res = 0;
+
+        // go up the tree till left and right computations meet
+        for (l += n, r += n; l < r; l >>= 1, r >>= 1)
+        {
+            if (l & 1) res = compute(res, tree[l++]);
+            if (r & 1) res = compute(res, tree[--r]);
+        }
+
+        // return the result
+        return res;
+    }
+};
+
+
+int main()
+{
+    vector<int> arr {5, -3, 6, 1, 0, -4, 11, 6, 2, 7};
+    SegmentTree st(arr);
+
+    // Compute the answer for [2, 6]. This means we compute the answer for [2, 7)
+    cout << "Sum for range [2, 6] is: " << st.query(2, 7) << endl;
+
+    // Compute the answer for [0, 3]. This means we compute the answer for [0, 4)
+    cout << "Sum for range [0, 3] is: " << st.query(0, 4) << endl;
+
+    // Change the element at index 4 to 36
+    cout << "Updating the value at index 4 to 36" << endl;
+    st.modify(4, 36);
+
+    // Compute the answer for [1, 6]. This means we compute the answer for [1, 7)
+    cout << "Sum for range [1, 6] is: " << st.query(1, 7) << endl;
+}
+```
+
+Don't worry about class code. If you focus on the code inside `main`, you will see how we are using the class API. The example above is same as we discussed in the beginning of the section and you can verify that the code works as expected:
+
+```{}
+Sum for range [2, 6] is: 14
+Sum for range [0, 3] is: 9
+Updating the value at index 4 to 36
+Sum for range [1, 6] is: 47
+```
+
+## Summary {-}
+In this chapter, we covered the details of two data structures: Hashed lists and Merkle Trees. This chapter was designed from pure data structures point of view, and the relevant assumptions from the reader were explicitly mentioned. For better understanding, the reader is encouraged to read this chapter again from a fresh mind and practice as much examples as possible on pen and paper. Using pen and paper for data structures is more helpful than simply coding and testing because pen and paper approach forces us to calculate everything by hand and train our mind to remember the rules that we need to follow in any given data structure. This not only helps in testing and debugging code in long run, but also helps in visualizing the full picture.
+
+Taking motivation from the content of this chapter, we will cover the "previous hash" and "merkle hash" field in next chapter. Next chapter is going to be very code intensive as relevant theory portion of usefulness of each data structure is covered in this chapter.
+
+After next chapter, we will jump into the `difficulty` and `nonce` of header which requires a lot of concepts to understand the consequences they have in the security of Blockchain.
 
 <!-- #### Difficult problems in computer science -->
 
