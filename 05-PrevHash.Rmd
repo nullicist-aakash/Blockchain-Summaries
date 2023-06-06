@@ -1,0 +1,499 @@
+# Lifecycle of Blockchain - Previous Block Hash
+
+In this chapter, we mark the beginning of our study of "chain" part from Satoshi Nakamoto's paper. We already covered the block and now, it is time to explore the chain. There are two hashing based data structures that are used in Blockchain/Bitcoin: Hash based chain and Merkle Trees. In current chapter, we will cover the chain part and in next chapter, we will see Merkle Trees. This and coming chapter are going to be exciting as they lay foundation of many properties blockchain possess. These data structures helps us to design some magical systems which are not practical otherwise. So, it is necessary to giver your full attention to the details of their working.
+
+It is important to remember that hash based chain is used in Blockchain while the Merkle Trees fall inside the category of Bitcoin.
+
+Here is the structure of header for reference:
+
+| Byte Range | Header offset | Size (bytes) | Meaning | Is covered completely till now |
+| :-: | :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | 4 | Version Number | Yes |
+| 12-43 | 4-35 | 32 | Previous Block Hash  | No |
+| 44-75 | 36-67 | 32 | Current Merkle Hash | No |
+| 76-79 | 68-71 | 4 | Time | Yes |
+| 80-83 | 72-75 | 4 | Difficulty | No |
+| 84-87 | 76-79 | 4 | Nonce | No |
+
+As mentioned earlier, blockchain is similar to a linked list. We saw that there is "Previous Block Hash" of $32$ bytes in the blockchain header. This is double `SHA256` hash of header of previous block. The Merkle hash of transactions is stored in the "Current Merkle Hash" field. Basically, transactions are hashed into Merkle Field and the "Previous Block Hash" of next block will just calculate the hash of $80$ byte header. Instead of calculating the hash of possible $1$ mb block, we are just calculating the hash of $80$ bytes to make sure everything is correct. The efficient design! (By the way, we are assuming that Merkle Hash is correctly computed.)
+
+## Hashed Lists
+### Motivation
+It is assumed that the reader already know about singly linked lists. 
+
+We already have all the data in disk stored consecutively. When new transactions come, they are going to be stored next to already existing transactions in disk. Since no old transactions are altered, we can simply assume that the storage follows the structure of increasing length arrays instead of linked list. So, why are we using linked lists when we can go with variable length arrays? Why did the developers of Bitcoin store the transactions in linked list type chain instead of array type data structures?
+
+In reality, Bitcoin uses a combination of arrays and hashed lists. We will devote half of this chapter on what these are and in the next half, see what Bitcoin actually implements.
+
+Here are the two fields in a simple linked list structure:
+
+1. Payload: The actual data stored in node.
+2. Pointer: To the previous element, or next element (Doubly linked lists store both but we are talking about singly list only).
+
+Let's say we are storing pointer to previous element of list, thus we can go from tail to head but not vice versa. If we change something in the payload of head of linked list, is there any way we can detect something changed? No. Because the payload information is independent of how linked list is working. Now consider what would happen if we have the following fields in the linked list node:
+
+1. Payload: The actual data stored in node.
+2. Pointer: To the previous element.
+3. Hash: Cryptographic hash signature of contents of previous node. (By content, we mean whole previous node: payload, pointer and hash.)
+
+Say we have the following linked list of $3$ elements:
+
+| Node Address | Value | Previous Pointer | Previous Hash |
+| :-: | :-: | :-: | :-: |
+| `0xAB451C31` | $10$ | - | - |
+| `0x1AC2B5E3` | $43$ | `0xAB451C31` | `0xABCDEF123456...` |
+| `0x3C5322F4` | $-5$ | `0x1AC2B5E3` | `0x41CB90AFB213...` |
+
+Consider what happens if we change anything in the history of above linked list. We have to use one property of cryptographic hash functions: collision resistance. If we change anything in a node, its hash will completely change and we can match it with precomputed hash that is stored in next node! This seems like something we can test right now. Let's create a linked list, add some elements, change something and see if we can detect a change.
+
+### Demo Code
+Here is the code which implements above idea:
+```{C++}
+#include <iostream>
+#include <unistd.h>
+#include <random> // for random number generator
+#include <iomanip>
+#include "SHA/sha256.h"
+#define HEX( x, len ) std::setw(2 * len) << std::setfill('0') << std::hex << std::uppercase << (((1ll << (8 * len)) - 1) & (unsigned int)( x )) << std::dec
+
+using namespace std;
+
+struct ListNode
+{
+    int value;
+    char prev_hash[32];
+    ListNode* prev;
+};
+
+struct List
+{
+    ListNode* tail;
+    char tail_hash[32];
+};
+
+// Inserts an integer to the end of linked list
+void append(List& list, int value)
+{
+    auto new_node = new ListNode;
+    memset(new_node, 0, sizeof(ListNode));
+
+    // Initialise the entries of new tail
+    new_node->value = value;
+    new_node->prev = list.tail;
+    memcpy(new_node->prev_hash, list.tail_hash, 32);
+
+    // Calculate hash of new node
+    SHA256 sha;
+    sha.update((uint8_t*)new_node, sizeof(ListNode));
+    auto digest = sha.digest();
+
+    // Update the list
+    list.tail = new_node;
+    memcpy(list.tail_hash, digest, 32);
+
+    // Delete the hash from heap, as it is copied in list
+    delete[] digest;
+}
+
+// Verifies that the list is intact
+void verify_list(List& list)
+{
+    if (list.tail == nullptr)
+    {
+        cout << "List is empty" << endl;
+        return;
+    }
+
+    auto current = list.tail;
+    char expected_hash[32];
+    memcpy(expected_hash, list.tail_hash, 32);
+
+    while (current)
+    {
+        // Calculate hash of current node
+        SHA256 sha;
+        sha.update((uint8_t*)current, sizeof(ListNode));
+        auto digest = sha.digest();
+
+        // Print the information about node
+        cout << "Node value is: " << current->value << endl;
+        cout << "Expected node hash: ";
+        for (auto &x: expected_hash)
+            cout << HEX(x, 1);
+        cout << endl;
+
+        cout << "Computed hash:      ";
+        for (int i = 0; i < 32; ++i)
+            cout << HEX(digest[i], 1);
+        cout << endl;
+
+        // Compare the hash of current node with the hash stored in list
+        if (memcmp(digest, expected_hash, 32) != 0)
+        {
+            cout << "List content is changed!!!" << endl;
+            delete[] digest;
+            return;
+        }
+
+        // Delete the hash from heap, as it is copied in list
+        delete[] digest;
+
+        // Move to previous node
+        memcpy(expected_hash, current->prev_hash, 32);
+        current = current->prev;
+    }
+
+    cout << "We reached the beginning of list!" << endl;
+}
+
+int main()
+{
+    // Create an empty list
+    List list;
+    list.tail = nullptr;
+    memset(list.tail_hash, 0, 32);
+
+    // Insert random 5 elements to list
+    std::mt19937 mt{std::random_device{}() }; // Instantiate a 32-bit Mersenne Twister
+
+    for (int i = 0; i < 5; ++i)
+        append(list, (int)mt());
+
+    // Verify the list
+    cout << "Verify initial list: " << endl;
+    verify_list(list);
+
+    // Change the content of some random index
+    auto current = list.tail->prev->prev;
+    auto old_val = current->value;
+    current->value = 0;
+
+    // Verify if our program detects the change
+    cout << endl << endl << "After change the value of third node to 0: " << endl;
+    verify_list(list);
+
+    // Resets the value
+    current->value = old_val;
+
+    // Delete the head of list
+    auto next_head = list.tail;
+    while (next_head->prev->prev != nullptr)
+        next_head = next_head->prev;
+
+    next_head->prev = nullptr;
+
+    // Check if our list detects the change!
+    cout << endl << endl << "After removing the head from the list: " << endl;
+    verify_list(list);
+}
+```
+
+There are two structs: One is `ListNode` which stores the above discussed three parameters. Then, we have `List` which stores the tail pointer and the hash of tail.
+
+Then, we have a function `append` which provides us API to insert integers to the end of list. We use this to encapsulate all the updates in our data structure. Then, we have `verify_list` function which checks if the stored hash of node is actually equal to the calculated hash of node. The reader is encouraged to see the code to verify how this is actually done. Before the start of each iteration of `while` loop, we have the expected hash of value of current node (pointed by `current`) stored in `expected_hash` array. We simply print the status of current node and check if both the hashes match. If there is a mismatch, we simply print that there is a mismatch and return from the function. Otherwise, we go to previous node and repeat the process till we reach head.
+
+In the end, we have the driver code in `main`. We create a list of $5$ numbers that are generated randomly. We don't have to worry about random number generation, as they are handled in built-in `C++` import `<random>`. We verify that the contents are intact. Then, we change the integer value of last third element in list. After running `verify_list`, we should see the error. After that, we changed the list back to initial state and deleted the head from list. We again check if the list is valid, and we should see that there are some problems.
+
+Here is the output of above code which verifies our predictions:
+```{}
+Verify initial list: 
+Node value is: 691261298
+Expected node hash: FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
+Computed hash:      FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
+Node value is: -1566135305
+Expected node hash: 4C9F821EF60513E7BC1B21CF1563A0CD9C1551225DBA26097EBB2A667546A014
+Computed hash:      4C9F821EF60513E7BC1B21CF1563A0CD9C1551225DBA26097EBB2A667546A014
+Node value is: 1881414608
+Expected node hash: 4C6A18750E32D917A62D3E36C7A0508ACF6BFEF275DFC8898C8621976F7C24AD
+Computed hash:      4C6A18750E32D917A62D3E36C7A0508ACF6BFEF275DFC8898C8621976F7C24AD
+Node value is: 420975579
+Expected node hash: 9C4F4D54A7031A8F6D7E7B9BDB63FE486397B41330464577FC751B2124138F67
+Computed hash:      9C4F4D54A7031A8F6D7E7B9BDB63FE486397B41330464577FC751B2124138F67
+Node value is: -698647936
+Expected node hash: 45FB91026D71CCBF4A90E46CA213AEAA4802D1E2F816AF0452DE49820DE7D09A
+Computed hash:      45FB91026D71CCBF4A90E46CA213AEAA4802D1E2F816AF0452DE49820DE7D09A
+We reached the beginning of list!
+
+
+After change the value of third node to 0: 
+Node value is: 691261298
+Expected node hash: FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
+Computed hash:      FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
+Node value is: -1566135305
+Expected node hash: 4C9F821EF60513E7BC1B21CF1563A0CD9C1551225DBA26097EBB2A667546A014
+Computed hash:      4C9F821EF60513E7BC1B21CF1563A0CD9C1551225DBA26097EBB2A667546A014
+Node value is: 0
+Expected node hash: 4C6A18750E32D917A62D3E36C7A0508ACF6BFEF275DFC8898C8621976F7C24AD
+Computed hash:      B3E1C7E0E619E56983D285B82C5704838FA662555609F23365492E7ECEFCF0A0
+List content is changed!!!
+
+
+After removing the head from the list: 
+Node value is: 691261298
+Expected node hash: FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
+Computed hash:      FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
+Node value is: -1566135305
+Expected node hash: 4C9F821EF60513E7BC1B21CF1563A0CD9C1551225DBA26097EBB2A667546A014
+Computed hash:      4C9F821EF60513E7BC1B21CF1563A0CD9C1551225DBA26097EBB2A667546A014
+Node value is: 1881414608
+Expected node hash: 4C6A18750E32D917A62D3E36C7A0508ACF6BFEF275DFC8898C8621976F7C24AD
+Computed hash:      4C6A18750E32D917A62D3E36C7A0508ACF6BFEF275DFC8898C8621976F7C24AD
+Node value is: 420975579
+Expected node hash: 9C4F4D54A7031A8F6D7E7B9BDB63FE486397B41330464577FC751B2124138F67
+Computed hash:      5B89651A25C3FA0C6DD2888A1F156F54DEA455D2847C77D0C4412DAE7CA88073
+List content is changed!!!
+```
+
+### Attacking the list
+As you saw above, the hashed linked list is a very powerful data structure. An API can be constructed which hides the details of hashing from outside user. It makes it impossible for users of API to change or delete anything in list after it is inserted. But there is one limitation of above approach. Can you guess why this API scheme is not secure?
+
+Remember that the ledger is distributed across devices and each device receives its copy of every block and transactions! Therefore, it is very easy to access the hash field from data storage and change the contents of it too. Basically anyone can do the following:
+
+1. Go to a block and change its contents.
+2. Calculate the hash and replace the old hash (original and correct one) with the new hash in next block's `prev_hash` field. (Read this again if the statement is not crystal clear).
+3. Since the `prev_hash` of next block is changed, we need to recalculate the hash of next block and store it in next to next block's `prev_hash`.
+4. Repeat above process till we reach tail.
+
+First things first, is there a point of doing above steps? The answer is yes! If we change the hash from past to tail of a target device, we effectively changed the history for that device and the device will fail to recognize any change in the data. This makes it possible to attack any system and take a control over it without much effort. 
+
+Coming to practicality of above approach, is it possible to alter the history in fast manner? Yes. All we did in above $4$ steps is to recalculate the hash and replace the contents of storage. As a hacker, we can do this because the hash calculation is one-way function and it is one of the requirements that hash should be computable in very less amount of time, and is of the order of $O(n)$.
+
+To summarize, let's say our mission is to hack a computer and change the records of "append only" ledger. Assume that the task of hacking the device is done and now, we are in full control of storage. We change the transaction we wanted to change. Since calculating hash is very very fast, we recalculate it from our targeted block to the tail of blocks and thus, the device owner will never know if anything is changed at all!
+
+Above process makes it impossible to have our required "append only" ledger which we formulated in the beginning. We can't go further to specifics of Bitcoin if our Blockchain is not resistant to this type of attack. Fortunately, the theory of computer science can help us here. We will discuss how to solve this problem in next to next chapter when we cover `nonce` and `difficulty`.
+
+So, what's the benefit of hashed chains if they are not tamper-proof? Hashed chains give us the guarantee that we can detect changes as long as whole chain from the altered location is not changed. Nonce will give us guarantee that changing the hash of blocks is not practical! This is part of `proof-of-work` which we will cover in detail.
+
+By now, you should be able to compute the double $SHA-256$ of header genesis block on your own and see that it is equal to `prev_hash` field of next block! Refer to next section for the code on how to do it in `C++`.
+
+## Blockchain's `prev_hash`
+### Combining arrays and hashed lists
+As mentioned in the beginning of this chapter, Bitcoin developers use the combination of arrays and hashed lists to make the content of blockchain tamper-proof. Consider the requirements/observations:
+
+1. Should be able to append new data. Since the data is appended in permanent storage such as SSD or HDD, we can write new data at the end of file.
+2. Should not be able to change any data once it is there. Hashed chain will help us here.
+
+Here's a quick question: Is it beneficial to use `previous pointer` of hashed chains in Bitcoin storage? Think about it before going further. And the answer is: No. There is only one reason that `previous pointer` exists in singly linked lists and that is: we don't know in advance how much data is going to be there and RAM storage is not contiguous. The former part is true in our use case, but latter part is not. We are not storing the Bitcoin data in RAM, we are storing it in permanent storage. And in permanent storage, we can append data at the end of file! We can, in practice, assume that our data storage will follow variable-length array (even without any re-allocations that are required in RAM for variable-length arrays).
+
+Also, there is no equivalent of `pointer` in permanent storage. What do we mean by `address` in HDD or SSD? Even if there is a concept of address in HDD or SSD, the whole block chain will be present with people across the world. We can't just assume that all of them will write data in their storage starting from fixed address! We can simply store data one after another, so the core logic of using `previous_address` is gone from the scope.
+
+Therefore, we can't use `prev_pointer` of hashed list, we shouldn't use use it and there is no need of it. So, we are left with the following fields:
+
+1. Payload (Data that is application specific, and is not relevant to core working of data structure).
+2. Prev hash (To help us detect if there are any changes).
+
+And nothing more! Once again, our storage is such that we can append data consecutively to the end of previous data.
+
+Time for two questions: Can we move forward in our blockchain? Yes! We did that in previous chapters. Can we move backward? Sadly, no. Remember that payload size of Bitcoin is not fixed! We can't just go fixed number of bytes earlier in our storage to reach the beginning of previous block.
+
+We can move from current block to next block in storage, and the next block stores the hash of current block. In next section, we will look at code in `C++` which also computes the hash of current block.
+
+One final note, remember that we need to compute the hash of $80$ byte header to get hash of current block. This was mentioned in the beginning of this chapter.
+
+### C++ Code
+First, we will import header file to compute `SHA-256` (Usage explained in previous chapter).
+
+```{C++}
+#include "SHA/SHA256.h"
+```
+
+Then, we define our double hash function:
+
+```{C++}
+// Computes the double SHA-256 hash of the given data
+uint8_t* double_sha256(uint8_t* start, int len)
+{
+    // Calculate hash
+    SHA256 sha1;
+    sha1.update(start, len);
+    uint8_t * digest = sha1.digest();
+
+    // Double hash
+    SHA256 sha2;
+    sha2.update(digest, 32);
+    auto digest2 = sha2.digest();
+
+    // Remove old digest, as it is not required anymore
+    delete[] digest;
+
+    return digest2;
+}
+```
+
+This takes two parameters as input: start location in memory (`start`) and how much bytes to read (`len`). This function returns a heap-allocated array of size $32$ bytes and this should be deallocated manually to avoid memory leak.
+
+At last, we use the above function to compute hash of current block header:
+
+```{C++}
+std::cout << std::endl << "\tCurrent Hash (Calculated): ";
+auto hash = double_sha256((uint8_t*)&block.header, 80);
+for (int j = 31; j >= 0; --j)
+    std::cout << HEX(hash[j], 1);
+delete[] hash; // Free the memory after usage
+```
+
+Here is the complete code (with `...` when the code is same as the one in previous chapters)
+
+```{C++}
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#include "SHA/SHA256.h"
+#define HEX( x, len ) ...
+
+...
+
+// Computes the double SHA-256 hash of the given data
+uint8_t* double_sha256(uint8_t* start, int len)
+{
+    // Calculate hash
+    SHA256 sha1;
+    sha1.update(start, len);
+    uint8_t * digest = sha1.digest();
+
+    // Double hash
+    SHA256 sha2;
+    sha2.update(digest, 32);
+    auto digest2 = sha2.digest();
+
+    // Remove old digest, as it is not required anymore
+    delete[] digest;
+
+    return digest2;
+}
+
+int main(int argc, char** argv)
+{
+    ...
+    for (int i = 0; i < 4; ++i)
+    {
+        // create a block
+        Block block;
+      
+        ...
+
+        std::cout << std::endl << "\tMerkle Hash (Stored)     : ";
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(block.header.merkle_hash[j], 1);
+
+        std::cout << std::endl << "\tCurrent Hash (Calculated): ";
+        auto hash = double_sha256((uint8_t*)&block.header, 80);
+        for (int j = 31; j >= 0; --j)
+            std::cout << HEX(hash[j], 1);
+        delete[] hash; // Free the memory after usage
+
+        std::cout << std::endl << "\tTime of Block Creation   : ";
+        
+        ...
+    }
+}
+```
+
+
+Here is the output of above code:
+
+```{echo=False}
+Offsets of block #0: 0x00000000 to 0x00000124
+Magic Number: D9B4BEF9
+Blockchain Size: 285
+Header Info: 
+        Version Number           : 1
+        Previous Hash            : 0000000000000000000000000000000000000000000000000000000000000000
+        Merkle Hash (Stored)     : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
+        Current Hash (Calculated): 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+        Time of Block Creation   : 2009-01-03 06:15:05 PM
+        Difficulty               : 1D00FFFF
+        Nonce                    : 2083236893
+        Number of Transactions   : 1
+                Transaction #0 offsets: 0x00000059 to 0x00000124
+
+Offsets of block #1: 0x00000125 to 0x00000203
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+        Version Number           : 1
+        Previous Hash            : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
+        Merkle Hash (Stored)     : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
+        Current Hash (Calculated): 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+        Time of Block Creation   : 2009-01-09 02:54:25 AM
+        Difficulty               : 1D00FFFF
+        Nonce                    : 2573394689
+        Number of Transactions   : 1
+                Transaction #0 offsets: 0x0000017E to 0x00000203
+
+Offsets of block #2: 0x00000204 to 0x000002E2
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+        Version Number           : 1
+        Previous Hash            : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
+        Merkle Hash (Stored)     : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
+        Current Hash (Calculated): 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
+        Time of Block Creation   : 2009-01-09 02:55:44 AM
+        Difficulty               : 1D00FFFF
+        Nonce                    : 1639830024
+        Number of Transactions   : 1
+                Transaction #0 offsets: 0x0000025D to 0x000002E2
+
+Offsets of block #3: 0x000002E3 to 0x000003C1
+Magic Number: D9B4BEF9
+Blockchain Size: 215
+Header Info: 
+        Version Number           : 1
+        Previous Hash            : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
+        Merkle Hash (Stored)     : 999E1C837C76A1B7FBB7E57BAF87B309960F5FFEFBF2A9B95DD890602272F644
+        Current Hash (Calculated): 0000000082B5015589A3FDF2D4BAFF403E6F0BE035A5D9742C1CAE6295464449
+        Time of Block Creation   : 2009-01-09 03:02:53 AM
+        Difficulty               : 1D00FFFF
+        Nonce                    : 1844305925
+        Number of Transactions   : 1
+                Transaction #0 offsets: 0x0000033C to 0x000003C1
+```
+
+### Verification of entries
+Here is the table summarizing the hash entries of initial blocks:
+
+| Block Number | Previous Hash | Current Hash (Calculated) |
+| :-: | :-: | :-: |
+| 0 | 000000000000000... | 000000000019D66... |
+| 1 | 000000000019D66... | 00000000839A8E6... |
+| 2 | 00000000839A8E6... | 000000006A625F0... |
+| 3 | 000000006A625F0... | 0000000082B5015... |
+
+You can clearly see that entries match!
+
+## Summary
+Here is the updated header table for what is covered till now:
+
+| Byte Range | Header offset | Size (bytes) | Meaning | Is covered completely till now |
+| :-: | :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | 4 | Version Number | Yes |
+| 12-43 | 4-35 | 32 | Previous Block Hash  | Yes |
+| 44-75 | 36-67 | 32 | Current Merkle Hash | No |
+| 76-79 | 68-71 | 4 | Time | Yes |
+| 80-83 | 72-75 | 4 | Difficulty | No |
+| 84-87 | 76-79 | 4 | Nonce | No |
+
+In current chapter, we first saw the properties of hash based chain, how it works. Then, we wrote some code to verify that we can't alter the contents of any existing node without whole introducing inconsistencies.
+
+Then we saw how we can hack the data structure and indeed change the history! The problem arises because Hash functions are fast to compute and we can't drop this property. The solution will come when we cover proof-of-work.
+
+At last, we saw how to compute the `prev_hash` field of block header. We already saw the code of how to verify the contents previously, so we just printed the contents of blockchain and manually calculated the hash. We tabulated the calculated hash and stored `prev_hash` and saw that they match.
+
+In next chapter, we will look at Merkle Hash and how to compute it.
+
+Here is the list of questions you should be able to answer by now:
+
+1. What hacks/exploits can one person use to play with the system if the storage was not fixed? (Old question)
+2. Why a header is required in blockchain? (Old question)
+3. What problem does the Blockchain technology solve, and what is the role of Blockchain in the functioning of Bitcoin? (Old question)
+4. What are the similarities between linked list and block chain as data structures? (Old question).
+5. What are the fields of hashed list? Can we iterate from tail to end or from head to tail in our implementation of data structure (not related to blockchain).
+6. What if we store next_pointer and next_hash inside the node, along with `prev_pointer` and `prev_hash`. Can you tell the time complexity of inserting a new node in this system if there are currently $n$ nodes in the system? Why storing these fields is not practical?
+7. What are $6$ properties a cryptographic hash function should satisfy? Manually go over those properties and check which properties are required for successful working of hash based chain. Alternatively, what properties we don't require from a hash function for the correct working principle of hash based chain?
+8. How a hash based list make sure that changes in one node will be detected if we iterate over whole list?
+9. How can a hacker change the payload of any block with the things we discussed thus far? How much time will it take to change entries of one specific block, if there are currently $n$ blocks? Is the constant factor in $O(\cdot)$ very huge or is it practical to use this approach? (Hint: we don't know anything about `nonce` and `difficulty` yet).
+10. Why is it justified to assume that blocks will be stored consecutively in permanent storage? Why can't we use `prev_pointer` just like we use them in singly linked lists?
+11. Can you see some pattern in the calculated hashes of blockchain from above table? Can you think of any benefit of having this type of pattern? Answer of this question should give you some idea of what `difficulty` and `nonce` are going to play role for.
+12. Do you know about complete binary trees? Read about their properties from internet or any resource of your choice before going to next chapter.

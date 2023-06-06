@@ -624,7 +624,7 @@ This was a long chapter. We studied various things and now, it is time to see wh
 - How `size` field of block differs from the actual size of block?
 - What are the header entries? What are their sizes? What do you know about time stamp field?
 - What is Unix epoch time? What is the maximum time you can store in the time stamp field of blockchain? (we didn't cover this, but you can do it. Right?)
-- How a Variable Integer is stored in Bitcoin? Mention all the cases for integers from $0$ to $2^{64}-1$.
+- How a variable integer is stored in Bitcoin? Mention all the cases for integers from $0$ to $2^{64}-1$.
 - We covered the code to read from storage and get the result in $8$ byte unsigned integer. Write a function that takes an $8$ byte unsigned integer and returns a heap allocated memory of appropriate length in bytes. Remember, you have to allocate the required memory only. You can check that your function is working by passing the output from your function to `read_varint` we studied above.
 - Without looking at above codes, try to replicate them in programming language of your choice.
 - What were the questions you had in the beginning of this chapter? Make a list of them. You can mark those questions which are answered above. This list can be used to track the progress you are making while reading this book.

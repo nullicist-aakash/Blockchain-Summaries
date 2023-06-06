@@ -88,6 +88,21 @@ You are expected to know some things about the following topics, as they should 
 - Base conversion between Binary, Decimal and Hexadecimal.
 - ASCII character encoding.
 - Little endian and big endian storage.
+- Time and space complexity. You can refer any online resource for basic introduction to big-O notation.
+
+Check you knowledge of above topics by predicting the output of following code and then comparing it with the actual output:
+```{C++}
+#include <iostream>
+using namespace std;
+
+int main()
+{
+        int arr[] = { 0x61626364, 0x65666768, 0 };
+        char* ptr = (char*)arr;
+        cout << ptr << endl;
+}
+
+```
 
 - For the prerequisites of `C++`, if you want to go with it but are not sure of concepts used in the code:
     - Pointers (We will use `char*` to iterate over memory in byte level chunks).
@@ -98,3 +113,5 @@ You are expected to know some things about the following topics, as they should 
     - Basic STL Container such as `vector`, `map`, `set`, etc.
     - Fixed-width integers (To ensure exact width of data types).
     - Stream I/O (How to read binary file).
+    
+You can refer [learncpp.com](https://www.learncpp.com) website to revise your concepts or any other source of your liking.

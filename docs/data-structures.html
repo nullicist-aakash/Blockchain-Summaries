@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-05-17" />
+<meta name="date" content="2023-06-03" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -617,7 +617,7 @@ List content is changed!!!</code></pre>
 <ol style="list-style-type: decimal">
 <li>We will use <span class="math inline">\(0\)</span> for addition.</li>
 <li>We will use <span class="math inline">\(-\infty\)</span> for maximum. In code, we should use <code>INT_MIN</code> or <code>LONG_MIN</code> based on data type.</li>
-<li>We will use <span class="math inline">\(infty\)</span> for minimum. In code, we should use <code>INT_MAX</code> or <code>LONG_MAX</code> based on data type.</li>
+<li>We will use <span class="math inline">\(\infty\)</span> for minimum. In code, we should use <code>INT_MAX</code> or <code>LONG_MAX</code> based on data type.</li>
 </ol>
 </div>
 <div id="operations-on-segment-tree" class="section level4 hasAnchor" number="6.2.1.4">
@@ -636,12 +636,12 @@ List content is changed!!!</code></pre>
 </div>
 <div id="merkle-trees-from-segment-trees" class="section level3 hasAnchor" number="6.2.2">
 <h3><span class="header-section-number">6.2.2</span> Merkle Trees from Segment Trees<a href="data-structures.html#merkle-trees-from-segment-trees" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>If you look up the internet, you will see that segment trees are very useful data structures for competitive programming questions. But if you look into the practical applications of segment trees on internet, you will only example and that is Merkle Trees. Here are the details of operations that we need to do for a segment tree to act as merkle tree:</p>
+<p>If you look up the internet, you will see that segment trees are very useful data structures for competitive programming questions. But if you look into the practical applications of segment trees on internet, you will see only one example and that is Merkle Trees. Here are the details of operations that we need to do for a segment tree to act as merkle tree:</p>
 <ol style="list-style-type: decimal">
 <li>Array size may or may not a power of two. We will assume that it is a power of two for now.</li>
 <li>The leaf node in binary tree stores the cryptographic hash of array entry instead of array value itself.</li>
 <li>As you might have guessed, the operation on tree is HASH function. The input for hash function is the hash of direct children, aligned consecutively. Say the output of hash is <span class="math inline">\(32\)</span> bytes. For current node, which is other than leaf, we take the hash of left child and append the hash of right child to the end. This means we take the <span class="math inline">\(32\)</span> bytes from left node, <span class="math inline">\(32\)</span> bytes from right node, append them to make the array of <span class="math inline">\(64\)</span> bytes and use these <span class="math inline">\(64\)</span> bytes as input to the hash function to calculate the <span class="math inline">\(32\)</span> byte value of current node. We repeat the process till we fill all the entries of nodes.</li>
-<li>What is the default value that we need to add to the end of array if our array is not a power of two? There isn’t any answer here as adding anything to the input will drastically change the hash output. We will cover this case for how it is handled in Bitcoin in the next chapter.</li>
+<li>What is the default value that we need to add to the end of array if our array is not a power of two? There isn’t any answer here as appending anything to the input will drastically change the hash output. We will cover this case for how it is handled in Bitcoin in the next chapter.</li>
 </ol>
 <div id="segment-tree-code" class="section level4 hasAnchor" number="6.2.2.1">
 <h4><span class="header-section-number">6.2.2.1</span> Segment tree code<a href="data-structures.html#segment-tree-code" class="anchor-section" aria-label="Anchor link to header"></a></h4>

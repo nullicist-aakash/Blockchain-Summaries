@@ -56,7 +56,7 @@ As mentioned earlier, we will not go into the exact details but just state the a
 
 4. Collision Resistance.
 5. Irreversibility.
-6. One small change for input, one giant leap in signature.
+6. High Entropy: One small change for input, one giant leap in signature.
 
 Here is the explanation of above three properties:
 
@@ -494,7 +494,7 @@ We need to make sure to delete the memory after usage, otherwise there will be m
 #### Little endian causing problems
 The `SHA256` algorithm is endian agnostic. This means that we don't know if the output of it is in big-endian format or little-endian format, as it is irrelevant to the working of algorithm. So, where is the problem?
 
-As we already mentioned, Bitcoin implements `uint256` datatype. As with all integers, they store everything as little endian. If we cast the results of above `SHA` algorithm to `uint256` and print the hex value, we should flip the bytes! This is the reason we print `previous hash` and `Merkle hash` in reverse order of bytes in previous chapter. Keep a note of this, otherwise you will be confused in future when we will talk about changing `nonce` to generate block hash.
+As we already mentioned, Bitcoin implements `uint256` datatype. As with all integers, they store everything as little endian. So it was by design that Bitcoin developers store `uint256` in little endian format too. If we cast the results of above `SHA` algorithm to `uint256` and print the hex value, we should flip the bytes! This is the reason we print `previous hash` and `Merkle hash` in reverse order of bytes in previous chapter. Keep a note of this, otherwise you will be confused in future when we will talk about changing `nonce` to generate block hash.
 
 ## Summary
-In this chapter, we studied about cryptographic hash functions. We saw all the $6$ properties of hash functions and saw what features they provide us. After that, we saw a `C++` code which computes `SHA-256` for us and looked at its interface. We didn't go into the actual implementation details of `SHA-256` because that comes under cryptography and the level of mathematics required to understand `SHA` is not helpful in Bitcoin. At last, we saw that Bitcoin protocol uses double hash `SHA-256` and little endian introduces a problem which we will see in future. In next chapter, we apply the properties studied in this chapter to see how the blockchain provides us the feature of permanent storage.
+In this chapter, we studied about cryptographic hash functions. We saw all the $6$ properties of hash functions and saw what features they provide us. After that, we saw a `C++` code which computes `SHA-256` for us and looked at its interface. We didn't go into the actual implementation details of `SHA-256` because that comes under cryptography and the level of mathematics required to understand `SHA` is not helpful in Bitcoin. At last, we saw that Bitcoin protocol uses double hash `SHA-256` and little endian introduces a problem which we will see in future. In coming chapters, we apply the properties studied in this chapter to see how the blockchain provides us the feature of permanent storage.

@@ -1,0 +1,247 @@
+# Lifecycle of Bitcoin - Merkle Trees
+
+In this chapter, we will look at Merkle Hash of a block in Bitcoin. This is computed using data structure known as Merkle Trees. Honestly, this is not required for the philosophy of Blockchain in general, because it is specific to Bitcoin and it is the topic related to mining. You can safely skip this chapter by remembering these lines and come back later when we cover the technical requirements of mining:
+
+> Merkle Hash is like the cryptographic hash of payload. It follows all the properties of cryptographic hash functions and we can safely replace it with any other type of hash for blockchain to work. One benefit of Merkle Trees is that it helps in very fast computation of new hash if some data is changed. 
+
+> Merkle Tree is the requirement for the miners, who introduces new blocks into the system. Users need not, and will not maintain the Merkle Tree on their systems. Once a new block is introduced by miners in the system, they will discard this tree too. So, Merkle Trees only comes into picture when there is active mining going on.
+
+Let's begin.
+
+We know that the working of cryptographic hash functions have no relation with Blockchain, Blockchain uses cryptographic hash functions. Try to understand the meaning of previous line. It says that cryptographic hash functions have their existence independent of Blockchain, but Blockchain's existence is strongly tied to cryptographic hash functions. Same thing follows for Merkle Trees and Bitcoin. To fully understand their beautiful properties, we need to understand them outside the context of Bitcoin technology. 
+
+Before going to the Merkle Trees and how they work, we need to ask a question: What is the problem statement? As you already saw in previous chapters, this book follows this approach by heart. We first see what we are trying to solve. Only after getting a concrete idea of problem statement, we jump to the solution. But this approach is not that useful in this chapter. Why? Because Merkle Trees are used by miners and we don't know the requirements of miners yet! So, we will follow other route here. We will specify what properties they have, and in the future chapter of mining, we will use those properties. In this chapter, we will try to get the feeling of how these trees work, what are their computational speed, the working code of their computation. We will discuss other applications of Merkle trees when we discuss Bitcoin - second volume.
+
+Here is the structure of header for reference (to track our progress):
+
+| Byte Range | Header offset | Size (bytes) | Meaning | Is covered completely till now |
+| :-: | :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | 4 | Version Number | Yes |
+| 12-43 | 4-35 | 32 | Previous Block Hash  | Yes |
+| 44-75 | 36-67 | 32 | Current Merkle Hash | No |
+| 76-79 | 68-71 | 4 | Time | Yes |
+| 80-83 | 72-75 | 4 | Difficulty | No |
+| 84-87 | 76-79 | 4 | Nonce | No |
+
+## Why we need Merkle Trees
+### Properties of Merkle Tress
+Assume that we are given $1,000,000$ integers and the size of an integer is $4$ bytes. In total, we have $4\times 10^{6}$ bytes. This gives us about $3.81$ megabytes of data. Say, we compute the cryptographic hash of these numbers. We need to read all numbers, as the output is highly sensitive to each individual bits. 
+
+Say we need to update only one integer. What do we need to do to recompute the new hash? After updating the integer, we need to read all $3.81$ megabytes bytes of data. This may not seem big as the data is only $3.81$ megabytes, so we use the complexity analysis. When we update some data, even one integer, we need $O(n)$ time to recompute new hash, where $n$ is the total number of integers we have. Remember this and make sure you understand this statement by heart.
+
+We use hash functions as black box having all the properties of a cryptographic hash function. Imagine Merkle Tree as a black box too and we claim that the hash output of a Merkle Tree is a valid cryptographic hash. Why is it the case, can be easily verified by reader for all of $6$ properties when we explain how it is structured. Internally, this is just a data structure that uses a already known cryptographic hash function inside it. This was the case with hashed chains in previous chapter too. The working of hashed chain is independent of any specific hash function used. All that matters is that the function satisfies all the properties of a cryptographic hash function.
+
+So, what benefit does Merkle Trees offer? The major benefit of Merkle trees is that we can update a single integer in our input and the new hash can be recomputed in $O(\log n)$ time! Make no mistake here. We don't say that we can compute the hash of $n$ integers in $O(\log n)$ time. We said that we can "recompute" the hash in $O(\log n)$ time. To compute the hash of $n$ integers from scratch still need $O(n)$ time, as it should be for every cryptographic hash function. It raises the question: when a change in single bit of data can hugely alter the hash output, how can we change the data and recompute the new hash in $O(\log n)$ time? Let's put things into perspective first. We said that we needed the time equivalent to read $3.81$ mb of data to recompute hash with any cryptographic hash function which is of the order $O(n)$. With Merkle Trees, we can recompute the hash in time equivalent of about $21.93$ bytes!!! (In practice, the number will be higher than this due to constant of multiplication in big-O, but we get the idea of scale of things we are looking here).
+
+For the whole discussion, we will assume that number of integers are of power of $2$, i.e., we can have $1$ or $2$ or $4$ or $8$ or $16$ or $32$ or $64$ or ... integers. How to handle other cases is specific to Bitcoin technology and we will mention it in the end.
+
+### Construction of Merkle Trees
+Spoiler: If you know about Segment Trees, you already know everything. The specific operation of Merkle Trees is that node stores the hash of the combination of hash of both children. No need to worry if you don't know about segment trees.
+
+It is assumed that the reader is familiar with the jargon of Binary Trees. Refer to online resources or data structures book for refreshment on Complete Binary Trees and simple node count calculations. Just to be clear, Complete Binary Trees are those trees in which all levels are completely filled.
+
+We assume that our integers are stored in the array, where the size of array is of the form $2^n$, i.e., array size should be one of $1,2,4,8,16,32,...$. Denote the size of array as $N$, so we have the relation $N=2^n$. We will treat the array elements as leaf nodes of a complete binary tree. Now, you are encouraged to find out the number of nodes on level just above leaf nodes, and above them and so on. Also, you are encouraged to calculate the height of binary tree. The height of tree is the maximum count of nodes that are present on a path from root to leaves. How many nodes are present in the tree (including the leaves)? Here is the answer for above questions:
+
+1. Number of nodes on level above leaf nodes is $N/2$ (or $2^{n-1}$).
+2. The height of binary tree is $\log (N) + 1$ (or $n+1$).
+3. Number of nodes in the binary tree is $2N-1$ (or $2^{n+1}-1$).
+
+We have our tree with us and the leaf nodes have values as given in the array. What are the values of internal nodes?
+
+That's where the beauty of Merkle Trees comes into play. Do the following:
+
+1. Replace the leaf nodes with their cryptographic hash. Remember that we have an array for actual data, so the value of leaf nodes is still with us.
+2. For each node on last second level, "combine" the hash of both of its children (why exactly two children will be there?) and compute the hash of this new combination. Store the resulting hash in current node. For combining, we can simply concatenate hashes of both children.
+3. Repeat the process for last third level and so on till we reach the root.
+
+And we have our beautiful Merkle Tree with us! The hash computed on root is known as Merkle Hash. When we talk about Merkle Hash of data, we mean the above process and report the hash present on the root after these calculations.
+
+Before going further, what is the time required to build this tree? We can see that
+
+1. Number of hashes we computed are same as the number of nodes in the whole tree.
+2. Time required to compute the hash for an input of size $O(1)$ is $O(1)$. Read this line again if you don't get it in first go.
+3. The storage of hash takes $O(1)$ space. For instance, SHA-256 hash takes only $32$ bytes.
+4. If our size of array is $N$, then the total nodes in tree are $2N-1$. (Why?)
+
+Combine above points, and we see that we can build our tree in $O(N)$ time. So far, so good.
+
+### Merkle Hash as cryptographic hash
+
+Remember $6$ properties of cryptographic hash function? Here are they:
+1. Input can be of any length.
+2. Output is of fixed size.
+3. Computation time should be of the order of $O(n)$ where $n$ is equivalent to amount to data to read (in bits or bytes or some other multiple).
+4. Collision Resistance: No two inputs should give the same output. (Remember how we proved it is not possible theoretically?)
+5. Irreversibility: Should not be able to go from hash to input. (Remember something about one-way functions and we saw an example of dice game?)
+6. High Entropy: Change in input reflected as huge change in output.
+
+So, can we say that Merkle Hash of inputs is a valid cryptographic hash? Reader is encouraged to think about this. This can be proven via the properties of underlying hash function used by merkle trees and we will not cover them.
+
+### Update an integer
+Now, we ask our most crucial question: Updating the integer value. Say we change one single integer to new value. How fast can we compute the new Merkle Hash? Reader is again encouraged to see how this can be done in $O(\log N)$ time from the structure of Merkle Tree.
+
+Here is the intuition: Changing an integer means changing hash of one of the leaf nodes. In the tree, invalid hashes will be the one on the path from left to root.
+
+How many nodes are there on the path from a leaf to root? This is the height of binary tree. What is the height of binary tree with $N$ leaf nodes? It is $\log(N) + 1$. So, what do we have with us? We only need to "recompute" these hashes and we will get a valid Merkle Tree in the end. Let's see the time complexity.
+
+1. We updated/recalculated $\log(N) + 1$ hashes.
+2. Computation of a hash takes $O(1)$ time for $O(1)$ sized input.
+
+Combine above and we got our result: We can recompute a cryptographic hash (merkle hash to be specific) after changing a single integer in $O(\log N)$ time.
+
+There is another powerful operation that we can do with this tree and that is: Compute the hash of subarray (consecutive elements) of integers in $O(\log N)$ time. Say, our numbers are arranged as $[1,4,3,6,5,9,154,56]$. We can use the same tree to compute Merkle Hash of $[3,6,5]$ in $O(\log N)$ time, where $N$ is $8$ here. How this works is out of scope of our discussion and interesting reader can refer Segment Trees about this computation.
+
+### Considerations
+Here are few points you should keep in mind before applying Merkle Trees to a problem:
+
+1. Merkle Trees are only used during mining. They are not maintained after a block is placed in the blockchain. The "maintenance" part will become clear in the Merkle Tree computation code of this chapter.
+2. They are as secure as the underlying hash function they use. Remember, that the properties of Merkle Trees are completely dependent on the underlying hash function used. If someone finds a flaw in a specific hash function that is used as cryptographic hash by community, then the structure will no longer remain secure.
+3. The order in which integers are arranged in array matters! The output of hash will drastically change if we swap the location of any two integers and compute the new Merkle Hash. (Why?) Remember this property, as we will use these type of changes in mining.
+4. We are assuming that we only have integers as input. This is no problem for any other data type we want to store, because only the hash of input is stored in the tree and the tree is unaware of underlying input! So, we can replace the integers with transactions in above discussion and the same results will follow.
+5. As the transactions can be as large as $1$ mb each, we should see what will happen if we use this size in the example at beginning of this chapter (The one with $1,000,000$ integers). We only compute the hash of one transaction which takes $1$ mb as input, but subsequent inputs will be $64$ bytes: We are using double SHA-256 algorithm and combining the children hash with concatenation.
+6. We are assuming that the count of integers is of the power of $2$ and this is an important assumption. We can eliminate this restriction by filling the remaining entry of leaf nodes with hash of $0$, a dummy input. For example, say we have $10$ transactions and we want to compute Merkle Hash. We can use $0$ as input of remaining $6$ hash entries of leaf nodes. Bitcoin uses some other technique but this is a valid one too.
+7. To understand the code of Segment Trees in coming section, the reader is expected to know how to represent a complete binary tree using array! Reader can refer to implementation and working of Binary Heaps to understand how this is achieved.
+
+## Segment Trees
+### Relation with Merkle Trees
+If you look up the internet, you will see that segment trees are very useful data structures for competitive programming questions. But if you look into the practical applications of segment trees on internet, you will only example and that is Merkle Trees. Thus, the Merkle and Segment Trees are very closely related. Here is the level of abstractons that are working to build up the Merkle Tree:
+
+1. Trees - We are specially interested in Complete Binary Trees.
+2. Segment Trees - Complete Binary Trees with some operations to improve some computations. We need to specify the operation to perform and how to combine two children to compute the value of node.
+3. Merkle Trees - Segment Trees with specific operation as cryptographic hash and combination as concatenation of value at children nodes.
+
+We could have used Segment Trees in our discussion but their operations are more abstract. Also, we didn't discuss how to compute the hash of subarray as hinted in previous section.
+
+### Code (Optional)
+Note that the following code is for completeness only. You can safely skip if you don't want to learn segment trees.
+
+The following code is taken from [Codeforces](https://codeforces.com/blog/entry/18051). We are representing whole tree as array instead of explicit nodes with two children (technique used in binary heaps too). You will notice that there is an additional operation which we teased about previously: Range query. Range means any contiguous segment of array. We are doing the following operations with segment tree in $O(\log N)$ time:
+
+1. Find the sum of any contiguous segment.
+2. Change any array element to any value.
+
+To get a merkle tree, we just have to replace the sum operation with hash operation.
+
+```{C++}
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class SegmentTree
+{
+    vector<int> tree;
+    const int n;
+
+    // return the computed value for the nodes
+    static int compute(int a, int b)
+    {
+        return a + b;
+    }
+
+public:
+    explicit SegmentTree(vector<int> &arr) : n { (int)arr.size() }, tree{ }
+    {
+        // Fill Leaf nodes
+        tree.resize(2 * n - 1);
+        for (int i = 0; i < n; ++i)
+            tree[i + arr.size()] = arr[i];
+
+        // Fill internal nodes
+        for (auto i = n - 1; i > 0; --i)
+            tree[i] = compute(tree[i << 1], tree[i << 1 | 1]);
+    }
+
+    // set value at position p
+    void modify(int p, int value)
+    {
+        for (tree[p += n] = value; p > 1; p >>= 1)
+            tree[p >> 1] = compute(tree[p], tree[p ^ 1]);
+    }
+
+    // sum on interval [l, r)
+    int query(int l, int r)
+    {
+        int res = 0;
+
+        // go up the tree till left and right computations meet
+        for (l += n, r += n; l < r; l >>= 1, r >>= 1)
+        {
+            if (l & 1) res = compute(res, tree[l++]);
+            if (r & 1) res = compute(res, tree[--r]);
+        }
+
+        // return the result
+        return res;
+    }
+};
+
+
+int main()
+{
+    vector<int> arr {5, -3, 6, 1, 0, -4, 11, 6, 2, 7};
+    SegmentTree st(arr);
+
+    // Compute the answer for [2, 6]. This means we compute the sum for [2, 7)
+    cout << "Sum for range [2, 6] is: " << st.query(2, 7) << endl;
+
+    // Compute the answer for [0, 3]. This means we compute the sum for [0, 4)
+    cout << "Sum for range [0, 3] is: " << st.query(0, 4) << endl;
+
+    // Change the element at index 4 to 36
+    cout << "Updating the value at index 4 to 36" << endl;
+    st.modify(4, 36);
+
+    // Compute the answer for [1, 6]. This means we compute the sum for [1, 7)
+    cout << "Sum for range [1, 6] is: " << st.query(1, 7) << endl;
+}
+```
+
+Don't worry about class code. If you focus on the code inside `main`, you will see how we are using the class API. The example above gives the following output:
+
+```{}
+Sum for range [2, 6] is: 14
+Sum for range [0, 3] is: 9
+Updating the value at index 4 to 36
+Sum for range [1, 6] is: 47
+```
+
+## Merkle Hash Computation Logic
+Here, we will mention the algorithm that is used by Bitcoin and use it to verify that our hash computation is correct.
+
+## Summary {-}
+In this chapter, we covered the details of two data structures: Hashed lists and Merkle Trees. This chapter was designed from pure data structures point of view, and the relevant assumptions from the reader were explicitly mentioned. For better understanding, the reader is encouraged to read this chapter again from a fresh mind and practice as much examples as possible on pen and paper. Using pen and paper for data structures is more helpful than simply coding and testing because pen and paper approach forces us to calculate everything by hand and train our mind to remember the rules that we need to follow in any given data structure. This not only helps in testing and debugging code in long run, but also helps in visualizing the full picture.
+
+Taking motivation from the content of this chapter, we will cover the "previous hash" and "merkle hash" field in next chapter. Next chapter is going to be very code intensive as relevant theory portion of usefulness of each data structure is covered in this chapter.
+
+After next chapter, we will jump into the `difficulty` and `nonce` of header which requires a lot of concepts to understand the consequences they have in the security of Blockchain.
+
+<!-- #### Difficult problems in computer science -->
+
+<!-- Study of the "Theory of Computer Science" provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to problem is correct or not. For an example, given a very large number $n$, can we factor it into two numbers $x$ and $y$ such that -->
+
+<!-- 1. $1<x,y<n$. -->
+<!-- 2. $x\times y = n$. -->
+<!-- 3. $x,y\in \mathbb{N}$: $x$ and $y$ are natural numbers. -->
+
+<!-- It is currently the consensus in humanity that this problem is very very hard to solve "effectively" (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).  -->
+
+<!-- But if we are given $n$, $x$ and $y$, we can simply multiply $x$ and $y$ to see if their product is equal to $n$. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! We will cover the exact meaning of it in next volume, but just assume that this is very important for security of communication on internet. The world's trust on secure connection between any two devices rely on this "knowledge" that we can't factor two integers fast enough. -->
+
+<!-- We need to see an example why the standard $O(n)$ algorithm of finding factors from $1$ to $n$ will not work. Actually, this algorithm is "exponential", not linear. In computational theory, we use the "number of bits" to represent our length of input, instead of the number represented by those bits! For example, consider the number $(435835)_{10}$. The binary of it is $(110 1010 0110 0111 1011)_2$ which means that the number of bits are $19$. So, a loop running from $0$ to $(435835)_{10}$ will take around $O(2^{19})$ time (Don't be angry here if you know that this $O(1)$. What I am trying to say is that the algorithm is exponential - power of $2$ - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large "number of bits" is gone. Here are the time comparison for linear, quadratic and exponential algorithms to keep things in perspective: -->
+
+<!-- | $n$ | Time to compute $f(n)=n$ | Time to compute $f(n)=n^2$ | Time to compute $f(n)=2^n$ | -->
+<!-- | :-: | :-: | :-: | :-: | -->
+<!-- | $10$ | $0.01$ $\mu s$ | $0.1$ $\mu s$ | $1$ $\mu s$ | -->
+<!-- | $20$ | $0.02$ $\mu s$ | $0.4$ $\mu s$ | $1$ $ms$ | -->
+<!-- | $30$ | $0.03$ $\mu s$ | $0.9$ $\mu s$ | $1$ $sec$ | -->
+<!-- | $40$ | $0.04$ $\mu s$ | $1.6$ $\mu s$ | $18.3$ $min$ | -->
+<!-- | $50$ | $0.05$ $\mu s$ | $2.5$ $\mu s$ | $13$ $days$ | -->
+<!-- | $100$ | $0.1$ $\mu s$ | $10$ $\mu s$ | $4\times 10^{13}$ $years$ | -->
+<!-- | $1,000$ | $1$ $\mu s$ | $1$ $ms$ | - | -->
+<!-- | $10,000$ | $10$ $\mu s$ | $100$ $ms$ | - | -->
+<!-- | $100,000$ | $0.1$ $ms$ | $10$ $sec$ | - | -->
+
+<!-- As you can see, if our bits reach $100$, the running time reach $4\times 10^{13}$ $years$!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an $O(n^2)$ algorithm to find product of two numbers, where $n$ represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers. -->
+
+<!-- Above discussion should have given you a general idea of what we mean by "difficult to solve but easy to verify". We will use something like this to enforce a "practical" limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain. As a spoiler, the `difficulty` and `nonce` are used precisely for this purpose. -->
