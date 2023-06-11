@@ -83,3 +83,5 @@ considerations
 relation-with-merkle-trees
 code-optional
 merkle-hash-computation-logic
+pseudo-code
+c-code-3
