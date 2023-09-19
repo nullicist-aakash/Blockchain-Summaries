@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Lifecycle of Bitcoin - Merkle Trees | Bitcoin: A Technical Introduction - Volume I</title>
   <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Lifecycle of Bitcoin - Merkle Trees | Bitcoin: A Technical Introduction - Volume I" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-06-11" />
+<meta name="date" content="2023-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="lifecycle-of-blockchain---previous-block-hash.html"/>
-
+<link rel="next" href="proof-of-work.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -246,6 +250,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -680,7 +711,7 @@ int main(int argc, char** argv)
 <p>Here is the output of hash computations on initial <span class="math inline">\(1k\)</span> of data:</p>
 <pre><code>Offsets of block #0: 0x00000000 to 0x00000124
 Magic Number: D9B4BEF9
-Blockchain Size: 285
+Block Size: 285
 Header Info: 
         ...
         Merkle Hash (Stored)     : 4A5E1E4BAAB89F3A32518A88C31BC87F618F76673E2CC77AB2127B7AFDEDA33B
@@ -691,7 +722,7 @@ Header Info:
 
 Offsets of block #1: 0x00000125 to 0x00000203
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         ...
         Merkle Hash (Stored)     : 0E3E2357E806B6CDB1F70B54C3A3A17B6714EE1F0E68BEBB44A74B1EFD512098
@@ -702,7 +733,7 @@ Header Info:
 
 Offsets of block #2: 0x00000204 to 0x000002E2
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         ...
         Merkle Hash (Stored)     : 9B0FC92260312CE44E74EF369F5C66BBB85848F2EDDD5A7A1CDE251E54CCFDD5
@@ -713,7 +744,7 @@ Header Info:
 
 Offsets of block #3: 0x000002E3 to 0x000003C1
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         ...
         Merkle Hash (Stored)     : 999E1C837C76A1B7FBB7E57BAF87B309960F5FFEFBF2A9B95DD890602272F644
@@ -740,7 +771,7 @@ Header Info:
 <pre><code>...
 Offsets of block #170: 0x00009490 to 0x00009681
 Magic Number: D9B4BEF9
-Blockchain Size: 490
+Block Size: 490
 Header Info: 
         Version Number           : 1
         Previous Hash            : 000000002A22CFEE1F2C846ADBD12B3E183D4F97683F85DAD08A79780A84BD55
@@ -833,27 +864,6 @@ Header Info:
 <li>Write the code to compute Merkle Hash from array of hashes without looking at above implementation.</li>
 <li>Recall the meaning of each field of Blockchain header other than <code>nonce</code> and <code>difficulty</code>. Can you explain everything we have covered so far, and how each field is computed?</li>
 </ol>
-<!-- #### Difficult problems in computer science -->
-<!-- Study of the "Theory of Computer Science" provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to problem is correct or not. For an example, given a very large number $n$, can we factor it into two numbers $x$ and $y$ such that -->
-<!-- 1. $1<x,y<n$. -->
-<!-- 2. $x\times y = n$. -->
-<!-- 3. $x,y\in \mathbb{N}$: $x$ and $y$ are natural numbers. -->
-<!-- It is currently the consensus in humanity that this problem is very very hard to solve "effectively" (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).  -->
-<!-- But if we are given $n$, $x$ and $y$, we can simply multiply $x$ and $y$ to see if their product is equal to $n$. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! We will cover the exact meaning of it in next volume, but just assume that this is very important for security of communication on internet. The world's trust on secure connection between any two devices rely on this "knowledge" that we can't factor two integers fast enough. -->
-<!-- We need to see an example why the standard $O(n)$ algorithm of finding factors from $1$ to $n$ will not work. Actually, this algorithm is "exponential", not linear. In computational theory, we use the "number of bits" to represent our length of input, instead of the number represented by those bits! For example, consider the number $(435835)_{10}$. The binary of it is $(110 1010 0110 0111 1011)_2$ which means that the number of bits are $19$. So, a loop running from $0$ to $(435835)_{10}$ will take around $O(2^{19})$ time (Don't be angry here if you know that this $O(1)$. What I am trying to say is that the algorithm is exponential - power of $2$ - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large "number of bits" is gone. Here are the time comparison for linear, quadratic and exponential algorithms to keep things in perspective: -->
-<!-- | $n$ | Time to compute $f(n)=n$ | Time to compute $f(n)=n^2$ | Time to compute $f(n)=2^n$ | -->
-<!-- | :-: | :-: | :-: | :-: | -->
-<!-- | $10$ | $0.01$ $\mu s$ | $0.1$ $\mu s$ | $1$ $\mu s$ | -->
-<!-- | $20$ | $0.02$ $\mu s$ | $0.4$ $\mu s$ | $1$ $ms$ | -->
-<!-- | $30$ | $0.03$ $\mu s$ | $0.9$ $\mu s$ | $1$ $sec$ | -->
-<!-- | $40$ | $0.04$ $\mu s$ | $1.6$ $\mu s$ | $18.3$ $min$ | -->
-<!-- | $50$ | $0.05$ $\mu s$ | $2.5$ $\mu s$ | $13$ $days$ | -->
-<!-- | $100$ | $0.1$ $\mu s$ | $10$ $\mu s$ | $4\times 10^{13}$ $years$ | -->
-<!-- | $1,000$ | $1$ $\mu s$ | $1$ $ms$ | - | -->
-<!-- | $10,000$ | $10$ $\mu s$ | $100$ $ms$ | - | -->
-<!-- | $100,000$ | $0.1$ $ms$ | $10$ $sec$ | - | -->
-<!-- As you can see, if our bits reach $100$, the running time reach $4\times 10^{13}$ $years$!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an $O(n^2)$ algorithm to find product of two numbers, where $n$ represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers. -->
-<!-- Above discussion should have given you a general idea of what we mean by "difficult to solve but easy to verify". We will use something like this to enforce a "practical" limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain. As a spoiler, the `difficulty` and `nonce` are used precisely for this purpose. -->
 
 </div>
 </div>
@@ -862,8 +872,8 @@ Header Info:
           </div>
         </div>
       </div>
-<a href="lifecycle-of-blockchain---previous-block-hash.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="lifecycle-of-blockchain---previous-block-hash.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="proof-of-work.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
