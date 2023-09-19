@@ -1,0 +1,246 @@
+# Proof of Work
+
+Let's revise what we have covered. For a currency in which everyone can trust, we needed a system that can't be changed once some data is there and it is decentralized. Why we need decentralization? To eliminate trust in human entity and trust on well established protocols of cryptography. We know that thousands of transactions happen in the world at any point in time. In Bitcoin, a set of transactions are combined to form a block. As new transactions come into system, new blocks are added. Header contains the hash of transactions (Merkle Hash) so that we can always verify the integrity of transactions a block contains, given that header content is valid. New blocks are added via linked list structure, and this structure takes care of any changes in the entire chain till the latest block (Prev Hash).
+
+So, are we done? Can we take our current ideas and start with Bitcoin? Is this everything we need in blockchain? After all, we can detect if there are any changes in the storage from the beginning of chain to latest block in the chain. And the answer is: not even close! Remember one attack that we covered earlier solely based on speed of computing the hash? Here is the repetition if you forgot about it: You close the software. Someone go in past entries on the storage, change them, recalculate the hash of corresponding block header, recompute the hash of block, change the "prev_hash" entry of just next block, recompute the block hash of next block, change entry in next to next block, and so on till the latest block. You restart the application after some time. Can you detect any changes if you start verifying everything from start? I don't think so. And why this attack is feasible? Because we can calculate hashes very fast. Can we make hashing algorithm slower to counteract this? Not an option! This defeats the whole purpose of cryptographic functions. Even if we go with this plan, remember that computers are getting fast with the time. Who is to decide how much time a hash function should take?
+
+So, what's the solution? We know that Bitcoin works, and this book exists. So, there must be a solution. Before going into actual details, let's see another concept in computer science that will be used. Just like cryptographic hash functions, we cover this concept without any context of Blockchain so that we know its existence independent of this technology. After that, we will apply the concept "in abstract manner" to understand how it will help us in preventing above attack. Finally, we go into the actual details of how things are actually implemented. As always, having a working memory model of something is always better than mugging up the implementation and applying it blindly.
+
+> There are another set of problems that we are completely ignoring for now. And that is networking! We are currently talking about single system, single user. Once we have clear idea of how everything is handled on one system, we can jump to multiple systems in future chapters to complete our understanding of Blockchain and after that, we can jump into implementation of Bitcoin.
+
+> There are other proofs that are used in Blockchain technologies, such as Proof-of-Stake in Ethereum. We will cover these later, as explaining these require more concepts that we don't require right now.
+
+## Difficult problems in computer science
+Study of the "Theory of Computer Science" provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to the problem is correct or not. As an example, given a very large positive integer $n$, can we factor it into two numbers $x$ and $y$ such that
+
+1. $x,y\in \mathbb{N}$: $x$ and $y$ are natural numbers.
+2. $1<x,y<n$.
+3. $x$ and $y$ are prime numbers.
+4. $x\times y = n$.
+
+It is currently the consensus in humanity that this problem is very very hard to solve "effectively" (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).
+
+But if we are given $n$, $x$ and $y$, we can simply multiply $x$ and $y$ to see if their product is equal to $n$. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! The world's trust on secure connection between any two devices rely on this "knowledge" that we can't factor two integers fast enough.
+
+Before going ahead, we need to see an example why the standard $O(n)$ algorithm of finding factors from $1$ to $n$ will not work. After all, we are claiming that this problem is "very very hard" to solve in practical time limits. Actually, this algorithm is "exponential", not linear. In computational theory, we use the "number of bits" to represent our length of input, instead of the number represented by those bits! For example, consider the number $(435835)_{10}$. The binary of it is $(110 1010 0110 0111 1011)_2$ which means that the number of bits are $19$. So, a loop running from $0$ to $(435835)_{10}$ will take around $O(2^{19})$ time (Don't be angry here if you know that this $O(1)$. What I am trying to say is that the algorithm is exponential - power of $2$ - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large "number of bits" is gone. Here is the time comparison for linear, quadratic and exponential algorithms to keep things in perspective:
+
+| $n$ | Time to compute $f(n)=n$ | Time to compute $f(n)=n^2$ | Time to compute $f(n)=2^n$ |
+| :-: | :-: | :-: | :-: |
+| $10$ | $0.01$ $\mu s$ | $0.1$ $\mu s$ | $1$ $\mu s$ |
+| $20$ | $0.02$ $\mu s$ | $0.4$ $\mu s$ | $1$ $ms$ |
+| $30$ | $0.03$ $\mu s$ | $0.9$ $\mu s$ | $1$ $sec$ |
+| $40$ | $0.04$ $\mu s$ | $1.6$ $\mu s$ | $18.3$ $min$ |
+| $50$ | $0.05$ $\mu s$ | $2.5$ $\mu s$ | $13$ $days$ |
+| $100$ | $0.1$ $\mu s$ | $10$ $\mu s$ | $4\times 10^{13}$ $years$ |
+| $1,000$ | $1$ $\mu s$ | $1$ $ms$ | - |
+| $10,000$ | $10$ $\mu s$ | $100$ $ms$ | - |
+| $100,000$ | $0.1$ $ms$ | $10$ $sec$ | - |
+
+As you can see, if our bits reach $100$, the running time reach $4\times 10^{13}$ $years$!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an $O(n^2)$ algorithm to find product of two numbers, where $n$ represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers.
+
+Above discussion should have given you a general idea of what we mean by "difficult to solve but easy to verify". We will use something like this to enforce a "practical" limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain.
+
+## Working model of Proof-of-work
+How can we use the above concept of "hard to solve but difficult to verify" in blockchain to prevent the attack presented in the beginning of chapter? Suppose we have a "difficult problem" which will take some time to solve (not the exponential time as present in factorization problem above). For each block, we solve some difficult problem that should "definitely" take "considerable" amount of time to solve by computers. We will cover how Bitcoin solves the problem of increasing speed of computers in a moment, but first, we need to see how solving the difficult problem helps Bitcoin.
+
+### Securing Bitcoin by solving a difficult problem
+Before adding a new block of new transactions to the end of chain, we (actually miners, but we are not covering them in this chapter) solve a "difficult" problem specific to the block. What do we mean by "difficult" here? Say, solve a problem, which on average, with current computer speeds, take an average of $10$ minutes to solve (There is nothing special in this value chosen for Bitcoin implementation, it was just a parameter which was thought to be good at that time). What do we mean by "specific to the block"? This means that the difficult problem revolves around the transactions inside the block, and the solution will not be valid for any other data. Again, we are talking about problems which are hard to solve but very easy to verify. How does it helps us, if we have such a thing in place?
+
+Consider what will happen in the attack described above if we have something like this in place. Someone goes to history, change the contents, compute new Merkle Hash, go to next block, change the prev_hash entry, ... Next, application is restarted and all entries are verified (This is time consuming and doesn't happen in practice. This will be covered later in detail). We are using the old verification mechanism along with one more additional step:
+
+- Check if the solution of "difficult" problem is correct or not.
+
+When the application reach the entries that were altered, the "solution" will not match the contents of transactions, as the problem was solved for some other transactions! We detected the changed entries and prevented above attack.
+
+So what's the benefit? Let's see an example. A hacker proposes the following strategy: Change an entry, recalculate the Merkle Hash, solve the difficult problem, go to next block, update prev_hash entry, go to next block, repeat.
+
+Are there any problems in above attack if there are thousands or millions of blocks? Time taken to "update" one block will be $10$ minutes. To update $6$ blocks, approach will take $1$ hour. To update $600$ blocks, approach will take $100$ hours. Seems like that the attack will be successful if there is enough time, right?
+
+NO! Remember that world is actively doing transactions. What is the consequence of this? The number of blocks are also increasing at the rate of $1$ block per $10$ minutes, on average. If someone change the entry of last $5^{th}$ block, that person will need $50$ minutes to come to block which was last block when attack started. In the meantime, $5$ new blocks are already entered into the chain! Meaning by? More someone tries to go in past to change some entries, more difficult it is for them to catch up with last block in the entire chain!
+
+This seems like a good solution, as far as we are concerned. And that's the solution which is implemented inside Bitcoin protocol!
+
+### Buying a fast computer to attack the chain
+There is a flaw in our implementation. What will happen if a hacker buys a fast computer that can solve problem in $7$ minutes? In some finite amount of time, hacker will soon reach the latest block in the chain and alter its contents while the new block is being prepared. Once successful, the new block will see the changed block and the prev_hash field will be updated corresponding to new block, which should not be allowed.
+
+So, what's the solution? As we are only considering a single system right now, this problem can't be solved. As long as hacker have fast computers than us, the hack can be performed. We don't need to care about this attack once we shift to multiple computers sharing the Blockchain, as it happens in Bitcoin.
+
+### Economics of using a fast computer for hacking
+What does Bitcoin implementation do to prevent this type of attack? We are going outside the scope of technological analysis in this section and going into economics. Make sure not to confuse both things.
+
+Say, I have a fast computer. What can I do with it? Hack Bitcoin network or contribute my electricity, expensive hardware resources, cooling system, etc. to help cultivate Bitcoin. Hacking seems a very lucrative choice. Before going further into detail, we need to take a step back and consider the benefits of hacking. If we hack, we can transfer Bitcoin to us, sell them, gain cash! In reality, this will happen if hacking is possible:
+
+1. System is prone to attacks, hackers across the world hack the system on regular basis.
+2. People's trust in the system declines very fast, as the system is not secure.
+3. They are willing to give less money in exchange of Bitcoin. (Economics: Price of 'something' declines if people's belief in the stability of 'something' is reduced). Price of Bitcoin comes crashing down.
+4. Hackers try to sell their hard earned Bitcoins (by hacking and scamming obviously) only to find out that the market value of Bitcoin is practically $0$!
+
+In summary, the simple act of hacking and possibility of it forces the price of technology to come to $0$, effectively making the system worthless. So, having a fast system with us is useless after all.
+
+If the instability in system forces the price of the same to reduce to $0$, what keeps it above $0$ in first place? After all, we have many technologies and algorithms that work very well, we don't see them selling around in the market. Torrents works in distributed manner, do we say something like: "I own $x$ torrents. I can sell them to market for $y$ dollars". Distributed databases exist in the market, we don't say something like: "I own $x$ shares of mongodb database. The price of database will increase in future. I will see my shares and will receive money". 
+
+Coming to original question, what keeps the price of Bitcoin floating? And the answer is 'mining reward'. If someone uses their computer resources, expensive hardware (in comparison to other users of Bitcoin), electricity to solve this difficult problem, and they become successful before anyone else, they will receive free Bitcoins. And there you have it, the core reason by price of Bitcoin rises in first place. This works as follows:
+
+1. We spend money: electricity, hardware, cooling, maintainance etc. to get Bitcoin. We would demand some money in market for these Bitcoins, because we spent our money in first place. This gives coins some value.
+2. Other people see that they can use these "coins" to sell them to the market, so they join the system too and try to get their own Bitcoins by solving problems and creating new blocks.
+3. People buy expensive things to create new blocks, justifying their demand to sell Bitcoin to higher price, further increasing the price.
+
+And there you have it. A decision to give "free" Bitcoins to people for solving difficult problems drives the who Bitcoin system. Remember that this is not a technological thing, but the economics of creating new block and selling the reward at higher price. Now that we have some context of why this is beneficial from economic point of view, we will go into mining rules in next section and complete the design of our ledger.
+
+## Proof-of-Work - Nonce Field
+Now, we will jump into the actual details of how Bitcoin implements Proof-of-Work. As already mentioned, we are only considering the case when we are working on a "single" system, and we will cover how these things work on multiple devices later. Under this assumption, we have the following:
+
+1. Blockchain with transactions.
+2. Some transaction data which is not part of Blockchain (yet).
+
+In real world, these transactions will be generated worldwide, so we can be sure that if a person have sufficient number of transactions (the sufficient number of transactions can be $1$, as the case with genesis block) to place in the block, then that person (miner) can make a block. It doesn't matter where the data came from. Only the validity of created block matters, on which proof-of-work can be verified. 
+
+Here is the header of Bitcoin Block for reference:
+
+| Byte Range | Header offset | Size (bytes) | Meaning | Is covered completely till now |
+| :-: | :-: | :-: | :- | :-: |
+| 8-11 | 0-3 | 4 | Version Number | Yes |
+| 12-43 | 4-35 | 32 | Previous Block Hash  | Yes |
+| 44-75 | 36-67 | 32 | Current Merkle Hash | Yes |
+| 76-79 | 68-71 | 4 | Time | Yes |
+| 80-83 | 72-75 | 4 | Difficulty | No |
+| 84-87 | 76-79 | 4 | Nonce | No |
+
+In the process of mining, we collect the transactions, which we want to add to the blockchain. Once these transactions are selected, we have the following information with us, that is fixed:
+
+1. Version number, independent of transactions or block in our case.
+2. Previous Block Hash: We can't change it, as this is already part of "read-only" blockchain.
+3. Current Merkle Hash: Computed using the transactions that will be placed in the block.
+
+Time will be set during mining, as we will see in few moments. Remaining are `difficulty` and `nonce`. `Difficulty` is set by the Bitcoin Network itself, and we have no control over its value. How this is computed and how it is updated, is explained later. For now, we have this field with us, somehow. Remaining is the `nonce`, which is the parameter which we will change to solve the "Difficult problem". Here is the mining algorithm, the "difficult" problem miners are trying to solve:
+
+- Find the value of `nonce` such that block header hash is less than the `difficulty`.
+
+In general, we can say that the block hash has to have "fixed number of zeroes" in the beginning in order for it to be valid solution for the problem (This is a quick rule to remember, not this is not the actual one). As the output of SHA-256 is highly random, changing a single bit of input will drastically change the output. Thus, there is no hidden pattern or "best" guess for `nonce` that will satisfy the above condition. After setting the time field, the miner have to randomly try nonce values and by luck, if the setup is very fast in market, the correct nonce will be found in $10$ minutes, on average. As there is no pattern in output, the approach of setting "nonce" as $0$, finding hash, increment "nonce" if the condition is not satisfied, recompute hash, and repeat is as good as any other method.
+
+### Important questions for proof-of-work algorithm
+
+- How do we guarantee that on average, a block is mined in $10$ minutes?
+  - The answer is that `difficulty` field is recomputed on whole network based on how many blocks were introduced in the system in last $2$ weeks (actual details in some moment). If on average, the mining time of block is less than $10$ minutes, it means that fast computers are introduced in the system and the network will increase the difficulty based on some formula.
+- What if the difficulty is increased upto a point where the average time to mine the block is more than $10$ minutes with current technology?
+  - The difficulty recalculation formula will take care of it and the difficulty given by network will decrease. Thus, the formula tries to keep the average mining time around $10$ minutes, and no one with fastest computer will be able to mine Bitcoin forever than the intended speed.
+- The `difficulty` field is only $4$ bytes and double SHA will give $256$ bit output. How to compare these?
+  - This will be explained shortly. There is a formula to expand the $4$ bytes of `difficulty` field to $256$ bits or $32$ bytes for SHA comparison.
+- It is possible that for any possible value of `nonce`, the problem have no solution. This means that, for all fixed fields, it is not necessary that a $4$ byte `nonce` will exist such that a solution will exist. What to do in that case?
+  - Remember that time field is changed every second. Miner will simply update the time value and will retry again.
+- What if the computer speed is such that all $4$ bytes of nonce are already computed before completion of $1$ second and the solution is not found? The computers are increasing in speed and I can compute the hash in parallel, for different values of nonce, using very specialized hardware setups.
+  - Date field is not the only variable we can control. We can rearrange the transactions of the block to compute new Merkle hash, and redo the computations.
+  - Also, in reality, a few set of transactions are taken, at random, to be part of new block. We can add or replace some current transactions with any other to expand our searching.
+- We mentioned that there are many miners in the world who are trying to solve the "problem". It is possible that they have the same set of inputs, but in different order, and both solves the problem. Which one will be considered for bitcoin reward?
+  - This will be covered in later chapter. There is a well defined protocol at play here. The quick answer is that people wait for atleast $3$-$4$ blocks to be mined after the transaction included as was part of blockchain to make sure it will "stay" there.
+
+### Example
+Let's take the example of genesis block. Obviously, as there is no "network" for Genesis block, the `difficulty` field for genesis block was hardcoded. The value is `0x1D00FFFF` (in big endian), as can be seen from the output of Chapter $3$. Based on formula given later, this will expand into `0x00000000'FFFF0000'00000000'00000000'00000000'00000000'00000000'00000000`. 
+
+Now comes the `nonce`, which we need to find. We set the nonce to `0x00000000` and compute the header hash (double SHA-256). Reader will find that the condition is not satisfied. Increase the nonce to `0x00000001`, again failure. If we go on and on, we will reach `0x7C2BAC1D` for which, the block hash turns out to be `00000000'839A8E68'86AB5951'D76F4114'75428AFC'90947EE3'20161BBF'18EB6048` which is less than the required target!
+
+The reader is encouraged to write a program and run the loop to see how much it will take to "mine" the block. This will give an idea how "boring" mining is, how time consuming and power consuming it is, but people still do it due to market value of Bitcoin. Does it mean that we should start mining on our devices too? No. The money spent on electricity and device to mine a block, by a person with average setup (in comparison to supercomputers and data centers dedicated to mining Bitcoin) is far more than the Bitcoin reward.
+
+### Proof-of-work as difficult problem
+So, does the proof of work satisfy the conditions of "difficult to solve, easy to verify"? Yes. It takes 10 minutes, on average, to solve the problem of mining the block. Given the final nonce and header of a mined block, we can easy verify that the header hash is less than the target.
+
+As already discussed, the Bitcoin platform is actively generating transactions and thus, the Blockchain size is increasing ever since. How multiple miners contribute to the length of blockchain, is topic of further chapters. 
+
+## Proof-of-work - `Difficulty` Field
+Having covered the `nonce`, it is time to complete the `difficulty` field in order to fully understand the header of Blockchain in Bitcoin. There are many aspects to the `difficulty` field and we cover each of them in the following subsections.
+
+
+We mentioned that `difficulty` field is stored in $4$ bytes and we expand it into $32$ bytes/$256$ bits to compare the resulting double SHA-256 hash to verify if the "problem" is solved. We now go into the details of how that is accomplished in the Bitcoin implementation.
+
+### Expansion of `difficulty` into $256$ bits
+Imagine a binary number of $256$ bits, which will be our *target* value. Divide it into $3$ parts: prefix (leftmost part), middle and suffix (rightmost part). Prefix and suffix consist of zeroes and middle is $3$ bytes $=24$ bits long. If we know the length of either prefix or suffix, our job will be done.
+
+Divide the $4$ byte `difficulty` into two parts: $1$ byte long *exponent* and $3$ bytes long *mantissa*. Remember the middle part in above paragraph? This is same as mantissa. Exponent field is used to get the length of suffix or prefix, whichever way you like. We change our discussion in terms of *nibbles*. $1$ byte is equal to $2$ nibbles and $1$ nibble is equal to $4$ bits. Equivalently, one nibble corresponds to the space taken by one hexadecimal character.
+
+This implies that we have $256$ bits $=32$ bytes $=64$ nibbles and middle part will take $3\times 2=6$ nibbles. Let $n_1$ denotes the nibbles for the prefix and $n_2$ denotes the nibbles for suffix. This implies we have the following equation: $$n_1+6+n_2=64.$$ Bitcoin implementation gives us the following formula for $n_1$: $$n_1=64-2\times exp.$$ Take the genesis block, having `difficulty` of `0x1D00FFFF`. This means that exponent is `0x1d` and mantissa is `0x00FFFF`. The middle part of final $64$ nibble output is `0x00FFFFFF`. Our exponent is `0x1d`, which evaluates to $29$. This gives $n_1=64-2\times exp=64-2\times 29=64-58=6$. This means, we have $6$ nibbles in the beginning, $6$ nibbles for mantissa and remaining $64-6-6=52$ nibbles for suffix.
+
+Wikipedia doesn't use this approach. They calculate suffix so that bitwise operators can be used and computations can be done in less steps. Let's see what will be $n_2$ using the information we have thus far. Putting $n_1$ formula into $n_1+6+n_2=64$, we have $$(64-2\times exp) + 6 + n_2=64$$ which gives $$n_2=2\times(exp-3).$$ Remember that these are the number of nibbles. To get the number of bits, we have $8\times (exp-3)$ bits. This gives rise to the following pseudo code:
+
+```
+mantissa  = difficulty & 0xFFFFFF
+expponent = difficult >> 24
+target = mantissa << (8 * (exponent - 3))
+```
+
+The result matches with the required target for the genesis block as `0x000000_00'FFFF_0000'00000000'00000000'00000000'00000000'00000000'00000000`.
+
+### Parameters for target recalculation
+Remember that a block on average should take $10$ minutes to mine. This means that in two weeks, approximately $2016$ blocks should be mined. Bitcoin implementation takes the $2$ week time as reference. They consider the time it took to add last $2016$ blocks in the network and based on that, they recompute the difficulty. Note the use of following jargon before going further:
+
+1. `Difficulty` field refers to $4$ bytes stored value in Blockchain header. Genesis block has the `difficulty` field as `0x1D00FFFF`.
+2. The expanded $256$ bit value is known as target. The genesis block has the target of $65535 \times 2^{208}$.
+3. Difficulty refers to general English meaning of difficulty. Bitcoin developers assigned difficulty of $1$ to the genesis block.
+4. Hash rate refers to the number of hashes that miners compute, all over the world, in one second. For more hash rate, we need more difficulty to make sure $10$ minutes per block are maintained.
+
+Let's say it took less than $2$ weeks to mine last $2016$ blocks. Should we increase the difficulty (decrease the target) or should we decrease the diffficulty (increase the target)? We should increase the difficulty in order to make sure it takes more time to mine the block. And if last $2016$ blocks took more than $2$ weeks of time, we should decrease the difficulty.
+
+Here is the relation that is maintained for difficulty and target, for each block (Note that this is not the value of `difficulty` field that is stored, this is the new unit of difficulty which was in point $3$ of jargon):
+
+
+$$\text{Difficulty} \times \text{Target} = \text{constant} = 1 \times \text{Target of Genesis Header} = 65535 \times 2^{208}.$$
+
+
+Let's take an example. If the `difficulty` field is `0x1B0404CB`, then the target will be `0x00000000'00_0404CB'_00000000'00000000'00000000'00000000'00000000'00000000`. This gives us difficulty as 
+
+```
+0x00000000FFFF0000000000000000000000000000000000000000000000000000 /
+0x00000000000404CB000000000000000000000000000000000000000000000000 
+= 16307.420938523983
+```
+
+### Recomputation of difficulty in Bitcoin
+Now, let's see how to recompute new target. Here is the logic that is performed after every $2016$ blocks on Blockchain:
+
+1. Take the time taken to mine last $2016$ blocks.
+2. Compute the new difficulty using the following formula: $$\text{Difficulty}_\text{new}\times\text{Time}_\text{old}=\text{Difficulty}_\text{old}\times\text{Time}_\text{Expected}.$$
+
+In the above formula, we have the following variables:
+
+1. New Difficulty: The difficulty which will be set for next $2016$ blocks.
+2. Old Time: The time taken by last $2016$ blocks of blockchain to mine.
+3. Old Difficulty: Current difficulty, by which the network was working.
+4. Expected Time: The time taken by one block/time taken by 2016 blocks in seconds/minutes, depending upon what is used by Old Time field.
+
+> Due to a bug in Bitcoin code, the 'Old Time' variable is actually set to time taken by last $2015$ blocks instead of last $2016$ blocks. Fixing this bug requires a "hard fork", a term defined in later chapters and due to this problem, the bug was not fixed. Remember that this doesn't mean that "Expected Time" Field will correspond to $2015$ blocks.
+
+As we know that blocks start at index $0$ in Bitcoin, therefore Block $0$ to Block $2015$ have same difficulty. Block $2016$ to Block $4031$ have same difficulty, and so on. Also, we have additional rules for difficulty which makes sure there are no rapid changes in the new difficulty:
+
+1. Difficulty value can never be lower than $1$. If it reaches less than $1$, then the difficulty will be set to $1$.
+2. New difficulty value can never be more than $4$ times the previous difficulty value.
+3. New difficulty value can never be less than $0.25$ times the previous difficulty value.
+
+As `Difficulty * target = constant`, we can say the same thing about target, and maximum target being the target of genesis header: $65535 \times 2^{208}$.
+
+## Solved Examples
+### Difficulty recomputation example
+Let's say Bitcoin network just mined block number $106847$. Next block is multiple of $2016$, so we need new difficulty for that block. From the formula, we need two things: Time taken to mine last $2016$ blocks and old difficulty. Old difficulty here refers to the difficulty associated with range of blocks: $[104832,106847]$.
+
+`Difficulty` field of block $106847$ is `0x1B02FA29` (Link: [Block 106847](https://explorer.btc.com/btc/block/106847)). This means mantissa is `0x02FA29` which in decimal is $195213$. Exponent part is `0x1B`, which in decimal is $27$, which implies that the length of suffix is $8\times(27-3)=192$. Thus, old target is $195213\times2^{192}$. As the target of genesis block is $65535\times2^{208}$, this gives current difficulty as $22012.4$.
+
+To compute the time taken by last $2016$ blocks, we first need to address a subtle question: What time does the `time` field of Blockchain represent? This is further divided into two parts: Which time zone and which time in the average interval of $10$ minutes. For the time zone, there is no issue as the time is Unix Epoch Time. For the second question, we have the approximate time to the end of this $10$ minute period. Why not the start time of mining? Why the "approx", not "exact" end time? Recall that we can compute the hash corresponding to all $4$ bytes of nonce field and it is possible that solution was not found. We alter the date field to new time to retry whole set of nonce.
+
+With this information, we know that we have end time of block $104831$, end time of block $104832$, ..., end time of block $106847$. Which time should we subtract from end time of block $106847$ to get the time to mine last $2016$ blocks? If your answer is $104832$, you made the same mistake as Bitcoin developers did. The actual answer is $104831$. But since we need to match our results with difficulty of block $106848$, we have to choose the time stored in block $104832$. The time stamp of this block is `27 Jan 2011, 13:46:11` while the time stamp of block $106847$ is `8 Feb 2011, 10:15:42`. This gives us $1024171$ seconds that were elapsed.
+
+Since we are considering the time taken by last $2016$ (actually $2015$, but we have to take these as $2016$ as this was a bug) blocks, the expected time is $2016\text{ blocks}\times10\text{ minutes}\times60\text{ seconds}$.
+
+Putting this in above formula, we get 
+$$\text{Difficulty}_\text{new}=\frac{\text{Difficulty}_\text{old}\times\text{Time}_\text{Expected}}{\text{Time}_\text{old}}.$$
+$$\implies\text{Difficulty}_\text{new}=\frac{22012.4\times2016\times600}{1024171}=25997.8$$
+
+Converting this difficulty into target gives us target of $165203\times2^{192}$ which on converting to `difficult` field value gives us `0x1B28553`. What is the actually stored value inside block $106848$? It is `0x1B28552`, or difficulty of $25997.9$, which is due to some rounding error in logic.
+
+### Hash rate computation
+Suppose we want to compute the hash rate of Bitcoin network based on last $2015$ blocks. This means that we want to compute the number of hashes that were computed by miners per second, on average, to mine $2015$ blocks. Let's take the previous example.
+
+The time taken to mine last $2015$ blocks in previous example was $1024171$ seconds. If we have the average number of hashes required to mine one block, we can multiply it by $2015$ to get the total hashes computed for $2015$ blocks, on average and divide it by $1024171$ to get average hash rate. How to compute the average hashes required to mine one block? We use Bernoulli distribution here. For those who are not comfortable with probability distribution, here is the result: Average number of hashes required are $2^{256}/\text{Target}$. You can safely skip the next two paragraphs, if you don't want to go into the derivation.
+
+We can model mining using Binomial Distribution. Since the output of double SHA-256 is uniform, we can set the probability of success, $p$, as the values of hash which will be considered the solution of mining. Our constraint is that block is successfully mined if the double SHA output is less than the target. This gives us $p=T/2^{256}$ where $T$ is the target value derived from difficulty block.
+
+Given the value of $p$ and $q=1-p$ parameters of Binomial distribution, the question is: What are the expected number of trials before success. This is given by $$E[S]=\sum_{n=1}^{n=\infty}n\times p\times q^{n-1}$$ which gives us $E[S]=1/p$. Thus, expected number of trials are $$E[S]=\frac{1}{p}=\frac{2^{256}}{\text{Target}}.$$
+
+So, for given $2015$ blocks, average number of hashes to mine a block are $\frac{2^{256}}{195113\times2^{192}}$. This is the time for one block. For $2015$ blocks, we have $\frac{2^{256}\times2015}{195113\times2^{192}}$ hashes. These hashes were computed in $1024171$ seconds. Thus, hash rate is given by $$\frac{2^{256}\times2015}{195113\times2^{192}\times1024171}=186.01\times10^9\text{H/s}$$ or $186.01 \text{GH/s}$. Going to [Difficulty Stats](https://btc.com/stats/diff) of Bitcoin for Block $106848$, we see the value as $186.01 \text{GH/s}$, which matches with our result!

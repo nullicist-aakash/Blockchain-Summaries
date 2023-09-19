@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 2 Setting up the environment | Bitcoin: A Technical Introduction - Volume I</title>
   <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 2 Setting up the environment | Bitcoin: A Technical Introduction - Volume I" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-06-07" />
+<meta name="date" content="2023-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -151,8 +155,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
 <ul>
 <li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
-<li class="chapter" data-level="2.4.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.4.2</b> Working of <code>hex_view</code></a></li>
-<li class="chapter" data-level="2.4.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#display-transaction-bytes"><i class="fa fa-check"></i><b>2.4.3</b> Display transaction bytes</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
 </ul></li>
@@ -240,8 +242,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
 <li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -278,29 +311,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="get-initial-blockchain-data" class="section level2 hasAnchor" number="2.2">
 <h2><span class="header-section-number">2.2</span> Get Initial Blockchain Data<a href="setting-up-the-environment.html#get-initial-blockchain-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Bitcoin transactions are hard to find online in raw format. Before getting hands on the raw data, we need to see how bitcoin stores all the data. Bitcoin blocks are stored in <code>blk*.dat</code> files. To be more specific, you will see that initial blocks are stored in:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="setting-up-the-environment.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">blk00000.dat</span></span>
-<span id="cb1-2"><a href="setting-up-the-environment.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">blk00001.dat</span></span>
-<span id="cb1-3"><a href="setting-up-the-environment.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">blk00002.dat</span></span>
-<span id="cb1-4"><a href="setting-up-the-environment.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">...</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="setting-up-the-environment.html#cb1-1" tabindex="-1"></a><span class="ex">blk00000.dat</span></span>
+<span id="cb1-2"><a href="setting-up-the-environment.html#cb1-2" tabindex="-1"></a><span class="ex">blk00001.dat</span></span>
+<span id="cb1-3"><a href="setting-up-the-environment.html#cb1-3" tabindex="-1"></a><span class="ex">blk00002.dat</span></span>
+<span id="cb1-4"><a href="setting-up-the-environment.html#cb1-4" tabindex="-1"></a><span class="ex">...</span></span></code></pre></div>
 <p>Each of above files are around <span class="math inline">\(128\)</span> mb. This value is set in <a href="https://github.com/bitcoin/bitcoin/blob/ccd4db7d62e4880005da49f820a520a8943dcaed/src/node/blockstorage.h#L46">MAX_BLOCKFILE_SIZE</a> variable in Bitcoin source code.</p>
 <p>As of today, if you download whole data, it will take around <span class="math inline">\(470\)</span> gb and it is increasing every <span class="math inline">\(10\)</span> minutes. We will cover the growth aspects in next volume, the rate at which new data is added to Bitcoin network.</p>
 <p>We don’t need this much data! We don’t have RAM to load whole data and process it. We will work with first file: <code>blk00000.dat</code> and with only initial <span class="math inline">\(1000\)</span> bytes in the beginning. Why? Because we will manually examine each bytes of the file and to understand how the data is structured, few examples are enough. We can always change our code to read more data, the working code remains same.</p>
 <p>So, how to get hands on first block without downloding whole Bitcoin data? Easy! Just download the bitcoin client from official website. After that, it will ask you to download all blocks. You can start this process. Based on your OS, you need to go to directory where data is being downloaded. This must be visible on the Bitcoin Client startup when it asks you to download data. When you see the file <code>blk00001.dat</code> in the folder (after the download starts), you need to close the Bitcoin Core application so that it doesn’t download any more data. Simply copy the <code>blk00000.dat</code> file to your project. You have access to initial <span class="math inline">\(128\)</span> mb of transactions!!</p>
 <p>But this file still have a lot of transactions. We need to limit the size we will read, so that our dataset is limited to initial 3-4 transactions. For this, we will use the linux command:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="setting-up-the-environment.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dd</span> if=blk00000.dat of=1k.dat bs=1000 count=1</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="setting-up-the-environment.html#cb2-1" tabindex="-1"></a><span class="fu">dd</span> if=blk00000.dat of=1k.dat bs=1000 count=1</span></code></pre></div>
 <p>You will see output something like this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="setting-up-the-environment.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">1+0</span> records in</span>
-<span id="cb3-2"><a href="setting-up-the-environment.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">1+0</span> records out</span>
-<span id="cb3-3"><a href="setting-up-the-environment.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">1000</span> bytes transferred in 0.000251 secs <span class="er">(</span><span class="ex">3984064</span> bytes/sec<span class="kw">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="setting-up-the-environment.html#cb3-1" tabindex="-1"></a><span class="ex">1+0</span> records in</span>
+<span id="cb3-2"><a href="setting-up-the-environment.html#cb3-2" tabindex="-1"></a><span class="ex">1+0</span> records out</span>
+<span id="cb3-3"><a href="setting-up-the-environment.html#cb3-3" tabindex="-1"></a><span class="ex">1000</span> bytes transferred in 0.000251 secs <span class="er">(</span><span class="ex">3984064</span> bytes/sec<span class="kw">)</span></span></code></pre></div>
 <p>What this does is take the input file <code>blk00000.dat</code>, split it into chunk of size <span class="math inline">\(1000\)</span> bytes (parameter <code>bs</code>) and do this only once (parameter <code>count</code>). The output file is stored in <code>1k.dat</code>. Thus, we got an access to initial <code>1k</code> bytes of transactions of Blockchain! This is getting very exciting and we will read this into code very soon.</p>
 </div>
 <div id="project-structure" class="section level2 hasAnchor" number="2.3">
 <h2><span class="header-section-number">2.3</span> Project structure<a href="setting-up-the-environment.html#project-structure" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Create a new folder named <code>bitcoin_reader</code>. We will write our code in this place. Create an empty folder in this place named as <code>data</code>. Copy the <code>1k.dat</code> file to this <code>data</code> folder. Inside the <code>bitcoin_reader</code> folder, create a file named: <code>main.cpp</code>. We will write our <code>C++</code> code in this file. Here is the tree structure of project as of now:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="setting-up-the-environment.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.../bitcoin_reader</span></span>
-<span id="cb4-2"><a href="setting-up-the-environment.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> data</span>
-<span id="cb4-3"><a href="setting-up-the-environment.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── 1k.dat</span>
-<span id="cb4-4"><a href="setting-up-the-environment.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> main.cpp</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="setting-up-the-environment.html#cb4-1" tabindex="-1"></a><span class="ex">.../bitcoin_reader</span></span>
+<span id="cb4-2"><a href="setting-up-the-environment.html#cb4-2" tabindex="-1"></a><span class="ex">├──</span> data</span>
+<span id="cb4-3"><a href="setting-up-the-environment.html#cb4-3" tabindex="-1"></a><span class="ex">│</span>   ├── 1k.dat</span>
+<span id="cb4-4"><a href="setting-up-the-environment.html#cb4-4" tabindex="-1"></a><span class="ex">├──</span> main.cpp</span></code></pre></div>
 </div>
 <div id="hex-viewer" class="section level2 hasAnchor" number="2.4">
 <h2><span class="header-section-number">2.4</span> Hex Viewer<a href="setting-up-the-environment.html#hex-viewer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -308,45 +341,47 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="c-code" class="section level3 hasAnchor" number="2.4.1">
 <h3><span class="header-section-number">2.4.1</span> C++ Code<a href="setting-up-the-environment.html#c-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We will take <code>str</code> as input for our starting address and <code>len</code> specifies how many bytes we want to display starting from address <code>str</code>. Here is the code for our hex viewer:</p>
-<pre class="{c++}"><code>#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec
-
-void hex_view(const char* str, const size_t len)
+<p>```{C++}
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(‘0’) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec</p>
+<p>void hex_view(const char* str, const size_t len)
 {
-    for (int i = 0; i &lt; ((int)len &gt;&gt; 4) + (len % 16 ? 1 : 0); ++i)
-    {
-        int start = i * 16;
-        int end = std::min(i * 16 + 15, (int)len - 1);
-        std::cout &lt;&lt; &quot;0x&quot; &lt;&lt; HEX(start, 4) &lt;&lt; &quot; |  &quot;;
-        for (int j = start; j &lt;= end; ++j)
-            std::cout &lt;&lt; HEX(str[j], 1) &lt;&lt; (j % 8 == 7 ? &quot;  &quot; : &quot; &quot;);
-
-        for (int j = end; j &lt; i * 16 + 15; ++j)
-            std::cout &lt;&lt; (j % 8 == 7 ? &quot;    &quot; : &quot;   &quot;);
-        std::cout &lt;&lt; &quot;| &quot;;
-        for (int j = start; j &lt;= end; ++j)
-            std::cout &lt;&lt; (std::isprint(str[j]) ? str[j] : &#39;.&#39;);
-        std::cout &lt;&lt; &#39;\n&#39;;
-    }
+for (int i = 0; i &lt; ((int)len &gt;&gt; 4) + (len % 16 ? 1 : 0); ++i)
+{
+int start = i * 16;
+int end = std::min(i * 16 + 15, (int)len - 1);
+std::cout &lt;&lt; “0x” &lt;&lt; HEX(start, 4) &lt;&lt; ” | “;
+for (int j = start; j &lt;= end; ++j)
+std::cout &lt;&lt; HEX(str[j], 1) &lt;&lt; (j % 8 == 7 ?” ” : ” “);</p>
+<pre><code>    for (int j = end; j &lt; i * 16 + 15; ++j)
+        std::cout &lt;&lt; (j % 8 == 7 ? &quot;    &quot; : &quot;   &quot;);
+    std::cout &lt;&lt; &quot;| &quot;;
+    for (int j = start; j &lt;= end; ++j)
+        std::cout &lt;&lt; (std::isprint(str[j]) ? str[j] : &#39;.&#39;);
+    std::cout &lt;&lt; &#39;\n&#39;;
 }</code></pre>
-</div>
-<div id="working-of-hex_view" class="section level3 hasAnchor" number="2.4.2">
-<h3><span class="header-section-number">2.4.2</span> Working of <code>hex_view</code><a href="setting-up-the-environment.html#working-of-hex_view" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>You can safely skip this portion as we will be using above code as black-box from now on and the internal working of it is irrelevant to our discussion.</p>
-<p>Outer for loop takes care of how many lines to print. Inside the loop, we first initialise the <code>start</code> and <code>end</code> memory indices so that we don’t print out-of-bound memory by mistake. Then, we print the offsets. After that, we use <code>HEX</code> macro defined above to print the memory characters in specified number of <code>bytes</code>. At the last, we print the characters in ASCII format. Here is the summary of functions used in above code:</p>
-<ol style="list-style-type: decimal">
-<li><code>std::setw</code>: Present in <code>&lt;iomanip&gt;</code> header, specifies the width of output. Don’t worry if you don’t know about this. We will not use this again.</li>
-<li><code>std::setfill</code>: This is used to print the given character (<code>'0'</code> here) instead of spaces which were introduced by <code>setw</code>.</li>
-<li><code>std::hex</code>: This specifies that we want to print the integers in hexadecimal format. The default behaviors is <code>std::dec</code> which is used in last of this macro to reset the output manipulator.</li>
-<li><code>std::uppercase</code>: This specifies that we want to print everything in uppercase. This ensures that we will print integer <span class="math inline">\(10\)</span> as <span class="math inline">\(0A\)</span> instead of <span class="math inline">\(0a\)</span>.</li>
-<li><code>std::isprint</code>: This will return <code>true</code> if the output character is a printable ASCII character. We simply print a dot <code>.</code> if this is not the case, otherwise the equivalent ASCII character.</li>
-</ol>
-<p>We will be using <code>HEX</code> again and again to display our output, so it is necessary to get familiar with the syntax.</p>
-</div>
-<div id="display-transaction-bytes" class="section level3 hasAnchor" number="2.4.3">
-<h3><span class="header-section-number">2.4.3</span> Display transaction bytes<a href="setting-up-the-environment.html#display-transaction-bytes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>We will use the above <code>hex_view</code> function to see the contents of initial bitcoin data. First, we will read from <code>.dat</code> file using <code>fstream</code>. Then we will read the whole data inside character array and then, display the contents in hexadecimal format.</p>
-<p>Here is the code to display the initial bitcoin data in hexadecimal:</p>
-<pre class="{c++}"><code>#include &lt;iostream&gt;
+<p>}</p>
+<pre><code>
+
+### Working of `hex_view`
+
+You can safely skip this portion as we will be using above code as black-box from now on and the internal working of it is irrelevant to our discussion.
+
+Outer for loop takes care of how many lines to print. Inside the loop, we first initialise the `start` and `end` memory indices so that we don&#39;t print out-of-bound memory by mistake. Then, we print the offsets. After that, we use `HEX` macro defined above to print the memory characters in specified number of `bytes`. At the last, we print the characters in ASCII format. Here is the summary of functions used in above code:
+
+1. `std::setw`: Present in `&lt;iomanip&gt;` header, specifies the width of output. Don&#39;t worry if you don&#39;t know about this. We will not use this again.
+2. `std::setfill`: This is used to print the given character (`&#39;0&#39;` here) instead of spaces which were introduced by `setw`.
+3. `std::hex`: This specifies that we want to print the integers in hexadecimal format. The default behaviors is `std::dec` which is used in last of this macro to reset the output manipulator.
+4. `std::uppercase`: This specifies that we want to print everything in uppercase. This ensures that we will print integer $10$ as $0A$ instead of $0a$.
+5. `std::isprint`: This will return `true` if the output character is a printable ASCII character. We simply print a dot `.` if this is not the case, otherwise the equivalent ASCII character.
+
+We will be using `HEX` again and again to display our output, so it is necessary to get familiar with the syntax.
+
+### Display transaction bytes
+We will use the above `hex_view` function to see the contents of initial bitcoin data. First, we will read from `.dat` file using `fstream`. Then we will read the whole data inside character array and then, display the contents in hexadecimal format.
+
+Here is the code to display the initial bitcoin data in hexadecimal:
+```{C++}
+#include &lt;iostream&gt;
 #include &lt;fstream&gt;
 #include &lt;algorithm&gt;
 #include &lt;string&gt;
@@ -408,9 +443,9 @@ int main(int argc, char** argv)
 }</code></pre>
 <p>Understanding above code is very simple. We are taking the path of our transaction data file as command line argument. In the function <code>get_file_contents</code>, we pass the file path from the terminal. If we are unable to open file in <code>binary</code> mode for reading, we simply exit. Otherwise, we copy the contents from whole file to string and then return it. Finally, we are printing the contents of file in hexadecimal format.</p>
 <p>Compile the above code using the following command:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="setting-up-the-environment.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> main.cpp <span class="at">-o</span> reader.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="setting-up-the-environment.html#cb7-1" tabindex="-1"></a><span class="ex">g++</span> main.cpp <span class="at">-o</span> reader.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
 <p>A file <code>reader.out</code> will be created which is our executable. Run the file using the following command:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="setting-up-the-environment.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="setting-up-the-environment.html#cb8-1" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
 <p>Here is the output of running above code on initial <span class="math inline">\(1k\)</span> Bitcoin data:</p>
 <pre><code>0x00000000 |  F9 BE B4 D9 1D 01 00 00  01 00 00 00 00 00 00 00  | ................
 0x00000010 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................

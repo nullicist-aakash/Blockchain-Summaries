@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Lifecycle of Blockchain - Previous Block Hash | Bitcoin: A Technical Introduction - Volume I</title>
   <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Lifecycle of Blockchain - Previous Block Hash | Bitcoin: A Technical Introduction - Volume I" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-06-07" />
+<meta name="date" content="2023-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -55,6 +55,10 @@
 
 
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -176,8 +180,39 @@
 <li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
 <li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -320,149 +355,146 @@
 </div>
 <div id="demo-code" class="section level3 hasAnchor" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Demo Code<a href="lifecycle-of-blockchain---previous-block-hash.html#demo-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>Here is the code which implements above idea:</p>
-<pre class="{c++}"><code>#include &lt;iostream&gt;
+<p>Here is the code which implements above idea:
+```{C++}
+#include <iostream>
 #include &lt;unistd.h&gt;
-#include &lt;random&gt; // for random number generator
-#include &lt;iomanip&gt;
-#include &quot;SHA/sha256.h&quot;
-#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec
-
-using namespace std;
-
-struct ListNode
+#include <random> // for random number generator
+#include <iomanip>
+#include “SHA/sha256.h”
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(‘0’) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec</p>
+<p>using namespace std;</p>
+<p>struct ListNode
 {
-    int value;
-    char prev_hash[32];
-    ListNode* prev;
-};
-
-struct List
+int value;
+char prev_hash[32];
+ListNode* prev;
+};</p>
+<p>struct List
 {
-    ListNode* tail;
-    char tail_hash[32];
-};
-
-// Inserts an integer to the end of linked list
+ListNode* tail;
+char tail_hash[32];
+};</p>
+<p>// Inserts an integer to the end of linked list
 void append(List&amp; list, int value)
 {
-    auto new_node = new ListNode;
-    memset(new_node, 0, sizeof(ListNode));
+auto new_node = new ListNode;
+memset(new_node, 0, sizeof(ListNode));</p>
+<pre><code>// Initialise the entries of new tail
+new_node-&gt;value = value;
+new_node-&gt;prev = list.tail;
+memcpy(new_node-&gt;prev_hash, list.tail_hash, 32);
 
-    // Initialise the entries of new tail
-    new_node-&gt;value = value;
-    new_node-&gt;prev = list.tail;
-    memcpy(new_node-&gt;prev_hash, list.tail_hash, 32);
+// Calculate hash of new node
+SHA256 sha;
+sha.update((uint8_t*)new_node, sizeof(ListNode));
+auto digest = sha.digest();
 
-    // Calculate hash of new node
-    SHA256 sha;
-    sha.update((uint8_t*)new_node, sizeof(ListNode));
-    auto digest = sha.digest();
+// Update the list
+list.tail = new_node;
+memcpy(list.tail_hash, digest, 32);
 
-    // Update the list
-    list.tail = new_node;
-    memcpy(list.tail_hash, digest, 32);
-
-    // Delete the hash from heap, as it is copied in list
-    delete[] digest;
-}
-
-// Verifies that the list is intact
+// Delete the hash from heap, as it is copied in list
+delete[] digest;</code></pre>
+<p>}</p>
+<p>// Verifies that the list is intact
 void verify_list(List&amp; list)
 {
-    if (list.tail == nullptr)
+if (list.tail == nullptr)
+{
+cout &lt;&lt; “List is empty” &lt;&lt; endl;
+return;
+}</p>
+<pre><code>auto current = list.tail;
+char expected_hash[32];
+memcpy(expected_hash, list.tail_hash, 32);
+
+while (current)
+{
+    // Calculate hash of current node
+    SHA256 sha;
+    sha.update((uint8_t*)current, sizeof(ListNode));
+    auto digest = sha.digest();
+
+    // Print the information about node
+    cout &lt;&lt; &quot;Node value is: &quot; &lt;&lt; current-&gt;value &lt;&lt; endl;
+    cout &lt;&lt; &quot;Expected node hash: &quot;;
+    for (auto &amp;x: expected_hash)
+        cout &lt;&lt; HEX(x, 1);
+    cout &lt;&lt; endl;
+
+    cout &lt;&lt; &quot;Computed hash:      &quot;;
+    for (int i = 0; i &lt; 32; ++i)
+        cout &lt;&lt; HEX(digest[i], 1);
+    cout &lt;&lt; endl;
+
+    // Compare the hash of current node with the hash stored in list
+    if (memcmp(digest, expected_hash, 32) != 0)
     {
-        cout &lt;&lt; &quot;List is empty&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;List content is changed!!!&quot; &lt;&lt; endl;
+        delete[] digest;
         return;
     }
 
-    auto current = list.tail;
-    char expected_hash[32];
-    memcpy(expected_hash, list.tail_hash, 32);
+    // Delete the hash from heap, as it is copied in list
+    delete[] digest;
 
-    while (current)
-    {
-        // Calculate hash of current node
-        SHA256 sha;
-        sha.update((uint8_t*)current, sizeof(ListNode));
-        auto digest = sha.digest();
-
-        // Print the information about node
-        cout &lt;&lt; &quot;Node value is: &quot; &lt;&lt; current-&gt;value &lt;&lt; endl;
-        cout &lt;&lt; &quot;Expected node hash: &quot;;
-        for (auto &amp;x: expected_hash)
-            cout &lt;&lt; HEX(x, 1);
-        cout &lt;&lt; endl;
-
-        cout &lt;&lt; &quot;Computed hash:      &quot;;
-        for (int i = 0; i &lt; 32; ++i)
-            cout &lt;&lt; HEX(digest[i], 1);
-        cout &lt;&lt; endl;
-
-        // Compare the hash of current node with the hash stored in list
-        if (memcmp(digest, expected_hash, 32) != 0)
-        {
-            cout &lt;&lt; &quot;List content is changed!!!&quot; &lt;&lt; endl;
-            delete[] digest;
-            return;
-        }
-
-        // Delete the hash from heap, as it is copied in list
-        delete[] digest;
-
-        // Move to previous node
-        memcpy(expected_hash, current-&gt;prev_hash, 32);
-        current = current-&gt;prev;
-    }
-
-    cout &lt;&lt; &quot;We reached the beginning of list!&quot; &lt;&lt; endl;
+    // Move to previous node
+    memcpy(expected_hash, current-&gt;prev_hash, 32);
+    current = current-&gt;prev;
 }
 
-int main()
+cout &lt;&lt; &quot;We reached the beginning of list!&quot; &lt;&lt; endl;</code></pre>
+<p>}</p>
+<p>int main()
 {
-    // Create an empty list
-    List list;
-    list.tail = nullptr;
-    memset(list.tail_hash, 0, 32);
+// Create an empty list
+List list;
+list.tail = nullptr;
+memset(list.tail_hash, 0, 32);</p>
+<pre><code>// Insert random 5 elements to list
+std::mt19937 mt{std::random_device{}() }; // Instantiate a 32-bit Mersenne Twister
 
-    // Insert random 5 elements to list
-    std::mt19937 mt{std::random_device{}() }; // Instantiate a 32-bit Mersenne Twister
+for (int i = 0; i &lt; 5; ++i)
+    append(list, (int)mt());
 
-    for (int i = 0; i &lt; 5; ++i)
-        append(list, (int)mt());
+// Verify the list
+cout &lt;&lt; &quot;Verify initial list: &quot; &lt;&lt; endl;
+verify_list(list);
 
-    // Verify the list
-    cout &lt;&lt; &quot;Verify initial list: &quot; &lt;&lt; endl;
-    verify_list(list);
+// Change the content of some random index
+auto current = list.tail-&gt;prev-&gt;prev;
+auto old_val = current-&gt;value;
+current-&gt;value = 0;
 
-    // Change the content of some random index
-    auto current = list.tail-&gt;prev-&gt;prev;
-    auto old_val = current-&gt;value;
-    current-&gt;value = 0;
+// Verify if our program detects the change
+cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; &quot;After change the value of third node to 0: &quot; &lt;&lt; endl;
+verify_list(list);
 
-    // Verify if our program detects the change
-    cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; &quot;After change the value of third node to 0: &quot; &lt;&lt; endl;
-    verify_list(list);
+// Resets the value
+current-&gt;value = old_val;
 
-    // Resets the value
-    current-&gt;value = old_val;
+// Delete the head of list
+auto next_head = list.tail;
+while (next_head-&gt;prev-&gt;prev != nullptr)
+    next_head = next_head-&gt;prev;
 
-    // Delete the head of list
-    auto next_head = list.tail;
-    while (next_head-&gt;prev-&gt;prev != nullptr)
-        next_head = next_head-&gt;prev;
+next_head-&gt;prev = nullptr;
 
-    next_head-&gt;prev = nullptr;
+// Check if our list detects the change!
+cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; &quot;After removing the head from the list: &quot; &lt;&lt; endl;
+verify_list(list);</code></pre>
+<p>}</p>
+<pre><code>
+There are two structs: One is `ListNode` which stores the above discussed three parameters. Then, we have `List` which stores the tail pointer and the hash of tail.
 
-    // Check if our list detects the change!
-    cout &lt;&lt; endl &lt;&lt; endl &lt;&lt; &quot;After removing the head from the list: &quot; &lt;&lt; endl;
-    verify_list(list);
-}</code></pre>
-<p>There are two structs: One is <code>ListNode</code> which stores the above discussed three parameters. Then, we have <code>List</code> which stores the tail pointer and the hash of tail.</p>
-<p>Then, we have a function <code>append</code> which provides us API to insert integers to the end of list. We use this to encapsulate all the updates in our data structure. Then, we have <code>verify_list</code> function which checks if the stored hash of node is actually equal to the calculated hash of node. The reader is encouraged to see the code to verify how this is actually done. Before the start of each iteration of <code>while</code> loop, we have the expected hash of value of current node (pointed by <code>current</code>) stored in <code>expected_hash</code> array. We simply print the status of current node and check if both the hashes match. If there is a mismatch, we simply print that there is a mismatch and return from the function. Otherwise, we go to previous node and repeat the process till we reach head.</p>
-<p>In the end, we have the driver code in <code>main</code>. We create a list of <span class="math inline">\(5\)</span> numbers that are generated randomly. We don’t have to worry about random number generation, as they are handled in built-in <code>C++</code> import <code>&lt;random&gt;</code>. We verify that the contents are intact. Then, we change the integer value of last third element in list. After running <code>verify_list</code>, we should see the error. After that, we changed the list back to initial state and deleted the head from list. We again check if the list is valid, and we should see that there are some problems.</p>
-<p>Here is the output of above code which verifies our predictions:</p>
-<pre><code>Verify initial list: 
+Then, we have a function `append` which provides us API to insert integers to the end of list. We use this to encapsulate all the updates in our data structure. Then, we have `verify_list` function which checks if the stored hash of node is actually equal to the calculated hash of node. The reader is encouraged to see the code to verify how this is actually done. Before the start of each iteration of `while` loop, we have the expected hash of value of current node (pointed by `current`) stored in `expected_hash` array. We simply print the status of current node and check if both the hashes match. If there is a mismatch, we simply print that there is a mismatch and return from the function. Otherwise, we go to previous node and repeat the process till we reach head.
+
+In the end, we have the driver code in `main`. We create a list of $5$ numbers that are generated randomly. We don&#39;t have to worry about random number generation, as they are handled in built-in `C++` import `&lt;random&gt;`. We verify that the contents are intact. Then, we change the integer value of last third element in list. After running `verify_list`, we should see the error. After that, we changed the list back to initial state and deleted the head from list. We again check if the list is valid, and we should see that there are some problems.
+
+Here is the output of above code which verifies our predictions:
+```{}
+Verify initial list: 
 Node value is: 691261298
 Expected node hash: FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
 Computed hash:      FFD217F7B0AE47CDF06E1165BF12D3D7ADA10085490AEADE0692212B4C7B4BF9
@@ -551,91 +583,95 @@ List content is changed!!!</code></pre>
 <div id="c-code-2" class="section level3 hasAnchor" number="6.2.2">
 <h3><span class="header-section-number">6.2.2</span> C++ Code<a href="lifecycle-of-blockchain---previous-block-hash.html#c-code-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>First, we will import header file to compute <code>SHA-256</code> (Usage explained in previous chapter).</p>
-<pre class="{c++}"><code>#include &quot;SHA/SHA256.h&quot;</code></pre>
+<p><code>{C++} #include "SHA/SHA256.h"</code></p>
 <p>Then, we define our double hash function:</p>
-<pre class="{c++}"><code>// Computes the double SHA-256 hash of the given data
+<p>```{C++}
+// Computes the double SHA-256 hash of the given data
 uint8_t* double_sha256(uint8_t* start, int len)
 {
-    // Calculate hash
-    SHA256 sha1;
-    sha1.update(start, len);
-    uint8_t * digest = sha1.digest();
+// Calculate hash
+SHA256 sha1;
+sha1.update(start, len);
+uint8_t * digest = sha1.digest();</p>
+<pre><code>// Double hash
+SHA256 sha2;
+sha2.update(digest, 32);
+auto digest2 = sha2.digest();
 
-    // Double hash
-    SHA256 sha2;
-    sha2.update(digest, 32);
-    auto digest2 = sha2.digest();
+// Remove old digest, as it is not required anymore
+delete[] digest;
 
-    // Remove old digest, as it is not required anymore
-    delete[] digest;
+return digest2;</code></pre>
+<p>}</p>
+<pre><code>
+This takes two parameters as input: start location in memory (`start`) and how much bytes to read (`len`). This function returns a heap-allocated array of size $32$ bytes and this should be deallocated manually to avoid memory leak.
 
-    return digest2;
-}</code></pre>
-<p>This takes two parameters as input: start location in memory (<code>start</code>) and how much bytes to read (<code>len</code>). This function returns a heap-allocated array of size <span class="math inline">\(32\)</span> bytes and this should be deallocated manually to avoid memory leak.</p>
-<p>At last, we use the above function to compute hash of current block header:</p>
-<pre class="{c++}"><code>std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tCurrent Hash (Calculated): &quot;;
+At last, we use the above function to compute hash of current block header:
+
+```{C++}
+std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tCurrent Hash (Calculated): &quot;;
 auto hash = double_sha256((uint8_t*)&amp;block.header, 80);
 for (int j = 31; j &gt;= 0; --j)
     std::cout &lt;&lt; HEX(hash[j], 1);
 delete[] hash; // Free the memory after usage</code></pre>
 <p>Here is the complete code (with <code>...</code> when the code is same as the one in previous chapters)</p>
-<pre class="{c++}"><code>#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-#include &lt;algorithm&gt;
-#include &lt;string&gt;
-#include &quot;SHA/SHA256.h&quot;
-#define HEX( x, len ) ...
-
-...
-
-// Computes the double SHA-256 hash of the given data
+<p>```{C++}
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#include “SHA/SHA256.h”
+#define HEX( x, len ) …</p>
+<p>…</p>
+<p>// Computes the double SHA-256 hash of the given data
 uint8_t* double_sha256(uint8_t* start, int len)
 {
-    // Calculate hash
-    SHA256 sha1;
-    sha1.update(start, len);
-    uint8_t * digest = sha1.digest();
+// Calculate hash
+SHA256 sha1;
+sha1.update(start, len);
+uint8_t * digest = sha1.digest();</p>
+<pre><code>// Double hash
+SHA256 sha2;
+sha2.update(digest, 32);
+auto digest2 = sha2.digest();
 
-    // Double hash
-    SHA256 sha2;
-    sha2.update(digest, 32);
-    auto digest2 = sha2.digest();
+// Remove old digest, as it is not required anymore
+delete[] digest;
 
-    // Remove old digest, as it is not required anymore
-    delete[] digest;
-
-    return digest2;
-}
-
-int main(int argc, char** argv)
+return digest2;</code></pre>
+<p>}</p>
+<p>int main(int argc, char** argv)
 {
+…
+for (int i = 0; i &lt; 4; ++i)
+{
+// create a block
+Block block;</p>
+<pre><code>    ...
+
+    std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tMerkle Hash (Stored)     : &quot;;
+    for (int j = 31; j &gt;= 0; --j)
+        std::cout &lt;&lt; HEX(block.header.merkle_hash[j], 1);
+
+    std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tCurrent Hash (Calculated): &quot;;
+    auto hash = double_sha256((uint8_t*)&amp;block.header, 80);
+    for (int j = 31; j &gt;= 0; --j)
+        std::cout &lt;&lt; HEX(hash[j], 1);
+    delete[] hash; // Free the memory after usage
+
+    std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tTime of Block Creation   : &quot;;
+    
     ...
-    for (int i = 0; i &lt; 4; ++i)
-    {
-        // create a block
-        Block block;
-      
-        ...
-
-        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tMerkle Hash (Stored)     : &quot;;
-        for (int j = 31; j &gt;= 0; --j)
-            std::cout &lt;&lt; HEX(block.header.merkle_hash[j], 1);
-
-        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tCurrent Hash (Calculated): &quot;;
-        auto hash = double_sha256((uint8_t*)&amp;block.header, 80);
-        for (int j = 31; j &gt;= 0; --j)
-            std::cout &lt;&lt; HEX(hash[j], 1);
-        delete[] hash; // Free the memory after usage
-
-        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tTime of Block Creation   : &quot;;
-        
-        ...
-    }
 }</code></pre>
-<p>Here is the output of above code:</p>
-<pre echo="False"><code>Offsets of block #0: 0x00000000 to 0x00000124
+<p>}</p>
+<pre><code>
+
+Here is the output of above code:
+
+```{echo=False}
+Offsets of block #0: 0x00000000 to 0x00000124
 Magic Number: D9B4BEF9
-Blockchain Size: 285
+Block Size: 285
 Header Info: 
         Version Number           : 1
         Previous Hash            : 0000000000000000000000000000000000000000000000000000000000000000
@@ -649,7 +685,7 @@ Header Info:
 
 Offsets of block #1: 0x00000125 to 0x00000203
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         Version Number           : 1
         Previous Hash            : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
@@ -663,7 +699,7 @@ Header Info:
 
 Offsets of block #2: 0x00000204 to 0x000002E2
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         Version Number           : 1
         Previous Hash            : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
@@ -677,7 +713,7 @@ Header Info:
 
 Offsets of block #3: 0x000002E3 to 0x000003C1
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         Version Number           : 1
         Previous Hash            : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD

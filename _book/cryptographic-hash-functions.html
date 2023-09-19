@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 5 Cryptographic hash functions | Bitcoin: A Technical Introduction - Volume I</title>
   <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 5 Cryptographic hash functions | Bitcoin: A Technical Introduction - Volume I" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-06-07" />
+<meta name="date" content="2023-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -240,8 +244,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
 <li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -405,72 +440,68 @@ Do the following in repetition:
 <p>Bitcoin uses the <code>SHA256</code> hash function for hashing purposes. As the name implies, the output of this function is a <span class="math inline">\(256\)</span> bit number, or <span class="math inline">\(32\)</span> byte number. Modern hardware doesn’t support <span class="math inline">\(32\)</span> byte numbers, so this raises a question. How does the code of Bitcoin handles this in <code>C++</code>? They have defined their own data type <code>uint256</code> in <a href="https://github.com/bitcoin/bitcoin/blob/master/src/uint256.h">uint256.h</a> file. Do we need to implement our own data type? Not for now. We are not building the blockchain for now, we are just interpreting what is stored on disk. Also, we don’t need to do arithmetic on those numbers. We just need to read and print them, or calculate them using a SHA256 implementation which handles this data type internally.</p>
 <p>Coming to implementation, is there a built-in function to calculate <code>SHA-256</code> in <code>C++</code>? Sadly, no. We need to rely on external implementations of it. There are few good libraries we can use, for example, <code>OpenSSL</code> or <code>CryptoC++</code>. You can use them for free. We are going to take another approach. We are going to take the relevant portion for <code>SHA256</code> function from internet instead of downloading these libraries which have additional capabilities.</p>
 <p>Create a new folder named SHA and add two files namely <code>SHA256.h</code> and <code>SHA256.cpp</code>. Also, add a file named as <code>LICENSE</code> in the same folder. The directory structure should look like this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="cryptographic-hash-functions.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.../bitcoin_reader</span></span>
-<span id="cb3-2"><a href="cryptographic-hash-functions.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> data</span>
-<span id="cb3-3"><a href="cryptographic-hash-functions.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── 1k.dat</span>
-<span id="cb3-4"><a href="cryptographic-hash-functions.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> SHA</span>
-<span id="cb3-5"><a href="cryptographic-hash-functions.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── LICENSE</span>
-<span id="cb3-6"><a href="cryptographic-hash-functions.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── SHA256.cpp</span>
-<span id="cb3-7"><a href="cryptographic-hash-functions.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="ex">│</span>   ├── SHA256.h</span>
-<span id="cb3-8"><a href="cryptographic-hash-functions.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> main.cpp</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="cryptographic-hash-functions.html#cb3-1" tabindex="-1"></a><span class="ex">.../bitcoin_reader</span></span>
+<span id="cb3-2"><a href="cryptographic-hash-functions.html#cb3-2" tabindex="-1"></a><span class="ex">├──</span> data</span>
+<span id="cb3-3"><a href="cryptographic-hash-functions.html#cb3-3" tabindex="-1"></a><span class="ex">│</span>   ├── 1k.dat</span>
+<span id="cb3-4"><a href="cryptographic-hash-functions.html#cb3-4" tabindex="-1"></a><span class="ex">├──</span> SHA</span>
+<span id="cb3-5"><a href="cryptographic-hash-functions.html#cb3-5" tabindex="-1"></a><span class="ex">│</span>   ├── LICENSE</span>
+<span id="cb3-6"><a href="cryptographic-hash-functions.html#cb3-6" tabindex="-1"></a><span class="ex">│</span>   ├── SHA256.cpp</span>
+<span id="cb3-7"><a href="cryptographic-hash-functions.html#cb3-7" tabindex="-1"></a><span class="ex">│</span>   ├── SHA256.h</span>
+<span id="cb3-8"><a href="cryptographic-hash-functions.html#cb3-8" tabindex="-1"></a><span class="ex">├──</span> main.cpp</span></code></pre></div>
 <div id="obtaining-the-code-for-sha-256-in-c" class="section level3 hasAnchor" number="5.2.1">
 <h3><span class="header-section-number">5.2.1</span> Obtaining the code for SHA-256 in <code>C++</code><a href="cryptographic-hash-functions.html#obtaining-the-code-for-sha-256-in-c" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>We are going to copy the implementation from this public Github Repo: <a href="https://github.com/System-Glitch/SHA256">SHA256</a>.</p>
-<p>Now, you can copy and paste the following code in <code>SHA256.h</code>:</p>
-<pre class="{c++}"><code>#ifndef SHA256_H
-#define SHA256_H
-
-#include &lt;string&gt;
-#include &lt;array&gt;
-
-class SHA256 {
-
-public:
-    SHA256();
-    void update(const uint8_t * data, size_t length);
-    void update(const std::string &amp;data);
-    uint8_t * digest();
-
-    static std::string toString(const uint8_t * digest);
-
-private:
-    uint8_t  m_data[64];
-    uint32_t m_blocklen;
-    uint64_t m_bitlen;
-    uint32_t m_state[8]; //A, B, C, D, E, F, G, H
-
-    static constexpr std::array&lt;uint32_t, 64&gt; K = {
-            0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,
-            0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
-            0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,
-            0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
-            0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,
-            0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
-            0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,
-            0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
-            0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,
-            0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
-            0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,
-            0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
-            0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,
-            0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
-            0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,
-            0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
-    };
-
-    static uint32_t rotr(uint32_t x, uint32_t n);
-    static uint32_t choose(uint32_t e, uint32_t f, uint32_t g);
-    static uint32_t majority(uint32_t a, uint32_t b, uint32_t c);
-    static uint32_t sig0(uint32_t x);
-    static uint32_t sig1(uint32_t x);
-    void transform();
-    void pad();
-    void revert(uint8_t * hash);
+<p>Now, you can copy and paste the following code in <code>SHA256.h</code>:
+```{C++}
+#ifndef SHA256_H
+#define SHA256_H</p>
+<p>#include <string>
+#include <array></p>
+<p>class SHA256 {</p>
+<p>public:
+SHA256();
+void update(const uint8_t * data, size_t length);
+void update(const std::string &amp;data);
+uint8_t * digest();</p>
+<pre><code>static std::string toString(const uint8_t * digest);</code></pre>
+<p>private:
+uint8_t m_data[64];
+uint32_t m_blocklen;
+uint64_t m_bitlen;
+uint32_t m_state[8]; //A, B, C, D, E, F, G, H</p>
+<pre><code>static constexpr std::array&lt;uint32_t, 64&gt; K = {
+        0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,
+        0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,
+        0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,
+        0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,
+        0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,
+        0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,
+        0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,
+        0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,
+        0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
 };
 
-#endif</code></pre>
-<p>Also, copy and paste the following code in <code>SHA256.cpp</code> file:</p>
-<pre class="{c++}"><code>#include &quot;SHA256.h&quot;
+static uint32_t rotr(uint32_t x, uint32_t n);
+static uint32_t choose(uint32_t e, uint32_t f, uint32_t g);
+static uint32_t majority(uint32_t a, uint32_t b, uint32_t c);
+static uint32_t sig0(uint32_t x);
+static uint32_t sig1(uint32_t x);
+void transform();
+void pad();
+void revert(uint8_t * hash);</code></pre>
+<p>};</p>
+<p>#endif</p>
+<pre><code>
+Also, copy and paste the following code in `SHA256.cpp` file:
+```{C++}
+#include &quot;SHA256.h&quot;
 #include &lt;cstring&gt;
 #include &lt;sstream&gt;
 #include &lt;iomanip&gt;
@@ -648,91 +679,86 @@ SOFTWARE.</code></pre>
 </div>
 <div id="calculating-sha-256" class="section level3 hasAnchor" number="5.2.2">
 <h3><span class="header-section-number">5.2.2</span> Calculating SHA-256<a href="cryptographic-hash-functions.html#calculating-sha-256" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>As you already know, we are going to use <code>SHA-256</code> as a black box. Before going into complete code, it is necessary to get the idea of rules we need to follow to calculate the hash. We will use the following code to calculate the SHA-256:</p>
-<pre class="{c++}"><code>// `start` is the starting address of our byte data and `len` is the number of bytes we need to read.
-int len = ...; 
-uint8_t* start = ...;
-
-// Create an instance of SHA256 class
-SHA256 sha1;
-
-// Pass the byte array to update method.
-sha1.update(start, len);
-
-// Get the byte array of length 32 bytes which contain our hash, allocated in heap
-uint8_t * digest = sha1.digest();
-
-// After using the hash output, we need to deallocate it so that there is no memory leak.
-delete[] digest;</code></pre>
-<p>To print, we will just iterate over it and print the HEX of individual bytes:</p>
-<pre class="{c++}"><code>std::cout &lt;&lt; &quot;Hash: &quot;;
+<p>As you already know, we are going to use <code>SHA-256</code> as a black box. Before going into complete code, it is necessary to get the idea of rules we need to follow to calculate the hash. We will use the following code to calculate the SHA-256:
+``<code>{C++} //</code>start<code>is the starting address of our byte data and</code>len` is the number of bytes we need to read.
+int len = …;
+uint8_t* start = …;</p>
+<p>// Create an instance of SHA256 class
+SHA256 sha1;</p>
+<p>// Pass the byte array to update method.
+sha1.update(start, len);</p>
+<p>// Get the byte array of length 32 bytes which contain our hash, allocated in heap
+uint8_t * digest = sha1.digest();</p>
+<p>// After using the hash output, we need to deallocate it so that there is no memory leak.
+delete[] digest;</p>
+<pre><code>
+To print, we will just iterate over it and print the HEX of individual bytes:
+```{C++}
+std::cout &lt;&lt; &quot;Hash: &quot;;
 for (int i = 0; i &lt; 32; ++i)
     std::cout &lt;&lt; HEX(digest[i], 1);
 std::cout &lt;&lt; std::endl;</code></pre>
-<p>If you have a <code>std::string</code> with you, you can directly pass it to <code>update</code> method. You might think that <code>std::string</code> is null-terminated, so that will create problems. This is not the case at all. You can check that the string is casted as byte array in <code>SHA256</code> and the <code>size()</code> function is used to get the length, so ‘\0’ is ignored in computations. Create a file named <code>demo.cpp</code> to test above <code>SHA256</code> code in the same folder as <code>main.cpp</code>. Write the file contents as:</p>
-<pre class="{c++}"><code>#include &lt;iostream&gt;
-#include &lt;iomanip&gt;
-#include &lt;string&gt;
+<p>If you have a <code>std::string</code> with you, you can directly pass it to <code>update</code> method. You might think that <code>std::string</code> is null-terminated, so that will create problems. This is not the case at all. You can check that the string is casted as byte array in <code>SHA256</code> and the <code>size()</code> function is used to get the length, so ‘\0’ is ignored in computations. Create a file named <code>demo.cpp</code> to test above <code>SHA256</code> code in the same folder as <code>main.cpp</code>. Write the file contents as:
+```{C++}
+#include <iostream>
+#include <iomanip>
+#include <string>
 #include &lt;unistd.h&gt;
-#include &quot;SHA/SHA256.h&quot;
-#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec
-
-// calculates hash of byte sequence
+#include “SHA/SHA256.h”
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(‘0’) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec</p>
+<p>// calculates hash of byte sequence
 void calculate_hash(uint8_t* start, int len)
 {
-    // Calculate hash
-    SHA256 sha1;
-    sha1.update(start, len);
-    uint8_t * digest = sha1.digest();
+// Calculate hash
+SHA256 sha1;
+sha1.update(start, len);
+uint8_t * digest = sha1.digest();</p>
+<pre><code>// Print hash
+std::cout &lt;&lt; &quot;Hash: &quot;;
+for (int i = 0; i &lt; 32; ++i)
+    std::cout &lt;&lt; HEX(digest[i], 1);
+std::cout &lt;&lt; std::endl;
 
-    // Print hash
-    std::cout &lt;&lt; &quot;Hash: &quot;;
-    for (int i = 0; i &lt; 32; ++i)
-        std::cout &lt;&lt; HEX(digest[i], 1);
-    std::cout &lt;&lt; std::endl;
-
-    // Deallocate dest
-    delete[] digest;
-}
-
-
-// calculates hash of byte sequence
+// Deallocate dest
+delete[] digest;</code></pre>
+<p>}</p>
+<p>// calculates hash of byte sequence
 void calculate_hash(std::string &amp;str)
 {
-    // Calculate hash
-    SHA256 sha1;
-    sha1.update(str);
-    uint8_t * digest = sha1.digest();
+// Calculate hash
+SHA256 sha1;
+sha1.update(str);
+uint8_t * digest = sha1.digest();</p>
+<pre><code>// Print hash
+std::cout &lt;&lt; &quot;Hash: &quot;;
+for (int i = 0; i &lt; 32; ++i)
+    std::cout &lt;&lt; HEX(digest[i], 1);
+std::cout &lt;&lt; std::endl;
 
-    // Print hash
-    std::cout &lt;&lt; &quot;Hash: &quot;;
-    for (int i = 0; i &lt; 32; ++i)
-        std::cout &lt;&lt; HEX(digest[i], 1);
-    std::cout &lt;&lt; std::endl;
-
-    // Deallocate digest
-    delete[] digest;
-}
-
-int main()
+// Deallocate digest
+delete[] digest;</code></pre>
+<p>}</p>
+<p>int main()
 {
-    std::uint8_t arr1[3] = {&#39;a&#39;, &#39;b&#39;, &#39;c&#39;};
-    calculate_hash(arr1, 3);
+std::uint8_t arr1[3] = {‘a’, ‘b’, ‘c’};
+calculate_hash(arr1, 3);</p>
+<pre><code>std::uint8_t  arr2[4] = {&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;\0&#39;};
+calculate_hash(arr2, 4);
 
-    std::uint8_t  arr2[4] = {&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;\0&#39;};
-    calculate_hash(arr2, 4);
+std::string str = &quot;abc&quot;;
+calculate_hash(str);</code></pre>
+<p>}</p>
+<pre><code>
+Compile the above code using the following command:
 
-    std::string str = &quot;abc&quot;;
-    calculate_hash(str);
-}</code></pre>
-<p>Compile the above code using the following command:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="cryptographic-hash-functions.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> demo.cpp SHA/SHA256.cpp <span class="at">-o</span> demo.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
+```bash
+g++ demo.cpp SHA/SHA256.cpp -o demo.out -std=c++17</code></pre>
 <p>Run using this command:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="cryptographic-hash-functions.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./demo.out</span> </span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="cryptographic-hash-functions.html#cb13-1" tabindex="-1"></a><span class="ex">./demo.out</span> </span></code></pre></div>
 <p>The output will be:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="cryptographic-hash-functions.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Hash:</span> BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD</span>
-<span id="cb12-2"><a href="cryptographic-hash-functions.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">Hash:</span> DC1114CD074914BD872CC1F9A23EC910EA2203BC79779AB2E17DA25782A624FC</span>
-<span id="cb12-3"><a href="cryptographic-hash-functions.html#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Hash:</span> BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="cryptographic-hash-functions.html#cb14-1" tabindex="-1"></a><span class="ex">Hash:</span> BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD</span>
+<span id="cb14-2"><a href="cryptographic-hash-functions.html#cb14-2" tabindex="-1"></a><span class="ex">Hash:</span> DC1114CD074914BD872CC1F9A23EC910EA2203BC79779AB2E17DA25782A624FC</span>
+<span id="cb14-3"><a href="cryptographic-hash-functions.html#cb14-3" tabindex="-1"></a><span class="ex">Hash:</span> BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD</span></code></pre></div>
 <p>We can see that <code>'\0'</code> is not included in calculation of <code>SHA-256</code> hash by checking that first and third hash are equal. You can also see that inclusion of ’‘\0’` completely changes the hash output!</p>
 <p>Now, delete both <code>demo.cpp</code> and <code>demo.out</code> files as they are not required anymore.</p>
 </div>
@@ -741,21 +767,20 @@ int main()
 <div id="double-hashing" class="section level4 hasAnchor" number="5.2.3.1">
 <h4><span class="header-section-number">5.2.3.1</span> Double hashing<a href="cryptographic-hash-functions.html#double-hashing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>There are two things that we need to keep in mind while working with <code>SHA256</code> in Bitcoin. First, we calculate the double <code>SHA256</code> of data, instead of single <code>SHA256</code> used above. Why do they do this? There is no clear consensus in community what benefits it provide. You are requested to do your own research on internet, read the arguments of people and come up with your own conclusions. We are not going into why they use it, we just accept it as the mathematics is beyond our comprehension. So, how should we calculate the double hash? Here are the steps for the same:</p>
-<pre class="{c++}"><code>// Calculate hash
+<p>```{C++}
+// Calculate hash
 SHA256 sha1;
 sha1.update(start, len);
-uint8_t * digest = sha1.digest();
-
-// Double hash
+uint8_t * digest = sha1.digest();</p>
+<p>// Double hash
 SHA256 sha2;
 sha2.update(digest, 32);
-auto digest2 = sha2.digest();
-
-// Remove old digest, as it is not required anymore
-delete[] digest;
-
-// Use digest2 as hash, and then free the memory
-delete[] digest2;</code></pre>
+auto digest2 = sha2.digest();</p>
+<p>// Remove old digest, as it is not required anymore
+delete[] digest;</p>
+<p>// Use digest2 as hash, and then free the memory
+delete[] digest2;
+```</p>
 <p>We need to make sure to delete the memory after usage, otherwise there will be memory leak.</p>
 </div>
 <div id="little-endian-causing-problems" class="section level4 hasAnchor" number="5.2.3.2">

@@ -6,32 +6,8 @@ site: bookdown::bookdown_site
 description: "This is a summary of everything we need to know what is there in blockchain from technical point of view."
 ---
 
-<!-- # Getting Started -->
-<!-- ## Topic Categories -->
-<!-- Blockchain: -->
-<!-- 1. Absolute Basic Stuff: The ledger, the transactions. The Paper, the problem statement. The Blocks, the bricks. -->
-<!-- 2. Storing the blocks - chaining. The cryptography. The storage order of blocks. -->
-<!-- 3. Updates: Add new blocks to the system - Mine them. -->
-<!-- 4. Rate limitors: Difficulty and nonce. Question: Why should anyone mine? -->
-<!-- 5. Economy: New coins in system. Their value over the time. Miners money = new bitcoins + fees. -->
-<!-- 6. How everyone will reach consensus?? The propogation. Size calculations! -->
 
-<!-- Bitcoin: -->
-
-<!-- 7. Getting into bitcoin - The Left transactions model. -->
-<!-- 8. Structure of transactions. Rules of transactions. -->
-<!-- 9. Address, The facts of cryptography for bitcoin. Verification of transfer of ownership. -->
-
-<!-- Corner Details: -->
-
-<!-- 10. Hiding data in blockchain. -->
-
-<!-- Practical: -->
-<!-- 1. Make own transactions manually, by hand. -->
-<!-- 2.  -->
-
-
-
+<!-- - Make this book as a conversation between two people: One hacker and one designer. Include audience remarks watching the show?-->
 
 # Getting Started
 Welcome to the first volume of Bitcoin: A Technical Introduction. This book is divided into multiple volumes, each volume covering different aspects of Bitcoin and Blockchain technologies. In the first volume, we will cover the blockchain technology and see some insights into how Bitcoin fits the complete picture. We will not go into the Bitcoin transactions in this book. Transactions are covered in the second volume.

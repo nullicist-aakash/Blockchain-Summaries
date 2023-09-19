@@ -396,7 +396,7 @@ Here is the output of above code:
 ```{echo=False}
 Offsets of block #0: 0x00000000 to 0x00000124
 Magic Number: D9B4BEF9
-Blockchain Size: 285
+Block Size: 285
 Header Info: 
         Version Number           : 1
         Previous Hash            : 0000000000000000000000000000000000000000000000000000000000000000
@@ -410,7 +410,7 @@ Header Info:
 
 Offsets of block #1: 0x00000125 to 0x00000203
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         Version Number           : 1
         Previous Hash            : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
@@ -424,7 +424,7 @@ Header Info:
 
 Offsets of block #2: 0x00000204 to 0x000002E2
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         Version Number           : 1
         Previous Hash            : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
@@ -438,7 +438,7 @@ Header Info:
 
 Offsets of block #3: 0x000002E3 to 0x000003C1
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
         Version Number           : 1
         Previous Hash            : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD

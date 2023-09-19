@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Lifecycle of Blockchain - Structure of a block | Bitcoin: A Technical Introduction - Volume I</title>
   <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
-  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Lifecycle of Blockchain - Structure of a block | Bitcoin: A Technical Introduction - Volume I" />
   <meta property="og:type" content="book" />
@@ -23,7 +23,7 @@
 <meta name="author" content="Aakash Gupta" />
 
 
-<meta name="date" content="2023-06-07" />
+<meta name="date" content="2023-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -119,6 +119,10 @@ code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -240,8 +244,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
 <li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -591,105 +626,103 @@ return y as the integer value</code></pre>
 <h3><span class="header-section-number">4.4.1</span> Header summary<a href="lifecycle-of-blockchain---structure-of-a-block.html#header-summary" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="c-code-for-header-summary" class="section level4 hasAnchor" number="4.4.1.1">
 <h4><span class="header-section-number">4.4.1.1</span> C++ Code for Header Summary<a href="lifecycle-of-blockchain---structure-of-a-block.html#c-code-for-header-summary" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Here, we present the C++ code to show information about initial <span class="math inline">\(4\)</span> blocks of Bitcoin (As initial <span class="math inline">\(1\)</span>k data have <span class="math inline">\(4\)</span> blocks only). The genesis block have index of <span class="math inline">\(0\)</span>.</p>
-<pre class="{c++}"><code>#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-#include &lt;algorithm&gt;
-#include &lt;string&gt;
-#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec
-
-// Returns the file contents as C++ string
+<p>Here, we present the C++ code to show information about initial <span class="math inline">\(4\)</span> blocks of Bitcoin (As initial <span class="math inline">\(1\)</span>k data have <span class="math inline">\(4\)</span> blocks only). The genesis block have index of <span class="math inline">\(0\)</span>.
+```{C++}
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+#include <string>
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(‘0’) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec</p>
+<p>// Returns the file contents as C++ string
 std::string get_file_contents(const char *filename)
 {
-    std::ifstream in(filename, std::ios::in | std::ios::binary);
-    if (!in)
-    {
-        std::cerr &lt;&lt; &quot;Error in opening file&quot; &lt;&lt; std::endl;
-        throw errno;
-    }
-
-    std::string contents;
-
-    // Allocate required memory in heap for string
-    in.seekg(0, std::ios::end);
-    contents.resize(in.tellg());
-
-    // Copy contents from file to string
-    in.seekg(0, std::ios::beg);
-    in.read(&amp;contents[0], (int)contents.size());
-
-    // return the string
-    return contents;
-}
-
-struct BlockHeader
+std::ifstream in(filename, std::ios::in | std::ios::binary);
+if (!in)
 {
-    std::uint32_t version_number;
-    std::uint8_t prev_hash[32];
-    std::uint8_t merkle_hash[32];
-    std::uint32_t time;
-    std::uint32_t difficulty;
-    std::uint32_t nonce;
-};
+std::cerr &lt;&lt; “Error in opening file” &lt;&lt; std::endl;
+throw errno;
+}</p>
+<pre><code>std::string contents;
 
-struct Block
+// Allocate required memory in heap for string
+in.seekg(0, std::ios::end);
+contents.resize(in.tellg());
+
+// Copy contents from file to string
+in.seekg(0, std::ios::beg);
+in.read(&amp;contents[0], (int)contents.size());
+
+// return the string
+return contents;</code></pre>
+<p>}</p>
+<p>struct BlockHeader
 {
-    std::uint32_t magic_number{};
-    std::uint32_t block_size{};
-    BlockHeader header{};
-};
-
-int main(int argc, char** argv)
+std::uint32_t version_number;
+std::uint8_t prev_hash[32];
+std::uint8_t merkle_hash[32];
+std::uint32_t time;
+std::uint32_t difficulty;
+std::uint32_t nonce;
+};</p>
+<p>struct Block
 {
-    if (argc != 2)
-    {
-        std::cerr &lt;&lt; &quot;Usage: ./reader.out &lt;block_data&gt;&quot; &lt;&lt; std::endl;
-        exit(-1);
-    }
+std::uint32_t magic_number{};
+std::uint32_t block_size{};
+BlockHeader header{};
+};</p>
+<p>int main(int argc, char** argv)
+{
+if (argc != 2)
+{
+std::cerr &lt;&lt; “Usage: ./reader.out <block_data>” &lt;&lt; std::endl;
+exit(-1);
+}</p>
+<pre><code>const char* FILE_PATH = argv[1];
+auto contents = get_file_contents(FILE_PATH);
+std::uint32_t offset = 0;
+for (int i = 0; i &lt; 4; ++i)
+{
+    // create a block
+    Block block;
 
-    const char* FILE_PATH = argv[1];
-    auto contents = get_file_contents(FILE_PATH);
-    std::uint32_t offset = 0;
-    for (int i = 0; i &lt; 4; ++i)
-    {
-        // create a block
-        Block block;
+    // copy initial 88 bytes from contents
+    memcpy(&amp;block, contents.c_str() + offset, 88);
 
-        // copy initial 88 bytes from contents
-        memcpy(&amp;block, contents.c_str() + offset, 88);
+    std::cout &lt;&lt; &quot;Offsets of block #&quot; &lt;&lt; i &lt;&lt; &quot;: 0x&quot; &lt;&lt; HEX(offset, 4) &lt;&lt; &quot; to 0x&quot; &lt;&lt; HEX(offset + block.block_size + 8 - 1, 4) &lt;&lt; std::endl;
 
-        std::cout &lt;&lt; &quot;Offsets of block #&quot; &lt;&lt; i &lt;&lt; &quot;: 0x&quot; &lt;&lt; HEX(offset, 4) &lt;&lt; &quot; to 0x&quot; &lt;&lt; HEX(offset + block.block_size + 8 - 1, 4) &lt;&lt; std::endl;
+    // Print current block information
+    std::cout &lt;&lt; &quot;Magic Number: &quot; &lt;&lt; HEX(block.magic_number, 4) &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;Block Size: &quot; &lt;&lt; block.block_size &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;Header Info: &quot; &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;\tVersion Number          : &quot; &lt;&lt; block.header.version_number &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;\tPrevious Hash           : &quot;;
+    for (int j = 31; j &gt;= 0; --j)
+        std::cout &lt;&lt; HEX(block.header.prev_hash[j], 1);
+    std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tMerkle Hash (Stored)    : &quot;;
+    for (int j = 31; j &gt;= 0; --j)
+        std::cout &lt;&lt; HEX(block.header.merkle_hash[j], 1);
 
-        // Print current block information
-        std::cout &lt;&lt; &quot;Magic Number: &quot; &lt;&lt; HEX(block.magic_number, 4) &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;Blockchain Size: &quot; &lt;&lt; block.block_size &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;Header Info: &quot; &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;\tVersion Number          : &quot; &lt;&lt; block.header.version_number &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;\tPrevious Hash           : &quot;;
-        for (int j = 31; j &gt;= 0; --j)
-            std::cout &lt;&lt; HEX(block.header.prev_hash[j], 1);
-        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tMerkle Hash (Stored)    : &quot;;
-        for (int j = 31; j &gt;= 0; --j)
-            std::cout &lt;&lt; HEX(block.header.merkle_hash[j], 1);
+    std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tTime of Block Creation  : &quot;;
+    std::time_t temp = block.header.time;
+    std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S %p&quot;) &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;\tDifficulty              : &quot; &lt;&lt; HEX(block.header.difficulty, 4) &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;\tNonce                   : &quot; &lt;&lt; block.header.nonce &lt;&lt; std::endl &lt;&lt; std::endl;
 
-        std::cout &lt;&lt; std::endl &lt;&lt; &quot;\tTime of Block Creation  : &quot;;
-        std::time_t temp = block.header.time;
-        std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S %p&quot;) &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;\tDifficulty              : &quot; &lt;&lt; HEX(block.header.difficulty, 4) &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;\tNonce                   : &quot; &lt;&lt; block.header.nonce &lt;&lt; std::endl &lt;&lt; std::endl;
-
-        // make offset point to next block
-        offset += block.block_size + 8;
-    }
+    // make offset point to next block
+    offset += block.block_size + 8;
 }</code></pre>
-<p>Compile the above code using the following command:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="lifecycle-of-blockchain---structure-of-a-block.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">g++</span> main.cpp <span class="at">-o</span> reader.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
+<p>}</p>
+<pre><code>
+Compile the above code using the following command:
+
+```bash
+g++ main.cpp -o reader.out -std=c++17</code></pre>
 <p>A file <code>reader.out</code> will be created which is our executable. Run the file using the following command:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="lifecycle-of-blockchain---structure-of-a-block.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="lifecycle-of-blockchain---structure-of-a-block.html#cb6-1" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
 <p>Here is the output of running above code on initial <span class="math inline">\(1k\)</span> Bitcoin data:</p>
 <pre><code>Offsets of block #0: 0x00000000 to 0x00000124
 Magic Number: D9B4BEF9
-Blockchain Size: 285
+Block Size: 285
 Header Info: 
     Version Number          : 1
     Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
@@ -700,7 +733,7 @@ Header Info:
 
 Offsets of block #1: 0x00000125 to 0x00000203
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
     Version Number          : 1
     Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
@@ -711,7 +744,7 @@ Header Info:
 
 Offsets of block #2: 0x00000204 to 0x000002E2
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
     Version Number          : 1
     Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
@@ -722,7 +755,7 @@ Header Info:
 
 Offsets of block #3: 0x000002E3 to 0x000003C1
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
     Version Number          : 1
     Previous Hash           : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
@@ -741,9 +774,8 @@ Header Info:
 </div>
 <div id="printing-date" class="section level4 hasAnchor" number="4.4.1.3">
 <h4><span class="header-section-number">4.4.1.3</span> Printing Date<a href="lifecycle-of-blockchain---structure-of-a-block.html#printing-date" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>One thing that we can notice is the code to print date from Unix Format. The code is:</p>
-<pre class="{c++}"><code>std::time_t temp = block.header.time;
-std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S %p&quot;) &lt;&lt; std::endl;</code></pre>
+<p>One thing that we can notice is the code to print date from Unix Format. The code is:
+<code>{C++} std::time_t temp = block.header.time; std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), "%Y-%m-%d %I:%M:%S %p") &lt;&lt; std::endl;</code></p>
 <p>We don’t have to worry about how above code is working. Explaining it requires to explain how date is handled in <code>C++</code>, which is not our concern.</p>
 </div>
 </div>
@@ -754,27 +786,27 @@ std::cout &lt;&lt; std::put_time(std::gmtime(&amp;temp), &quot;%Y-%m-%d %I:%M:%S
 <h4><span class="header-section-number">4.4.2.1</span> C++ code to read variable integer<a href="lifecycle-of-blockchain---structure-of-a-block.html#c-code-to-read-variable-integer" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Before going into actual code, we need to see how to work with variable integers. Since we are just reading the data, we will only consider the code to print the value. The reader is encouraged to write a code which takes an <code>std::uint64_t</code> as input and prints the corresponding hex value on screen. Why <span class="math inline">\(8\)</span> byte integer? Good question. In the code, we just need to use integer, no matter how it is stored on actual storage. What data type should we choose in code to work with? Most practical choice will be to store everything in <span class="math inline">\(8\)</span> byte integer and work with it. When we want to store it in Bitcoin storage, we can apply checks and write corresponding hex output.</p>
 <p>Here is the code which reads from memory location <code>str</code>, and perform two things: reads the variable integer starting from <code>str</code> into <span class="math inline">\(8\)</span> byte integer (no matter the actual bytes used in storage) and increment the <code>delta</code> value by corresponding amount of bytes from storage. Why are we increasing the <code>delta</code> instead of setting it to exact values? What is <code>delta</code>? We are using a trick and think about what will happen if we pass <code>delta</code> as offset and <code>str</code> as base address where byte <span class="math inline">\(0\)</span> is stored + <code>offset</code>?</p>
-<pre class="{c++}"><code>uint64_t read_varint(const char* str, size_t&amp; delta)
+<p>```{C++}
+uint64_t read_varint(const char* str, size_t&amp; delta)
 {
-    uint64_t output = 0;
+uint64_t output = 0;</p>
+<pre><code>memcpy(&amp;output, str, 1);
+if (output &lt; 0xFD)
+    delta += 1;
+else if (output == 0xFD)
+    output = *(uint16_t*)(str + 1), delta += 3;
+else if (output == 0xFE)
+    output = *(uint32_t*)(str + 1), delta += 5;
+else
+    output = *(uint64_t*)(str + 1), delta += 9;
 
-    memcpy(&amp;output, str, 1);
-    if (output &lt; 0xFD)
-        delta += 1;
-    else if (output == 0xFD)
-        output = *(uint16_t*)(str + 1), delta += 3;
-    else if (output == 0xFE)
-        output = *(uint32_t*)(str + 1), delta += 5;
-    else
-        output = *(uint64_t*)(str + 1), delta += 9;
-
-    return output;
-}</code></pre>
-</div>
-<div id="c-code-for-transaction-offsets" class="section level4 hasAnchor" number="4.4.2.2">
-<h4><span class="header-section-number">4.4.2.2</span> C++ Code for Transaction offsets<a href="lifecycle-of-blockchain---structure-of-a-block.html#c-code-for-transaction-offsets" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>The following code is self explanatory:</p>
-<pre class="{c++}"><code>...
+return output;</code></pre>
+<p>}</p>
+<pre><code>
+#### C++ Code for Transaction offsets
+The following code is self explanatory:
+```{C++}
+...
 
 int main(int argc, char** argv)
 {
@@ -803,7 +835,7 @@ int main(int argc, char** argv)
 
         // Print current block information
         std::cout &lt;&lt; &quot;Magic Number: &quot; &lt;&lt; HEX(block.magic_number, 4) &lt;&lt; std::endl;
-        std::cout &lt;&lt; &quot;Blockchain Size: &quot; &lt;&lt; block.block_size &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;Block Size: &quot; &lt;&lt; block.block_size &lt;&lt; std::endl;
         std::cout &lt;&lt; &quot;Header Info: &quot; &lt;&lt; std::endl;
         std::cout &lt;&lt; &quot;\tVersion Number          : &quot; &lt;&lt; block.header.version_number &lt;&lt; std::endl;
         std::cout &lt;&lt; &quot;\tPrevious Hash           : &quot;;
@@ -873,7 +905,7 @@ int main(int argc, char** argv)
 <p>Here is the output of above code which you are encouraged to compute by hands from hexadecimal values:</p>
 <pre><code>Offsets of block #0: 0x00000000 to 0x00000124
 Magic Number: D9B4BEF9
-Blockchain Size: 285
+Block Size: 285
 Header Info: 
     Version Number          : 1
     Previous Hash           : 0000000000000000000000000000000000000000000000000000000000000000
@@ -886,7 +918,7 @@ Header Info:
 
 Offsets of block #1: 0x00000125 to 0x00000203
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
     Version Number          : 1
     Previous Hash           : 000000000019D6689C085AE165831E934FF763AE46A2A6C172B3F1B60A8CE26F
@@ -899,7 +931,7 @@ Header Info:
 
 Offsets of block #2: 0x00000204 to 0x000002E2
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
     Version Number          : 1
     Previous Hash           : 00000000839A8E6886AB5951D76F411475428AFC90947EE320161BBF18EB6048
@@ -912,7 +944,7 @@ Header Info:
 
 Offsets of block #3: 0x000002E3 to 0x000003C1
 Magic Number: D9B4BEF9
-Blockchain Size: 215
+Block Size: 215
 Header Info: 
     Version Number          : 1
     Previous Hash           : 000000006A625F06636B8BB6AC7B960A8D03705D1ACE08B1A19DA3FDCC99DDBD
@@ -926,7 +958,7 @@ Header Info:
 <p>Running above code on second transaction of my <code>blk000001.dat</code> file gives (Your output may differ):</p>
 <pre><code>Offsets of block #1: 0x000095A3 to 0x0000A1F9
 Magic Number: D9B4BEF9
-Blockchain Size: 3151
+Block Size: 3151
 Header Info: 
     Version Number          : 1
     Previous Hash           : 000000000000985E2FC8F34C3A8366F5D6ADBFCC0D8ECA085F892E4AA35C67D3
