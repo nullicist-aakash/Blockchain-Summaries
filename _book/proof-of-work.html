@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Proof of Work | Bitcoin: A Technical Introduction - Volume I</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Proof of Work | Bitcoin: A Technical Introduction - Volume I" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Proof of Work | Bitcoin: A Technical Introduction - Volume I" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-09-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lifecycle-of-bitcoin---merkle-trees.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-bitcoin"><i class="fa fa-check"></i><b>1.1</b> What is Bitcoin?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-bitcoin"><i class="fa fa-check"></i><b>1.2</b> Why Bitcoin?</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i><b>1.3</b> Structure of the book</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#project-structure"><i class="fa fa-check"></i><b>2.3</b> Project structure</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.4.2</b> Working of <code>hex_view</code></a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#display-transaction-bytes"><i class="fa fa-check"></i><b>2.4.3</b> Display transaction bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html"><i class="fa fa-check"></i><b>3</b> Blockchain vs Bitcoin</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#how-bitcoin-works-on-surface"><i class="fa fa-check"></i><b>3.1</b> How Bitcoin works on surface</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#requirements-of-a-ledger"><i class="fa fa-check"></i><b>3.1.1</b> Requirements of a ledger</a></li>
+<li class="chapter" data-level="3.1.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#who-stores-the-ledger"><i class="fa fa-check"></i><b>3.1.2</b> Who stores the ledger?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#consequences-of-ledger-storage"><i class="fa fa-check"></i><b>3.1.3</b> Consequences of ledger storage</a></li>
+<li class="chapter" data-level="3.1.4" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#solution-to-the-problems"><i class="fa fa-check"></i><b>3.1.4</b> Solution to the problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#problems-solved-by-blockchain"><i class="fa fa-check"></i><b>3.2</b> Problems solved by blockchain</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#changing-data-in-existing-ledger"><i class="fa fa-check"></i><b>3.2.1</b> Changing data in existing ledger</a></li>
+<li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Structure of a block</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html"><i class="fa fa-check"></i><b>5</b> Cryptographic hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#cryptographic-hash-functions-1"><i class="fa fa-check"></i><b>5.1</b> Cryptographic Hash Functions</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#using-hash-functions-in-online-education"><i class="fa fa-check"></i><b>5.1.1</b> Using hash functions in online education</a></li>
+<li class="chapter" data-level="5.1.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-hash-functions"><i class="fa fa-check"></i><b>5.1.2</b> Properties of hash functions</a></li>
+<li class="chapter" data-level="5.1.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-cryptographic-hash-functions"><i class="fa fa-check"></i><b>5.1.3</b> Properties of cryptographic hash functions</a></li>
+<li class="chapter" data-level="5.1.4" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#HashSummary"><i class="fa fa-check"></i><b>5.1.4</b> Summary of cryptographic hash functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#c-code-1"><i class="fa fa-check"></i><b>5.2</b> C++ Code</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#obtaining-the-code-for-sha-256-in-c"><i class="fa fa-check"></i><b>5.2.1</b> Obtaining the code for SHA-256 in <code>C++</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#calculating-sha-256"><i class="fa fa-check"></i><b>5.2.2</b> Calculating SHA-256</a></li>
+<li class="chapter" data-level="5.2.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#considerations-inside-bitcoin"><i class="fa fa-check"></i><b>5.2.3</b> Considerations inside Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#summary-2"><i class="fa fa-check"></i><b>5.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html"><i class="fa fa-check"></i><b>6</b> Lifecycle of Blockchain - Previous Block Hash</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#hashed-lists"><i class="fa fa-check"></i><b>6.1</b> Hashed Lists</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#motivation"><i class="fa fa-check"></i><b>6.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#demo-code"><i class="fa fa-check"></i><b>6.1.2</b> Demo Code</a></li>
+<li class="chapter" data-level="6.1.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#attacking-the-list"><i class="fa fa-check"></i><b>6.1.3</b> Attacking the list</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#blockchains-prev_hash"><i class="fa fa-check"></i><b>6.2</b> Blockchain’s <code>prev_hash</code></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#combining-arrays-and-hashed-lists"><i class="fa fa-check"></i><b>6.2.1</b> Combining arrays and hashed lists</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#c-code-2"><i class="fa fa-check"></i><b>6.2.2</b> C++ Code</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#verification-of-entries"><i class="fa fa-check"></i><b>6.2.3</b> Verification of entries</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#summary-3"><i class="fa fa-check"></i><b>6.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html"><i class="fa fa-check"></i><b>7</b> Lifecycle of Bitcoin - Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#why-we-need-merkle-trees"><i class="fa fa-check"></i><b>7.1</b> Why we need Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#properties-of-merkle-tress"><i class="fa fa-check"></i><b>7.1.1</b> Properties of Merkle Tress</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#construction-of-merkle-trees"><i class="fa fa-check"></i><b>7.1.2</b> Construction of Merkle Trees</a></li>
+<li class="chapter" data-level="7.1.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-as-cryptographic-hash"><i class="fa fa-check"></i><b>7.1.3</b> Merkle Hash as cryptographic hash</a></li>
+<li class="chapter" data-level="7.1.4" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#update-an-integer"><i class="fa fa-check"></i><b>7.1.4</b> Update an integer</a></li>
+<li class="chapter" data-level="7.1.5" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#considerations"><i class="fa fa-check"></i><b>7.1.5</b> Considerations</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#segment-trees"><i class="fa fa-check"></i><b>7.2</b> Segment Trees</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitcoin: A Technical Introduction - Volume I</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="proof-of-work" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Proof of Work<a href="proof-of-work.html#proof-of-work" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Let’s revise what we have covered. For a currency in which everyone can trust, we needed a system that can’t be changed once some data is there and it is decentralized. Why we need decentralization? To eliminate trust in human entity and trust on well established protocols of cryptography. We know that thousands of transactions happen in the world at any point in time. In Bitcoin, a set of transactions are combined to form a block. As new transactions come into system, new blocks are added. Header contains the hash of transactions (Merkle Hash) so that we can always verify the integrity of transactions a block contains, given that header content is valid. New blocks are added via linked list structure, and this structure takes care of any changes in the entire chain till the latest block (Prev Hash).</p>
+<p>So, are we done? Can we take our current ideas and start with Bitcoin? Is this everything we need in blockchain? After all, we can detect if there are any changes in the storage from the beginning of chain to latest block in the chain. And the answer is: not even close! Remember one attack that we covered earlier solely based on speed of computing the hash? Here is the repetition if you forgot about it: You close the software. Someone go in past entries on the storage, change them, recalculate the hash of corresponding block header, recompute the hash of block, change the “prev_hash” entry of just next block, recompute the block hash of next block, change entry in next to next block, and so on till the latest block. You restart the application after some time. Can you detect any changes if you start verifying everything from start? I don’t think so. And why this attack is feasible? Because we can calculate hashes very fast. Can we make hashing algorithm slower to counteract this? Not an option! This defeats the whole purpose of cryptographic functions. Even if we go with this plan, remember that computers are getting fast with the time. Who is to decide how much time a hash function should take?</p>
+<p>So, what’s the solution? We know that Bitcoin works, and this book exists. So, there must be a solution. Before going into actual details, let’s see another concept in computer science that will be used. Just like cryptographic hash functions, we cover this concept without any context of Blockchain so that we know its existence independent of this technology. After that, we will apply the concept “in abstract manner” to understand how it will help us in preventing above attack. Finally, we go into the actual details of how things are actually implemented. As always, having a working memory model of something is always better than mugging up the implementation and applying it blindly.</p>
+<blockquote>
+<p>There are another set of problems that we are completely ignoring for now. And that is networking! We are currently talking about single system, single user. Once we have clear idea of how everything is handled on one system, we can jump to multiple systems in future chapters to complete our understanding of Blockchain and after that, we can jump into implementation of Bitcoin.</p>
+</blockquote>
+<blockquote>
+<p>There are other proofs that are used in Blockchain technologies, such as Proof-of-Stake in Ethereum. We will cover these later, as explaining these require more concepts that we don’t require right now.</p>
+</blockquote>
+<div id="difficult-problems-in-computer-science" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Difficult problems in computer science<a href="proof-of-work.html#difficult-problems-in-computer-science" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Study of the “Theory of Computer Science” provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to the problem is correct or not. As an example, given a very large positive integer <span class="math inline">\(n\)</span>, can we factor it into two numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(x,y\in \mathbb{N}\)</span>: <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are natural numbers.</li>
+<li><span class="math inline">\(1&lt;x,y&lt;n\)</span>.</li>
+<li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are prime numbers.</li>
+<li><span class="math inline">\(x\times y = n\)</span>.</li>
+</ol>
+<p>It is currently the consensus in humanity that this problem is very very hard to solve “effectively” (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).</p>
+<p>But if we are given <span class="math inline">\(n\)</span>, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we can simply multiply <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> to see if their product is equal to <span class="math inline">\(n\)</span>. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! The world’s trust on secure connection between any two devices rely on this “knowledge” that we can’t factor two integers fast enough.</p>
+<p>Before going ahead, we need to see an example why the standard <span class="math inline">\(O(n)\)</span> algorithm of finding factors from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> will not work. After all, we are claiming that this problem is “very very hard” to solve in practical time limits. Actually, this algorithm is “exponential”, not linear. In computational theory, we use the “number of bits” to represent our length of input, instead of the number represented by those bits! For example, consider the number <span class="math inline">\((435835)_{10}\)</span>. The binary of it is <span class="math inline">\((110 1010 0110 0111 1011)_2\)</span> which means that the number of bits are <span class="math inline">\(19\)</span>. So, a loop running from <span class="math inline">\(0\)</span> to <span class="math inline">\((435835)_{10}\)</span> will take around <span class="math inline">\(O(2^{19})\)</span> time (Don’t be angry here if you know that this <span class="math inline">\(O(1)\)</span>. What I am trying to say is that the algorithm is exponential - power of <span class="math inline">\(2\)</span> - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large “number of bits” is gone. Here is the time comparison for linear, quadratic and exponential algorithms to keep things in perspective:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(n\)</span></th>
+<th align="center">Time to compute <span class="math inline">\(f(n)=n\)</span></th>
+<th align="center">Time to compute <span class="math inline">\(f(n)=n^2\)</span></th>
+<th align="center">Time to compute <span class="math inline">\(f(n)=2^n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(10\)</span></td>
+<td align="center"><span class="math inline">\(0.01\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(0.1\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(\mu s\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(20\)</span></td>
+<td align="center"><span class="math inline">\(0.02\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(0.4\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(ms\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(30\)</span></td>
+<td align="center"><span class="math inline">\(0.03\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(0.9\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(sec\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(40\)</span></td>
+<td align="center"><span class="math inline">\(0.04\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1.6\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(18.3\)</span> <span class="math inline">\(min\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(50\)</span></td>
+<td align="center"><span class="math inline">\(0.05\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(2.5\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(13\)</span> <span class="math inline">\(days\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(100\)</span></td>
+<td align="center"><span class="math inline">\(0.1\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(10\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(4\times 10^{13}\)</span> <span class="math inline">\(years\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(1,000\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(ms\)</span></td>
+<td align="center">-</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(10,000\)</span></td>
+<td align="center"><span class="math inline">\(10\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(100\)</span> <span class="math inline">\(ms\)</span></td>
+<td align="center">-</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(100,000\)</span></td>
+<td align="center"><span class="math inline">\(0.1\)</span> <span class="math inline">\(ms\)</span></td>
+<td align="center"><span class="math inline">\(10\)</span> <span class="math inline">\(sec\)</span></td>
+<td align="center">-</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, if our bits reach <span class="math inline">\(100\)</span>, the running time reach <span class="math inline">\(4\times 10^{13}\)</span> <span class="math inline">\(years\)</span>!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an <span class="math inline">\(O(n^2)\)</span> algorithm to find product of two numbers, where <span class="math inline">\(n\)</span> represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers.</p>
+<p>Above discussion should have given you a general idea of what we mean by “difficult to solve but easy to verify”. We will use something like this to enforce a “practical” limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain.</p>
+</div>
+<div id="working-model-of-proof-of-work" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Working model of Proof-of-work<a href="proof-of-work.html#working-model-of-proof-of-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>How can we use the above concept of “hard to solve but difficult to verify” in blockchain to prevent the attack presented in the beginning of chapter? Suppose we have a “difficult problem” which will take some time to solve (not the exponential time as present in factorization problem above). For each block, we solve some difficult problem that should “definitely” take “considerable” amount of time to solve by computers. We will cover how Bitcoin solves the problem of increasing speed of computers in a moment, but first, we need to see how solving the difficult problem helps Bitcoin.</p>
+<div id="securing-bitcoin-by-solving-a-difficult-problem" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Securing Bitcoin by solving a difficult problem<a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before adding a new block of new transactions to the end of chain, we (actually miners, but we are not covering them in this chapter) solve a “difficult” problem specific to the block. What do we mean by “difficult” here? Say, solve a problem, which on average, with current computer speeds, take an average of <span class="math inline">\(10\)</span> minutes to solve (There is nothing special in this value chosen for Bitcoin implementation, it was just a parameter which was thought to be good at that time). What do we mean by “specific to the block”? This means that the difficult problem revolves around the transactions inside the block, and the solution will not be valid for any other data. Again, we are talking about problems which are hard to solve but very easy to verify. How does it helps us, if we have such a thing in place?</p>
+<p>Consider what will happen in the attack described above if we have something like this in place. Someone goes to history, change the contents, compute new Merkle Hash, go to next block, change the prev_hash entry, … Next, application is restarted and all entries are verified (This is time consuming and doesn’t happen in practice. This will be covered later in detail). We are using the old verification mechanism along with one more additional step:</p>
+<ul>
+<li>Check if the solution of “difficult” problem is correct or not.</li>
+</ul>
+<p>When the application reach the entries that were altered, the “solution” will not match the contents of transactions, as the problem was solved for some other transactions! We detected the changed entries and prevented above attack.</p>
+<p>So what’s the benefit? Let’s see an example. A hacker proposes the following strategy: Change an entry, recalculate the Merkle Hash, solve the difficult problem, go to next block, update prev_hash entry, go to next block, repeat.</p>
+<p>Are there any problems in above attack if there are thousands or millions of blocks? Time taken to “update” one block will be <span class="math inline">\(10\)</span> minutes. To update <span class="math inline">\(6\)</span> blocks, approach will take <span class="math inline">\(1\)</span> hour. To update <span class="math inline">\(600\)</span> blocks, approach will take <span class="math inline">\(100\)</span> hours. Seems like that the attack will be successful if there is enough time, right?</p>
+<p>NO! Remember that world is actively doing transactions. What is the consequence of this? The number of blocks are also increasing at the rate of <span class="math inline">\(1\)</span> block per <span class="math inline">\(10\)</span> minutes, on average. If someone change the entry of last <span class="math inline">\(5^{th}\)</span> block, that person will need <span class="math inline">\(50\)</span> minutes to come to block which was last block when attack started. In the meantime, <span class="math inline">\(5\)</span> new blocks are already entered into the chain! Meaning by? More someone tries to go in past to change some entries, more difficult it is for them to catch up with last block in the entire chain!</p>
+<p>This seems like a good solution, as far as we are concerned. And that’s the solution which is implemented inside Bitcoin protocol!</p>
+</div>
+<div id="buying-a-fast-computer-to-attack-the-chain" class="section level3 hasAnchor" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Buying a fast computer to attack the chain<a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There is a flaw in our implementation. What will happen if a hacker buys a fast computer that can solve problem in <span class="math inline">\(7\)</span> minutes? In some finite amount of time, hacker will soon reach the latest block in the chain and alter its contents while the new block is being prepared. Once successful, the new block will see the changed block and the prev_hash field will be updated corresponding to new block, which should not be allowed.</p>
+<p>So, what’s the solution? As we are only considering a single system right now, this problem can’t be solved. As long as hacker have fast computers than us, the hack can be performed. We don’t need to care about this attack once we shift to multiple computers sharing the Blockchain, as it happens in Bitcoin.</p>
+</div>
+<div id="economics-of-using-a-fast-computer-for-hacking" class="section level3 hasAnchor" number="8.2.3">
+<h3><span class="header-section-number">8.2.3</span> Economics of using a fast computer for hacking<a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>What does Bitcoin implementation do to prevent this type of attack? We are going outside the scope of technological analysis in this section and going into economics. Make sure not to confuse both things.</p>
+<p>Say, I have a fast computer. What can I do with it? Hack Bitcoin network or contribute my electricity, expensive hardware resources, cooling system, etc. to help cultivate Bitcoin. Hacking seems a very lucrative choice. Before going further into detail, we need to take a step back and consider the benefits of hacking. If we hack, we can transfer Bitcoin to us, sell them, gain cash! In reality, this will happen if hacking is possible:</p>
+<ol style="list-style-type: decimal">
+<li>System is prone to attacks, hackers across the world hack the system on regular basis.</li>
+<li>People’s trust in the system declines very fast, as the system is not secure.</li>
+<li>They are willing to give less money in exchange of Bitcoin. (Economics: Price of ‘something’ declines if people’s belief in the stability of ‘something’ is reduced). Price of Bitcoin comes crashing down.</li>
+<li>Hackers try to sell their hard earned Bitcoins (by hacking and scamming obviously) only to find out that the market value of Bitcoin is practically <span class="math inline">\(0\)</span>!</li>
+</ol>
+<p>In summary, the simple act of hacking and possibility of it forces the price of technology to come to <span class="math inline">\(0\)</span>, effectively making the system worthless. So, having a fast system with us is useless after all.</p>
+<p>If the instability in system forces the price of the same to reduce to <span class="math inline">\(0\)</span>, what keeps it above <span class="math inline">\(0\)</span> in first place? After all, we have many technologies and algorithms that work very well, we don’t see them selling around in the market. Torrents works in distributed manner, do we say something like: “I own <span class="math inline">\(x\)</span> torrents. I can sell them to market for <span class="math inline">\(y\)</span> dollars”. Distributed databases exist in the market, we don’t say something like: “I own <span class="math inline">\(x\)</span> shares of mongodb database. The price of database will increase in future. I will see my shares and will receive money”.</p>
+<p>Coming to original question, what keeps the price of Bitcoin floating? And the answer is ‘mining reward’. If someone uses their computer resources, expensive hardware (in comparison to other users of Bitcoin), electricity to solve this difficult problem, and they become successful before anyone else, they will receive free Bitcoins. And there you have it, the core reason by price of Bitcoin rises in first place. This works as follows:</p>
+<ol style="list-style-type: decimal">
+<li>We spend money: electricity, hardware, cooling, maintainance etc. to get Bitcoin. We would demand some money in market for these Bitcoins, because we spent our money in first place. This gives coins some value.</li>
+<li>Other people see that they can use these “coins” to sell them to the market, so they join the system too and try to get their own Bitcoins by solving problems and creating new blocks.</li>
+<li>People buy expensive things to create new blocks, justifying their demand to sell Bitcoin to higher price, further increasing the price.</li>
+</ol>
+<p>And there you have it. A decision to give “free” Bitcoins to people for solving difficult problems drives the who Bitcoin system. Remember that this is not a technological thing, but the economics of creating new block and selling the reward at higher price. Now that we have some context of why this is beneficial from economic point of view, we will go into mining rules in next section and complete the design of our ledger.</p>
+</div>
+</div>
+<div id="proof-of-work---nonce-field" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Proof-of-Work - Nonce Field<a href="proof-of-work.html#proof-of-work---nonce-field" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now, we will jump into the actual details of how Bitcoin implements Proof-of-Work. As already mentioned, we are only considering the case when we are working on a “single” system, and we will cover how these things work on multiple devices later. Under this assumption, we have the following:</p>
+<ol style="list-style-type: decimal">
+<li>Blockchain with transactions.</li>
+<li>Some transaction data which is not part of Blockchain (yet).</li>
+</ol>
+<p>In real world, these transactions will be generated worldwide, so we can be sure that if a person have sufficient number of transactions (the sufficient number of transactions can be <span class="math inline">\(1\)</span>, as the case with genesis block) to place in the block, then that person (miner) can make a block. It doesn’t matter where the data came from. Only the validity of created block matters, on which proof-of-work can be verified.</p>
+<p>Here is the header of Bitcoin Block for reference:</p>
+<table style="width:100%;">
+<colgroup>
+<col width="21%" />
+<col width="21%" />
+<col width="21%" />
+<col width="14%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Byte Range</th>
+<th align="center">Header offset</th>
+<th align="center">Size (bytes)</th>
+<th align="left">Meaning</th>
+<th align="center">Is covered completely till now</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">8-11</td>
+<td align="center">0-3</td>
+<td align="center">4</td>
+<td align="left">Version Number</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="even">
+<td align="center">12-43</td>
+<td align="center">4-35</td>
+<td align="center">32</td>
+<td align="left">Previous Block Hash</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="odd">
+<td align="center">44-75</td>
+<td align="center">36-67</td>
+<td align="center">32</td>
+<td align="left">Current Merkle Hash</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="even">
+<td align="center">76-79</td>
+<td align="center">68-71</td>
+<td align="center">4</td>
+<td align="left">Time</td>
+<td align="center">Yes</td>
+</tr>
+<tr class="odd">
+<td align="center">80-83</td>
+<td align="center">72-75</td>
+<td align="center">4</td>
+<td align="left">Difficulty</td>
+<td align="center">No</td>
+</tr>
+<tr class="even">
+<td align="center">84-87</td>
+<td align="center">76-79</td>
+<td align="center">4</td>
+<td align="left">Nonce</td>
+<td align="center">No</td>
+</tr>
+</tbody>
+</table>
+<p>In the process of mining, we collect the transactions, which we want to add to the blockchain. Once these transactions are selected, we have the following information with us, that is fixed:</p>
+<ol style="list-style-type: decimal">
+<li>Version number, independent of transactions or block in our case.</li>
+<li>Previous Block Hash: We can’t change it, as this is already part of “read-only” blockchain.</li>
+<li>Current Merkle Hash: Computed using the transactions that will be placed in the block.</li>
+</ol>
+<p>Time will be set during mining, as we will see in few moments. Remaining are <code>difficulty</code> and <code>nonce</code>. <code>Difficulty</code> is set by the Bitcoin Network itself, and we have no control over its value. How this is computed and how it is updated, is explained later. For now, we have this field with us, somehow. Remaining is the <code>nonce</code>, which is the parameter which we will change to solve the “Difficult problem”. Here is the mining algorithm, the “difficult” problem miners are trying to solve:</p>
+<ul>
+<li>Find the value of <code>nonce</code> such that block header hash is less than the <code>difficulty</code>.</li>
+</ul>
+<p>In general, we can say that the block hash has to have “fixed number of zeroes” in the beginning in order for it to be valid solution for the problem (This is a quick rule to remember, not this is not the actual one). As the output of SHA-256 is highly random, changing a single bit of input will drastically change the output. Thus, there is no hidden pattern or “best” guess for <code>nonce</code> that will satisfy the above condition. After setting the time field, the miner have to randomly try nonce values and by luck, if the setup is very fast in market, the correct nonce will be found in <span class="math inline">\(10\)</span> minutes, on average. As there is no pattern in output, the approach of setting “nonce” as <span class="math inline">\(0\)</span>, finding hash, increment “nonce” if the condition is not satisfied, recompute hash, and repeat is as good as any other method.</p>
+<div id="important-questions-for-proof-of-work-algorithm" class="section level3 hasAnchor" number="8.3.1">
+<h3><span class="header-section-number">8.3.1</span> Important questions for proof-of-work algorithm<a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>How do we guarantee that on average, a block is mined in <span class="math inline">\(10\)</span> minutes?
+<ul>
+<li>The answer is that <code>difficulty</code> field is recomputed on whole network based on how many blocks were introduced in the system in last <span class="math inline">\(2\)</span> weeks (actual details in some moment). If on average, the mining time of block is less than <span class="math inline">\(10\)</span> minutes, it means that fast computers are introduced in the system and the network will increase the difficulty based on some formula.</li>
+</ul></li>
+<li>What if the difficulty is increased upto a point where the average time to mine the block is more than <span class="math inline">\(10\)</span> minutes with current technology?
+<ul>
+<li>The difficulty recalculation formula will take care of it and the difficulty given by network will decrease. Thus, the formula tries to keep the average mining time around <span class="math inline">\(10\)</span> minutes, and no one with fastest computer will be able to mine Bitcoin forever than the intended speed.</li>
+</ul></li>
+<li>The <code>difficulty</code> field is only <span class="math inline">\(4\)</span> bytes and double SHA will give <span class="math inline">\(256\)</span> bit output. How to compare these?
+<ul>
+<li>This will be explained shortly. There is a formula to expand the <span class="math inline">\(4\)</span> bytes of <code>difficulty</code> field to <span class="math inline">\(256\)</span> bits or <span class="math inline">\(32\)</span> bytes for SHA comparison.</li>
+</ul></li>
+<li>It is possible that for any possible value of <code>nonce</code>, the problem have no solution. This means that, for all fixed fields, it is not necessary that a <span class="math inline">\(4\)</span> byte <code>nonce</code> will exist such that a solution will exist. What to do in that case?
+<ul>
+<li>Remember that time field is changed every second. Miner will simply update the time value and will retry again.</li>
+</ul></li>
+<li>What if the computer speed is such that all <span class="math inline">\(4\)</span> bytes of nonce are already computed before completion of <span class="math inline">\(1\)</span> second and the solution is not found? The computers are increasing in speed and I can compute the hash in parallel, for different values of nonce, using very specialized hardware setups.
+<ul>
+<li>Date field is not the only variable we can control. We can rearrange the transactions of the block to compute new Merkle hash, and redo the computations.</li>
+<li>Also, in reality, a few set of transactions are taken, at random, to be part of new block. We can add or replace some current transactions with any other to expand our searching.</li>
+</ul></li>
+<li>We mentioned that there are many miners in the world who are trying to solve the “problem”. It is possible that they have the same set of inputs, but in different order, and both solves the problem. Which one will be considered for bitcoin reward?
+<ul>
+<li>This will be covered in later chapter. There is a well defined protocol at play here. The quick answer is that people wait for atleast <span class="math inline">\(3\)</span>-<span class="math inline">\(4\)</span> blocks to be mined after the transaction included as was part of blockchain to make sure it will “stay” there.</li>
+</ul></li>
+</ul>
+</div>
+<div id="example" class="section level3 hasAnchor" number="8.3.2">
+<h3><span class="header-section-number">8.3.2</span> Example<a href="proof-of-work.html#example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s take the example of genesis block. Obviously, as there is no “network” for Genesis block, the <code>difficulty</code> field for genesis block was hardcoded. The value is <code>0x1D00FFFF</code> (in big endian), as can be seen from the output of Chapter <span class="math inline">\(3\)</span>. Based on formula given later, this will expand into <code>0x00000000'FFFF0000'00000000'00000000'00000000'00000000'00000000'00000000</code>.</p>
+<p>Now comes the <code>nonce</code>, which we need to find. We set the nonce to <code>0x00000000</code> and compute the header hash (double SHA-256). Reader will find that the condition is not satisfied. Increase the nonce to <code>0x00000001</code>, again failure. If we go on and on, we will reach <code>0x7C2BAC1D</code> for which, the block hash turns out to be <code>00000000'839A8E68'86AB5951'D76F4114'75428AFC'90947EE3'20161BBF'18EB6048</code> which is less than the required target!</p>
+<p>The reader is encouraged to write a program and run the loop to see how much it will take to “mine” the block. This will give an idea how “boring” mining is, how time consuming and power consuming it is, but people still do it due to market value of Bitcoin. Does it mean that we should start mining on our devices too? No. The money spent on electricity and device to mine a block, by a person with average setup (in comparison to supercomputers and data centers dedicated to mining Bitcoin) is far more than the Bitcoin reward.</p>
+</div>
+<div id="proof-of-work-as-difficult-problem" class="section level3 hasAnchor" number="8.3.3">
+<h3><span class="header-section-number">8.3.3</span> Proof-of-work as difficult problem<a href="proof-of-work.html#proof-of-work-as-difficult-problem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So, does the proof of work satisfy the conditions of “difficult to solve, easy to verify”? Yes. It takes 10 minutes, on average, to solve the problem of mining the block. Given the final nonce and header of a mined block, we can easy verify that the header hash is less than the target.</p>
+<p>As already discussed, the Bitcoin platform is actively generating transactions and thus, the Blockchain size is increasing ever since. How multiple miners contribute to the length of blockchain, is topic of further chapters.</p>
+</div>
+</div>
+<div id="proof-of-work---difficulty-field" class="section level2 hasAnchor" number="8.4">
+<h2><span class="header-section-number">8.4</span> Proof-of-work - <code>Difficulty</code> Field<a href="proof-of-work.html#proof-of-work---difficulty-field" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Having covered the <code>nonce</code>, it is time to complete the <code>difficulty</code> field in order to fully understand the header of Blockchain in Bitcoin. There are many aspects to the <code>difficulty</code> field and we cover each of them in the following subsections.</p>
+<p>We mentioned that <code>difficulty</code> field is stored in <span class="math inline">\(4\)</span> bytes and we expand it into <span class="math inline">\(32\)</span> bytes/<span class="math inline">\(256\)</span> bits to compare the resulting double SHA-256 hash to verify if the “problem” is solved. We now go into the details of how that is accomplished in the Bitcoin implementation.</p>
+<div id="expansion-of-difficulty-into-256-bits" class="section level3 hasAnchor" number="8.4.1">
+<h3><span class="header-section-number">8.4.1</span> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits<a href="proof-of-work.html#expansion-of-difficulty-into-256-bits" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Imagine a binary number of <span class="math inline">\(256\)</span> bits, which will be our <em>target</em> value. Divide it into <span class="math inline">\(3\)</span> parts: prefix (leftmost part), middle and suffix (rightmost part). Prefix and suffix consist of zeroes and middle is <span class="math inline">\(3\)</span> bytes <span class="math inline">\(=24\)</span> bits long. If we know the length of either prefix or suffix, our job will be done.</p>
+<p>Divide the <span class="math inline">\(4\)</span> byte <code>difficulty</code> into two parts: <span class="math inline">\(1\)</span> byte long <em>exponent</em> and <span class="math inline">\(3\)</span> bytes long <em>mantissa</em>. Remember the middle part in above paragraph? This is same as mantissa. Exponent field is used to get the length of suffix or prefix, whichever way you like. We change our discussion in terms of <em>nibbles</em>. <span class="math inline">\(1\)</span> byte is equal to <span class="math inline">\(2\)</span> nibbles and <span class="math inline">\(1\)</span> nibble is equal to <span class="math inline">\(4\)</span> bits. Equivalently, one nibble corresponds to the space taken by one hexadecimal character.</p>
+<p>This implies that we have <span class="math inline">\(256\)</span> bits <span class="math inline">\(=32\)</span> bytes <span class="math inline">\(=64\)</span> nibbles and middle part will take <span class="math inline">\(3\times 2=6\)</span> nibbles. Let <span class="math inline">\(n_1\)</span> denotes the nibbles for the prefix and <span class="math inline">\(n_2\)</span> denotes the nibbles for suffix. This implies we have the following equation: <span class="math display">\[n_1+6+n_2=64.\]</span> Bitcoin implementation gives us the following formula for <span class="math inline">\(n_1\)</span>: <span class="math display">\[n_1=64-2\times exp.\]</span> Take the genesis block, having <code>difficulty</code> of <code>0x1D00FFFF</code>. This means that exponent is <code>0x1d</code> and mantissa is <code>0x00FFFF</code>. The middle part of final <span class="math inline">\(64\)</span> nibble output is <code>0x00FFFFFF</code>. Our exponent is <code>0x1d</code>, which evaluates to <span class="math inline">\(29\)</span>. This gives <span class="math inline">\(n_1=64-2\times exp=64-2\times 29=64-58=6\)</span>. This means, we have <span class="math inline">\(6\)</span> nibbles in the beginning, <span class="math inline">\(6\)</span> nibbles for mantissa and remaining <span class="math inline">\(64-6-6=52\)</span> nibbles for suffix.</p>
+<p>Wikipedia doesn’t use this approach. They calculate suffix so that bitwise operators can be used and computations can be done in less steps. Let’s see what will be <span class="math inline">\(n_2\)</span> using the information we have thus far. Putting <span class="math inline">\(n_1\)</span> formula into <span class="math inline">\(n_1+6+n_2=64\)</span>, we have <span class="math display">\[(64-2\times exp) + 6 + n_2=64\]</span> which gives <span class="math display">\[n_2=2\times(exp-3).\]</span> Remember that these are the number of nibbles. To get the number of bits, we have <span class="math inline">\(8\times (exp-3)\)</span> bits. This gives rise to the following pseudo code:</p>
+<pre><code>mantissa  = difficulty &amp; 0xFFFFFF
+expponent = difficult &gt;&gt; 24
+target = mantissa &lt;&lt; (8 * (exponent - 3))</code></pre>
+<p>The result matches with the required target for the genesis block as <code>0x000000_00'FFFF_0000'00000000'00000000'00000000'00000000'00000000'00000000</code>.</p>
+</div>
+<div id="parameters-for-target-recalculation" class="section level3 hasAnchor" number="8.4.2">
+<h3><span class="header-section-number">8.4.2</span> Parameters for target recalculation<a href="proof-of-work.html#parameters-for-target-recalculation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Remember that a block on average should take <span class="math inline">\(10\)</span> minutes to mine. This means that in two weeks, approximately <span class="math inline">\(2016\)</span> blocks should be mined. Bitcoin implementation takes the <span class="math inline">\(2\)</span> week time as reference. They consider the time it took to add last <span class="math inline">\(2016\)</span> blocks in the network and based on that, they recompute the difficulty. Note the use of following jargon before going further:</p>
+<ol style="list-style-type: decimal">
+<li><code>Difficulty</code> field refers to <span class="math inline">\(4\)</span> bytes stored value in Blockchain header. Genesis block has the <code>difficulty</code> field as <code>0x1D00FFFF</code>.</li>
+<li>The expanded <span class="math inline">\(256\)</span> bit value is known as target. The genesis block has the target of <span class="math inline">\(65535 \times 2^{208}\)</span>.</li>
+<li>Difficulty refers to general English meaning of difficulty. Bitcoin developers assigned difficulty of <span class="math inline">\(1\)</span> to the genesis block.</li>
+<li>Hash rate refers to the number of hashes that miners compute, all over the world, in one second. For more hash rate, we need more difficulty to make sure <span class="math inline">\(10\)</span> minutes per block are maintained.</li>
+</ol>
+<p>Let’s say it took less than <span class="math inline">\(2\)</span> weeks to mine last <span class="math inline">\(2016\)</span> blocks. Should we increase the difficulty (decrease the target) or should we decrease the diffficulty (increase the target)? We should increase the difficulty in order to make sure it takes more time to mine the block. And if last <span class="math inline">\(2016\)</span> blocks took more than <span class="math inline">\(2\)</span> weeks of time, we should decrease the difficulty.</p>
+<p>Here is the relation that is maintained for difficulty and target, for each block (Note that this is not the value of <code>difficulty</code> field that is stored, this is the new unit of difficulty which was in point <span class="math inline">\(3\)</span> of jargon):</p>
+<p><span class="math display">\[\text{Difficulty} \times \text{Target} = \text{constant} = 1 \times \text{Target of Genesis Header} = 65535 \times 2^{208}.\]</span></p>
+<p>Let’s take an example. If the <code>difficulty</code> field is <code>0x1B0404CB</code>, then the target will be <code>0x00000000'00_0404CB'_00000000'00000000'00000000'00000000'00000000'00000000</code>. This gives us difficulty as</p>
+<pre><code>0x00000000FFFF0000000000000000000000000000000000000000000000000000 /
+0x00000000000404CB000000000000000000000000000000000000000000000000 
+= 16307.420938523983</code></pre>
+</div>
+<div id="recomputation-of-difficulty-in-bitcoin" class="section level3 hasAnchor" number="8.4.3">
+<h3><span class="header-section-number">8.4.3</span> Recomputation of difficulty in Bitcoin<a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Now, let’s see how to recompute new target. Here is the logic that is performed after every <span class="math inline">\(2016\)</span> blocks on Blockchain:</p>
+<ol style="list-style-type: decimal">
+<li>Take the time taken to mine last <span class="math inline">\(2016\)</span> blocks.</li>
+<li>Compute the new difficulty using the following formula: <span class="math display">\[\text{Difficulty}_\text{new}\times\text{Time}_\text{old}=\text{Difficulty}_\text{old}\times\text{Time}_\text{Expected}.\]</span></li>
+</ol>
+<p>In the above formula, we have the following variables:</p>
+<ol style="list-style-type: decimal">
+<li>New Difficulty: The difficulty which will be set for next <span class="math inline">\(2016\)</span> blocks.</li>
+<li>Old Time: The time taken by last <span class="math inline">\(2016\)</span> blocks of blockchain to mine.</li>
+<li>Old Difficulty: Current difficulty, by which the network was working.</li>
+<li>Expected Time: The time taken by one block/time taken by 2016 blocks in seconds/minutes, depending upon what is used by Old Time field.</li>
+</ol>
+<blockquote>
+<p>Due to a bug in Bitcoin code, the ‘Old Time’ variable is actually set to time taken by last <span class="math inline">\(2015\)</span> blocks instead of last <span class="math inline">\(2016\)</span> blocks. Fixing this bug requires a “hard fork”, a term defined in later chapters and due to this problem, the bug was not fixed. Remember that this doesn’t mean that “Expected Time” Field will correspond to <span class="math inline">\(2015\)</span> blocks.</p>
+</blockquote>
+<p>As we know that blocks start at index <span class="math inline">\(0\)</span> in Bitcoin, therefore Block <span class="math inline">\(0\)</span> to Block <span class="math inline">\(2015\)</span> have same difficulty. Block <span class="math inline">\(2016\)</span> to Block <span class="math inline">\(4031\)</span> have same difficulty, and so on. Also, we have additional rules for difficulty which makes sure there are no rapid changes in the new difficulty:</p>
+<ol style="list-style-type: decimal">
+<li>Difficulty value can never be lower than <span class="math inline">\(1\)</span>. If it reaches less than <span class="math inline">\(1\)</span>, then the difficulty will be set to <span class="math inline">\(1\)</span>.</li>
+<li>New difficulty value can never be more than <span class="math inline">\(4\)</span> times the previous difficulty value.</li>
+<li>New difficulty value can never be less than <span class="math inline">\(0.25\)</span> times the previous difficulty value.</li>
+</ol>
+<p>As <code>Difficulty * target = constant</code>, we can say the same thing about target, and maximum target being the target of genesis header: <span class="math inline">\(65535 \times 2^{208}\)</span>.</p>
+</div>
+</div>
+<div id="solved-examples" class="section level2 hasAnchor" number="8.5">
+<h2><span class="header-section-number">8.5</span> Solved Examples<a href="proof-of-work.html#solved-examples" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="difficulty-recomputation-example" class="section level3 hasAnchor" number="8.5.1">
+<h3><span class="header-section-number">8.5.1</span> Difficulty recomputation example<a href="proof-of-work.html#difficulty-recomputation-example" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let’s say Bitcoin network just mined block number <span class="math inline">\(106847\)</span>. Next block is multiple of <span class="math inline">\(2016\)</span>, so we need new difficulty for that block. From the formula, we need two things: Time taken to mine last <span class="math inline">\(2016\)</span> blocks and old difficulty. Old difficulty here refers to the difficulty associated with range of blocks: <span class="math inline">\([104832,106847]\)</span>.</p>
+<p><code>Difficulty</code> field of block <span class="math inline">\(106847\)</span> is <code>0x1B02FA29</code> (Link: <a href="https://explorer.btc.com/btc/block/106847">Block 106847</a>). This means mantissa is <code>0x02FA29</code> which in decimal is <span class="math inline">\(195213\)</span>. Exponent part is <code>0x1B</code>, which in decimal is <span class="math inline">\(27\)</span>, which implies that the length of suffix is <span class="math inline">\(8\times(27-3)=192\)</span>. Thus, old target is <span class="math inline">\(195213\times2^{192}\)</span>. As the target of genesis block is <span class="math inline">\(65535\times2^{208}\)</span>, this gives current difficulty as <span class="math inline">\(22012.4\)</span>.</p>
+<p>To compute the time taken by last <span class="math inline">\(2016\)</span> blocks, we first need to address a subtle question: What time does the <code>time</code> field of Blockchain represent? This is further divided into two parts: Which time zone and which time in the average interval of <span class="math inline">\(10\)</span> minutes. For the time zone, there is no issue as the time is Unix Epoch Time. For the second question, we have the approximate time to the end of this <span class="math inline">\(10\)</span> minute period. Why not the start time of mining? Why the “approx”, not “exact” end time? Recall that we can compute the hash corresponding to all <span class="math inline">\(4\)</span> bytes of nonce field and it is possible that solution was not found. We alter the date field to new time to retry whole set of nonce.</p>
+<p>With this information, we know that we have end time of block <span class="math inline">\(104831\)</span>, end time of block <span class="math inline">\(104832\)</span>, …, end time of block <span class="math inline">\(106847\)</span>. Which time should we subtract from end time of block <span class="math inline">\(106847\)</span> to get the time to mine last <span class="math inline">\(2016\)</span> blocks? If your answer is <span class="math inline">\(104832\)</span>, you made the same mistake as Bitcoin developers did. The actual answer is <span class="math inline">\(104831\)</span>. But since we need to match our results with difficulty of block <span class="math inline">\(106848\)</span>, we have to choose the time stored in block <span class="math inline">\(104832\)</span>. The time stamp of this block is <code>27 Jan 2011, 13:46:11</code> while the time stamp of block <span class="math inline">\(106847\)</span> is <code>8 Feb 2011, 10:15:42</code>. This gives us <span class="math inline">\(1024171\)</span> seconds that were elapsed.</p>
+<p>Since we are considering the time taken by last <span class="math inline">\(2016\)</span> (actually <span class="math inline">\(2015\)</span>, but we have to take these as <span class="math inline">\(2016\)</span> as this was a bug) blocks, the expected time is <span class="math inline">\(2016\text{ blocks}\times10\text{ minutes}\times60\text{ seconds}\)</span>.</p>
+<p>Putting this in above formula, we get
+<span class="math display">\[\text{Difficulty}_\text{new}=\frac{\text{Difficulty}_\text{old}\times\text{Time}_\text{Expected}}{\text{Time}_\text{old}}.\]</span>
+<span class="math display">\[\implies\text{Difficulty}_\text{new}=\frac{22012.4\times2016\times600}{1024171}=25997.8\]</span></p>
+<p>Converting this difficulty into target gives us target of <span class="math inline">\(165203\times2^{192}\)</span> which on converting to <code>difficult</code> field value gives us <code>0x1B28553</code>. What is the actually stored value inside block <span class="math inline">\(106848\)</span>? It is <code>0x1B28552</code>, or difficulty of <span class="math inline">\(25997.9\)</span>, which is due to some rounding error in logic.</p>
+</div>
+<div id="hash-rate-computation" class="section level3 hasAnchor" number="8.5.2">
+<h3><span class="header-section-number">8.5.2</span> Hash rate computation<a href="proof-of-work.html#hash-rate-computation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Suppose we want to compute the hash rate of Bitcoin network based on last <span class="math inline">\(2015\)</span> blocks. This means that we want to compute the number of hashes that were computed by miners per second, on average, to mine <span class="math inline">\(2015\)</span> blocks. Let’s take the previous example.</p>
+<p>The time taken to mine last <span class="math inline">\(2015\)</span> blocks in previous example was <span class="math inline">\(1024171\)</span> seconds. If we have the average number of hashes required to mine one block, we can multiply it by <span class="math inline">\(2015\)</span> to get the total hashes computed for <span class="math inline">\(2015\)</span> blocks, on average and divide it by <span class="math inline">\(1024171\)</span> to get average hash rate. How to compute the average hashes required to mine one block? We use Bernoulli distribution here. For those who are not comfortable with probability distribution, here is the result: Average number of hashes required are <span class="math inline">\(2^{256}/\text{Target}\)</span>. You can safely skip the next two paragraphs, if you don’t want to go into the derivation.</p>
+<p>We can model mining using Binomial Distribution. Since the output of double SHA-256 is uniform, we can set the probability of success, <span class="math inline">\(p\)</span>, as the values of hash which will be considered the solution of mining. Our constraint is that block is successfully mined if the double SHA output is less than the target. This gives us <span class="math inline">\(p=T/2^{256}\)</span> where <span class="math inline">\(T\)</span> is the target value derived from difficulty block.</p>
+<p>Given the value of <span class="math inline">\(p\)</span> and <span class="math inline">\(q=1-p\)</span> parameters of Binomial distribution, the question is: What are the expected number of trials before success. This is given by <span class="math display">\[E[S]=\sum_{n=1}^{n=\infty}n\times p\times q^{n-1}\]</span> which gives us <span class="math inline">\(E[S]=1/p\)</span>. Thus, expected number of trials are <span class="math display">\[E[S]=\frac{1}{p}=\frac{2^{256}}{\text{Target}}.\]</span></p>
+<p>So, for given <span class="math inline">\(2015\)</span> blocks, average number of hashes to mine a block are <span class="math inline">\(\frac{2^{256}}{195113\times2^{192}}\)</span>. This is the time for one block. For <span class="math inline">\(2015\)</span> blocks, we have <span class="math inline">\(\frac{2^{256}\times2015}{195113\times2^{192}}\)</span> hashes. These hashes were computed in <span class="math inline">\(1024171\)</span> seconds. Thus, hash rate is given by <span class="math display">\[\frac{2^{256}\times2015}{195113\times2^{192}\times1024171}=186.01\times10^9\text{H/s}\]</span> or <span class="math inline">\(186.01 \text{GH/s}\)</span>. Going to <a href="https://btc.com/stats/diff">Difficulty Stats</a> of Bitcoin for Block <span class="math inline">\(106848\)</span>, we see the value as <span class="math inline">\(186.01 \text{GH/s}\)</span>, which matches with our result!</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lifecycle-of-bitcoin---merkle-trees.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-Proof-of-Work.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Setting up the environment | Bitcoin: A Technical Introduction - Volume I</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Setting up the environment | Bitcoin: A Technical Introduction - Volume I" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Setting up the environment | Bitcoin: A Technical Introduction - Volume I" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-09-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="blockchain-vs-bitcoin.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-bitcoin"><i class="fa fa-check"></i><b>1.1</b> What is Bitcoin?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-bitcoin"><i class="fa fa-check"></i><b>1.2</b> Why Bitcoin?</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i><b>1.3</b> Structure of the book</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#project-structure"><i class="fa fa-check"></i><b>2.3</b> Project structure</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html"><i class="fa fa-check"></i><b>3</b> Blockchain vs Bitcoin</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#how-bitcoin-works-on-surface"><i class="fa fa-check"></i><b>3.1</b> How Bitcoin works on surface</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#requirements-of-a-ledger"><i class="fa fa-check"></i><b>3.1.1</b> Requirements of a ledger</a></li>
+<li class="chapter" data-level="3.1.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#who-stores-the-ledger"><i class="fa fa-check"></i><b>3.1.2</b> Who stores the ledger?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#consequences-of-ledger-storage"><i class="fa fa-check"></i><b>3.1.3</b> Consequences of ledger storage</a></li>
+<li class="chapter" data-level="3.1.4" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#solution-to-the-problems"><i class="fa fa-check"></i><b>3.1.4</b> Solution to the problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#problems-solved-by-blockchain"><i class="fa fa-check"></i><b>3.2</b> Problems solved by blockchain</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#changing-data-in-existing-ledger"><i class="fa fa-check"></i><b>3.2.1</b> Changing data in existing ledger</a></li>
+<li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Structure of a block</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html"><i class="fa fa-check"></i><b>5</b> Cryptographic hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#cryptographic-hash-functions-1"><i class="fa fa-check"></i><b>5.1</b> Cryptographic Hash Functions</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#using-hash-functions-in-online-education"><i class="fa fa-check"></i><b>5.1.1</b> Using hash functions in online education</a></li>
+<li class="chapter" data-level="5.1.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-hash-functions"><i class="fa fa-check"></i><b>5.1.2</b> Properties of hash functions</a></li>
+<li class="chapter" data-level="5.1.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-cryptographic-hash-functions"><i class="fa fa-check"></i><b>5.1.3</b> Properties of cryptographic hash functions</a></li>
+<li class="chapter" data-level="5.1.4" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#HashSummary"><i class="fa fa-check"></i><b>5.1.4</b> Summary of cryptographic hash functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#c-code-1"><i class="fa fa-check"></i><b>5.2</b> C++ Code</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#obtaining-the-code-for-sha-256-in-c"><i class="fa fa-check"></i><b>5.2.1</b> Obtaining the code for SHA-256 in <code>C++</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#calculating-sha-256"><i class="fa fa-check"></i><b>5.2.2</b> Calculating SHA-256</a></li>
+<li class="chapter" data-level="5.2.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#considerations-inside-bitcoin"><i class="fa fa-check"></i><b>5.2.3</b> Considerations inside Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#summary-2"><i class="fa fa-check"></i><b>5.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html"><i class="fa fa-check"></i><b>6</b> Lifecycle of Blockchain - Previous Block Hash</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#hashed-lists"><i class="fa fa-check"></i><b>6.1</b> Hashed Lists</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#motivation"><i class="fa fa-check"></i><b>6.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#demo-code"><i class="fa fa-check"></i><b>6.1.2</b> Demo Code</a></li>
+<li class="chapter" data-level="6.1.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#attacking-the-list"><i class="fa fa-check"></i><b>6.1.3</b> Attacking the list</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#blockchains-prev_hash"><i class="fa fa-check"></i><b>6.2</b> Blockchain’s <code>prev_hash</code></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#combining-arrays-and-hashed-lists"><i class="fa fa-check"></i><b>6.2.1</b> Combining arrays and hashed lists</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#c-code-2"><i class="fa fa-check"></i><b>6.2.2</b> C++ Code</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#verification-of-entries"><i class="fa fa-check"></i><b>6.2.3</b> Verification of entries</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#summary-3"><i class="fa fa-check"></i><b>6.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html"><i class="fa fa-check"></i><b>7</b> Lifecycle of Bitcoin - Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#why-we-need-merkle-trees"><i class="fa fa-check"></i><b>7.1</b> Why we need Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#properties-of-merkle-tress"><i class="fa fa-check"></i><b>7.1.1</b> Properties of Merkle Tress</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#construction-of-merkle-trees"><i class="fa fa-check"></i><b>7.1.2</b> Construction of Merkle Trees</a></li>
+<li class="chapter" data-level="7.1.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-as-cryptographic-hash"><i class="fa fa-check"></i><b>7.1.3</b> Merkle Hash as cryptographic hash</a></li>
+<li class="chapter" data-level="7.1.4" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#update-an-integer"><i class="fa fa-check"></i><b>7.1.4</b> Update an integer</a></li>
+<li class="chapter" data-level="7.1.5" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#considerations"><i class="fa fa-check"></i><b>7.1.5</b> Considerations</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#segment-trees"><i class="fa fa-check"></i><b>7.2</b> Segment Trees</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitcoin: A Technical Introduction - Volume I</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="setting-up-the-environment" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Setting up the environment<a href="setting-up-the-environment.html#setting-up-the-environment" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="ide" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> IDE<a href="setting-up-the-environment.html#ide" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Following the philosophy of having less distractions, you can install any of the following IDE’s for <code>C++</code> as per your choice. We will not be going through their setup.</p>
+<ol style="list-style-type: decimal">
+<li>Visual Studio Code.</li>
+<li>Visual Studio Community.</li>
+<li>CLion.</li>
+<li>Any other IDE of your choice.</li>
+</ol>
+</div>
+<div id="get-initial-blockchain-data" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Get Initial Blockchain Data<a href="setting-up-the-environment.html#get-initial-blockchain-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Bitcoin transactions are hard to find online in raw format. Before getting hands on the raw data, we need to see how bitcoin stores all the data. Bitcoin blocks are stored in <code>blk*.dat</code> files. To be more specific, you will see that initial blocks are stored in:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="setting-up-the-environment.html#cb1-1" tabindex="-1"></a><span class="ex">blk00000.dat</span></span>
+<span id="cb1-2"><a href="setting-up-the-environment.html#cb1-2" tabindex="-1"></a><span class="ex">blk00001.dat</span></span>
+<span id="cb1-3"><a href="setting-up-the-environment.html#cb1-3" tabindex="-1"></a><span class="ex">blk00002.dat</span></span>
+<span id="cb1-4"><a href="setting-up-the-environment.html#cb1-4" tabindex="-1"></a><span class="ex">...</span></span></code></pre></div>
+<p>Each of above files are around <span class="math inline">\(128\)</span> mb. This value is set in <a href="https://github.com/bitcoin/bitcoin/blob/ccd4db7d62e4880005da49f820a520a8943dcaed/src/node/blockstorage.h#L46">MAX_BLOCKFILE_SIZE</a> variable in Bitcoin source code.</p>
+<p>As of today, if you download whole data, it will take around <span class="math inline">\(470\)</span> gb and it is increasing every <span class="math inline">\(10\)</span> minutes. We will cover the growth aspects in next volume, the rate at which new data is added to Bitcoin network.</p>
+<p>We don’t need this much data! We don’t have RAM to load whole data and process it. We will work with first file: <code>blk00000.dat</code> and with only initial <span class="math inline">\(1000\)</span> bytes in the beginning. Why? Because we will manually examine each bytes of the file and to understand how the data is structured, few examples are enough. We can always change our code to read more data, the working code remains same.</p>
+<p>So, how to get hands on first block without downloding whole Bitcoin data? Easy! Just download the bitcoin client from official website. After that, it will ask you to download all blocks. You can start this process. Based on your OS, you need to go to directory where data is being downloaded. This must be visible on the Bitcoin Client startup when it asks you to download data. When you see the file <code>blk00001.dat</code> in the folder (after the download starts), you need to close the Bitcoin Core application so that it doesn’t download any more data. Simply copy the <code>blk00000.dat</code> file to your project. You have access to initial <span class="math inline">\(128\)</span> mb of transactions!!</p>
+<p>But this file still have a lot of transactions. We need to limit the size we will read, so that our dataset is limited to initial 3-4 transactions. For this, we will use the linux command:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="setting-up-the-environment.html#cb2-1" tabindex="-1"></a><span class="fu">dd</span> if=blk00000.dat of=1k.dat bs=1000 count=1</span></code></pre></div>
+<p>You will see output something like this:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="setting-up-the-environment.html#cb3-1" tabindex="-1"></a><span class="ex">1+0</span> records in</span>
+<span id="cb3-2"><a href="setting-up-the-environment.html#cb3-2" tabindex="-1"></a><span class="ex">1+0</span> records out</span>
+<span id="cb3-3"><a href="setting-up-the-environment.html#cb3-3" tabindex="-1"></a><span class="ex">1000</span> bytes transferred in 0.000251 secs <span class="er">(</span><span class="ex">3984064</span> bytes/sec<span class="kw">)</span></span></code></pre></div>
+<p>What this does is take the input file <code>blk00000.dat</code>, split it into chunk of size <span class="math inline">\(1000\)</span> bytes (parameter <code>bs</code>) and do this only once (parameter <code>count</code>). The output file is stored in <code>1k.dat</code>. Thus, we got an access to initial <code>1k</code> bytes of transactions of Blockchain! This is getting very exciting and we will read this into code very soon.</p>
+</div>
+<div id="project-structure" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Project structure<a href="setting-up-the-environment.html#project-structure" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Create a new folder named <code>bitcoin_reader</code>. We will write our code in this place. Create an empty folder in this place named as <code>data</code>. Copy the <code>1k.dat</code> file to this <code>data</code> folder. Inside the <code>bitcoin_reader</code> folder, create a file named: <code>main.cpp</code>. We will write our <code>C++</code> code in this file. Here is the tree structure of project as of now:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="setting-up-the-environment.html#cb4-1" tabindex="-1"></a><span class="ex">.../bitcoin_reader</span></span>
+<span id="cb4-2"><a href="setting-up-the-environment.html#cb4-2" tabindex="-1"></a><span class="ex">├──</span> data</span>
+<span id="cb4-3"><a href="setting-up-the-environment.html#cb4-3" tabindex="-1"></a><span class="ex">│</span>   ├── 1k.dat</span>
+<span id="cb4-4"><a href="setting-up-the-environment.html#cb4-4" tabindex="-1"></a><span class="ex">├──</span> main.cpp</span></code></pre></div>
+</div>
+<div id="hex-viewer" class="section level2 hasAnchor" number="2.4">
+<h2><span class="header-section-number">2.4</span> Hex Viewer<a href="setting-up-the-environment.html#hex-viewer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>First, we will create a simple hex viewer which will let us view the byte contents in hexadecimal format. This is similar to <code>xxd</code> command in linux.</p>
+<div id="c-code" class="section level3 hasAnchor" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> C++ Code<a href="setting-up-the-environment.html#c-code" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We will take <code>str</code> as input for our starting address and <code>len</code> specifies how many bytes we want to display starting from address <code>str</code>. Here is the code for our hex viewer:</p>
+<p>```{C++}
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(‘0’) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec</p>
+<p>void hex_view(const char* str, const size_t len)
+{
+for (int i = 0; i &lt; ((int)len &gt;&gt; 4) + (len % 16 ? 1 : 0); ++i)
+{
+int start = i * 16;
+int end = std::min(i * 16 + 15, (int)len - 1);
+std::cout &lt;&lt; “0x” &lt;&lt; HEX(start, 4) &lt;&lt; ” | “;
+for (int j = start; j &lt;= end; ++j)
+std::cout &lt;&lt; HEX(str[j], 1) &lt;&lt; (j % 8 == 7 ?” ” : ” “);</p>
+<pre><code>    for (int j = end; j &lt; i * 16 + 15; ++j)
+        std::cout &lt;&lt; (j % 8 == 7 ? &quot;    &quot; : &quot;   &quot;);
+    std::cout &lt;&lt; &quot;| &quot;;
+    for (int j = start; j &lt;= end; ++j)
+        std::cout &lt;&lt; (std::isprint(str[j]) ? str[j] : &#39;.&#39;);
+    std::cout &lt;&lt; &#39;\n&#39;;
+}</code></pre>
+<p>}</p>
+<pre><code>
+
+### Working of `hex_view`
+
+You can safely skip this portion as we will be using above code as black-box from now on and the internal working of it is irrelevant to our discussion.
+
+Outer for loop takes care of how many lines to print. Inside the loop, we first initialise the `start` and `end` memory indices so that we don&#39;t print out-of-bound memory by mistake. Then, we print the offsets. After that, we use `HEX` macro defined above to print the memory characters in specified number of `bytes`. At the last, we print the characters in ASCII format. Here is the summary of functions used in above code:
+
+1. `std::setw`: Present in `&lt;iomanip&gt;` header, specifies the width of output. Don&#39;t worry if you don&#39;t know about this. We will not use this again.
+2. `std::setfill`: This is used to print the given character (`&#39;0&#39;` here) instead of spaces which were introduced by `setw`.
+3. `std::hex`: This specifies that we want to print the integers in hexadecimal format. The default behaviors is `std::dec` which is used in last of this macro to reset the output manipulator.
+4. `std::uppercase`: This specifies that we want to print everything in uppercase. This ensures that we will print integer $10$ as $0A$ instead of $0a$.
+5. `std::isprint`: This will return `true` if the output character is a printable ASCII character. We simply print a dot `.` if this is not the case, otherwise the equivalent ASCII character.
+
+We will be using `HEX` again and again to display our output, so it is necessary to get familiar with the syntax.
+
+### Display transaction bytes
+We will use the above `hex_view` function to see the contents of initial bitcoin data. First, we will read from `.dat` file using `fstream`. Then we will read the whole data inside character array and then, display the contents in hexadecimal format.
+
+Here is the code to display the initial bitcoin data in hexadecimal:
+```{C++}
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+#define HEX( x, len ) std::setw(2 * len) &lt;&lt; std::setfill(&#39;0&#39;) &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; (((1ll &lt;&lt; (8 * len)) - 1) &amp; (unsigned int)( x )) &lt;&lt; std::dec
+
+void hex_view(const char* str, const size_t len)
+{
+    for (int i = 0; i &lt; ((int)len &gt;&gt; 4) + (len % 16 ? 1 : 0); ++i)
+    {
+        int start = i * 16;
+        int end = std::min(i * 16 + 15, (int)len - 1);
+        std::cout &lt;&lt; &quot;0x&quot; &lt;&lt; HEX(start, 4) &lt;&lt; &quot; |  &quot;;
+        for (int j = start; j &lt;= end; ++j)
+            std::cout &lt;&lt; HEX(str[j], 1) &lt;&lt; (j % 8 == 7 ? &quot;  &quot; : &quot; &quot;);
+
+        for (int j = end; j &lt; i * 16 + 15; ++j)
+            std::cout &lt;&lt; (j % 8 == 7 ? &quot;    &quot; : &quot;   &quot;);
+        std::cout &lt;&lt; &quot;| &quot;;
+        for (int j = start; j &lt;= end; ++j)
+            std::cout &lt;&lt; (std::isprint(str[j]) ? str[j] : &#39;.&#39;);
+        std::cout &lt;&lt; &#39;\n&#39;;
+    }
+}
+
+// Returns the file contents as C++ string
+std::string get_file_contents(const char *filename)
+{
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    if (!in)
+    {
+        std::cerr &lt;&lt; &quot;Error in opening file&quot; &lt;&lt; std::endl;
+        throw errno;
+    }
+
+    std::string contents;
+
+    // Allocate required memory in heap for string
+    in.seekg(0, std::ios::end);
+    contents.resize(in.tellg());
+
+    // Copy contents from file to string
+    in.seekg(0, std::ios::beg);
+    in.read(&amp;contents[0], (int)contents.size());
+
+    // return the string
+    return contents;
+}
+
+int main(int argc, char** argv)
+{
+    if (argc != 2)
+    {
+        std::cerr &lt;&lt; &quot;Usage: ./reader.out &lt;block_data&gt;&quot; &lt;&lt; std::endl;
+        exit(-1);
+    }
+
+    auto contents = get_file_contents(argv[1]);
+    hex_view(contents.c_str(), contents.size());
+}</code></pre>
+<p>Understanding above code is very simple. We are taking the path of our transaction data file as command line argument. In the function <code>get_file_contents</code>, we pass the file path from the terminal. If we are unable to open file in <code>binary</code> mode for reading, we simply exit. Otherwise, we copy the contents from whole file to string and then return it. Finally, we are printing the contents of file in hexadecimal format.</p>
+<p>Compile the above code using the following command:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="setting-up-the-environment.html#cb7-1" tabindex="-1"></a><span class="ex">g++</span> main.cpp <span class="at">-o</span> reader.out <span class="at">-std</span><span class="op">=</span>c++17</span></code></pre></div>
+<p>A file <code>reader.out</code> will be created which is our executable. Run the file using the following command:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="setting-up-the-environment.html#cb8-1" tabindex="-1"></a><span class="ex">./reader.out</span> data/1k.dat </span></code></pre></div>
+<p>Here is the output of running above code on initial <span class="math inline">\(1k\)</span> Bitcoin data:</p>
+<pre><code>0x00000000 |  F9 BE B4 D9 1D 01 00 00  01 00 00 00 00 00 00 00  | ................
+0x00000010 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000020 |  00 00 00 00 00 00 00 00  00 00 00 00 3B A3 ED FD  | ............;...
+0x00000030 |  7A 7B 12 B2 7A C7 2C 3E  67 76 8F 61 7F C8 1B C3  | z{..z.,&gt;gv.a....
+0x00000040 |  88 8A 51 32 3A 9F B8 AA  4B 1E 5E 4A 29 AB 5F 49  | ..Q2:...K.^J)._I
+0x00000050 |  FF FF 00 1D 1D AC 2B 7C  01 01 00 00 00 01 00 00  | ......+|........
+0x00000060 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000070 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 FF FF  | ................
+0x00000080 |  FF FF 4D 04 FF FF 00 1D  01 04 45 54 68 65 20 54  | ..M.......EThe T
+0x00000090 |  69 6D 65 73 20 30 33 2F  4A 61 6E 2F 32 30 30 39  | imes 03/Jan/2009
+0x000000A0 |  20 43 68 61 6E 63 65 6C  6C 6F 72 20 6F 6E 20 62  |  Chancellor on b
+0x000000B0 |  72 69 6E 6B 20 6F 66 20  73 65 63 6F 6E 64 20 62  | rink of second b
+0x000000C0 |  61 69 6C 6F 75 74 20 66  6F 72 20 62 61 6E 6B 73  | ailout for banks
+0x000000D0 |  FF FF FF FF 01 00 F2 05  2A 01 00 00 00 43 41 04  | ........*....CA.
+0x000000E0 |  67 8A FD B0 FE 55 48 27  19 67 F1 A6 71 30 B7 10  | g....UH&#39;.g..q0..
+0x000000F0 |  5C D6 A8 28 E0 39 09 A6  79 62 E0 EA 1F 61 DE B6  | \..(.9..yb...a..
+0x00000100 |  49 F6 BC 3F 4C EF 38 C4  F3 55 04 E5 1E C1 12 DE  | I..?L.8..U......
+0x00000110 |  5C 38 4D F7 BA 0B 8D 57  8A 4C 70 2B 6B F1 1D 5F  | \8M....W.Lp+k.._
+0x00000120 |  AC 00 00 00 00 F9 BE B4  D9 D7 00 00 00 01 00 00  | ................
+0x00000130 |  00 6F E2 8C 0A B6 F1 B3  72 C1 A6 A2 46 AE 63 F7  | .o......r...F.c.
+0x00000140 |  4F 93 1E 83 65 E1 5A 08  9C 68 D6 19 00 00 00 00  | O...e.Z..h......
+0x00000150 |  00 98 20 51 FD 1E 4B A7  44 BB BE 68 0E 1F EE 14  | .. Q..K.D..h....
+0x00000160 |  67 7B A1 A3 C3 54 0B F7  B1 CD B6 06 E8 57 23 3E  | g{...T.......W#&gt;
+0x00000170 |  0E 61 BC 66 49 FF FF 00  1D 01 E3 62 99 01 01 00  | .a.fI......b....
+0x00000180 |  00 00 01 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000190 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x000001A0 |  00 00 00 FF FF FF FF 07  04 FF FF 00 1D 01 04 FF  | ................
+0x000001B0 |  FF FF FF 01 00 F2 05 2A  01 00 00 00 43 41 04 96  | .......*....CA..
+0x000001C0 |  B5 38 E8 53 51 9C 72 6A  2C 91 E6 1E C1 16 00 AE  | .8.SQ.rj,.......
+0x000001D0 |  13 90 81 3A 62 7C 66 FB  8B E7 94 7B E6 3C 52 DA  | ...:b|f....{.&lt;R.
+0x000001E0 |  75 89 37 95 15 D4 E0 A6  04 F8 14 17 81 E6 22 94  | u.7...........&quot;.
+0x000001F0 |  72 11 66 BF 62 1E 73 A8  2C BF 23 42 C8 58 EE AC  | r.f.b.s.,.#B.X..
+0x00000200 |  00 00 00 00 F9 BE B4 D9  D7 00 00 00 01 00 00 00  | ................
+0x00000210 |  48 60 EB 18 BF 1B 16 20  E3 7E 94 90 FC 8A 42 75  | H`..... .~....Bu
+0x00000220 |  14 41 6F D7 51 59 AB 86  68 8E 9A 83 00 00 00 00  | .Ao.QY..h.......
+0x00000230 |  D5 FD CC 54 1E 25 DE 1C  7A 5A DD ED F2 48 58 B8  | ...T.%..zZ...HX.
+0x00000240 |  BB 66 5C 9F 36 EF 74 4E  E4 2C 31 60 22 C9 0F 9B  | .f\.6.tN.,1`&quot;...
+0x00000250 |  B0 BC 66 49 FF FF 00 1D  08 D2 BD 61 01 01 00 00  | ..fI.......a....
+0x00000260 |  00 01 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000270 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000280 |  00 00 FF FF FF FF 07 04  FF FF 00 1D 01 0B FF FF  | ................
+0x00000290 |  FF FF 01 00 F2 05 2A 01  00 00 00 43 41 04 72 11  | ......*....CA.r.
+0x000002A0 |  A8 24 F5 5B 50 52 28 E4  C3 D5 19 4C 1F CF AA 15  | .$.[PR(....L....
+0x000002B0 |  A4 56 AB DF 37 F9 B9 D9  7A 40 40 AF C0 73 DE E6  | .V..7...z@@..s..
+0x000002C0 |  C8 90 64 98 4F 03 38 52  37 D9 21 67 C1 3E 23 64  | ..d.O.8R7.!g.&gt;#d
+0x000002D0 |  46 B4 17 AB 79 A0 FC AE  41 2A E3 31 6B 77 AC 00  | F...y...A*.1kw..
+0x000002E0 |  00 00 00 F9 BE B4 D9 D7  00 00 00 01 00 00 00 BD  | ................
+0x000002F0 |  DD 99 CC FD A3 9D A1 B1  08 CE 1A 5D 70 03 8D 0A  | ...........]p...
+0x00000300 |  96 7B AC B6 8B 6B 63 06  5F 62 6A 00 00 00 00 44  | .{...kc._bj....D
+0x00000310 |  F6 72 22 60 90 D8 5D B9  A9 F2 FB FE 5F 0F 96 09  | .r&quot;`..]....._...
+0x00000320 |  B3 87 AF 7B E5 B7 FB B7  A1 76 7C 83 1C 9E 99 5D  | ...{.....v|....]
+0x00000330 |  BE 66 49 FF FF 00 1D 05  E0 ED 6D 01 01 00 00 00  | .fI.......m.....
+0x00000340 |  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000350 |  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  | ................
+0x00000360 |  00 FF FF FF FF 07 04 FF  FF 00 1D 01 0E FF FF FF  | ................
+0x00000370 |  FF 01 00 F2 05 2A 01 00  00 00 43 41 04 94 B9 D3  | .....*....CA....
+0x00000380 |  E7 6C 5B 16 29 EC F9 7F  FF 95 D7 A4 BB DA C8 7C  | .l[.)..........|
+0x00000390 |  C2 60 99 AD A2 80 66 C6  FF 1E B9 19 12 23 CD 89  | .`....f......#..
+0x000003A0 |  71 94 A0 8D 0C 27 26 C5  74 7F 1D B4 9E 8C F9 0E  | q....&#39;&amp;.t.......
+0x000003B0 |  75 DC 3E 35 50 AE 9B 30  08 6F 3C D5 AA AC 00 00  | u.&gt;5P..0.o&lt;.....
+0x000003C0 |  00 00 F9 BE B4 D9 D7 00  00 00 01 00 00 00 49 44  | ..............ID
+0x000003D0 |  46 95 62 AE 1C 2C 74 D9  A5 35 E0 0B 6F 3E 40 FF  | F.b..,t..5..o&gt;@.
+0x000003E0 |  BA D4 F2 FD A3 89 55 01                           | ......U.</code></pre>
+<p>I don’t know about you but I see a lot of gibberish and between that gibberish, something in english: <code>The Times 03/Jan/2009...</code>. This message was written by <strong>Satoshi Nakamoto</strong> in the <strong>Genesis block</strong>. We are starting somewhere. In order to extract that text and read it via code and understand what is other gibberish, we need to go to next lesson.</p>
+</div>
+</div>
+<div id="disclaimer" class="section level2 unnumbered hasAnchor">
+<h2>Disclaimer<a href="setting-up-the-environment.html#disclaimer" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><code>C++</code> code used above may seem intimidating. Don’t worry. I copied the code from internet and applied what I thought was required to make my <code>hex_viewer</code>. There may exist some easier implementation but we are focussing on structure of bitcoin here, not on how I wrote the <code>hex_viewer</code>. This is just used for debugging purposes and cross-check that we are going in right direction. You can safely assume that above code is correct and we don’t have to see inside them at all in future lessons.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="blockchain-vs-bitcoin.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-Setting-up.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

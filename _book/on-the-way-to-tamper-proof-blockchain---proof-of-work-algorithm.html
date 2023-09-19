@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 On the way to tamper proof blockchain - Proof of Work algorithm | Bitcoin: A Technical Introduction - Volume I</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.33 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 On the way to tamper proof blockchain - Proof of Work algorithm | Bitcoin: A Technical Introduction - Volume I" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 On the way to tamper proof blockchain - Proof of Work algorithm | Bitcoin: A Technical Introduction - Volume I" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-06-24" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="lifecycle-of-bitcoin---merkle-trees.html"/>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-bitcoin"><i class="fa fa-check"></i><b>1.1</b> What is Bitcoin?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-bitcoin"><i class="fa fa-check"></i><b>1.2</b> Why Bitcoin?</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i><b>1.3</b> Structure of the book</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#project-structure"><i class="fa fa-check"></i><b>2.3</b> Project structure</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.4.2</b> Working of <code>hex_view</code></a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#display-transaction-bytes"><i class="fa fa-check"></i><b>2.4.3</b> Display transaction bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html"><i class="fa fa-check"></i><b>3</b> Blockchain vs Bitcoin</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#how-bitcoin-works-on-surface"><i class="fa fa-check"></i><b>3.1</b> How Bitcoin works on surface</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#requirements-of-a-ledger"><i class="fa fa-check"></i><b>3.1.1</b> Requirements of a ledger</a></li>
+<li class="chapter" data-level="3.1.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#who-stores-the-ledger"><i class="fa fa-check"></i><b>3.1.2</b> Who stores the ledger?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#consequences-of-ledger-storage"><i class="fa fa-check"></i><b>3.1.3</b> Consequences of ledger storage</a></li>
+<li class="chapter" data-level="3.1.4" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#solution-to-the-problems"><i class="fa fa-check"></i><b>3.1.4</b> Solution to the problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#problems-solved-by-blockchain"><i class="fa fa-check"></i><b>3.2</b> Problems solved by blockchain</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#changing-data-in-existing-ledger"><i class="fa fa-check"></i><b>3.2.1</b> Changing data in existing ledger</a></li>
+<li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Structure of a block</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html"><i class="fa fa-check"></i><b>5</b> Cryptographic hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#cryptographic-hash-functions-1"><i class="fa fa-check"></i><b>5.1</b> Cryptographic Hash Functions</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#using-hash-functions-in-online-education"><i class="fa fa-check"></i><b>5.1.1</b> Using hash functions in online education</a></li>
+<li class="chapter" data-level="5.1.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-hash-functions"><i class="fa fa-check"></i><b>5.1.2</b> Properties of hash functions</a></li>
+<li class="chapter" data-level="5.1.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-cryptographic-hash-functions"><i class="fa fa-check"></i><b>5.1.3</b> Properties of cryptographic hash functions</a></li>
+<li class="chapter" data-level="5.1.4" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#HashSummary"><i class="fa fa-check"></i><b>5.1.4</b> Summary of cryptographic hash functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#c-code-1"><i class="fa fa-check"></i><b>5.2</b> C++ Code</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#obtaining-the-code-for-sha-256-in-c"><i class="fa fa-check"></i><b>5.2.1</b> Obtaining the code for SHA-256 in <code>C++</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#calculating-sha-256"><i class="fa fa-check"></i><b>5.2.2</b> Calculating SHA-256</a></li>
+<li class="chapter" data-level="5.2.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#considerations-inside-bitcoin"><i class="fa fa-check"></i><b>5.2.3</b> Considerations inside Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#summary-2"><i class="fa fa-check"></i><b>5.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html"><i class="fa fa-check"></i><b>6</b> Lifecycle of Blockchain - Previous Block Hash</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#hashed-lists"><i class="fa fa-check"></i><b>6.1</b> Hashed Lists</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#motivation"><i class="fa fa-check"></i><b>6.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#demo-code"><i class="fa fa-check"></i><b>6.1.2</b> Demo Code</a></li>
+<li class="chapter" data-level="6.1.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#attacking-the-list"><i class="fa fa-check"></i><b>6.1.3</b> Attacking the list</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#blockchains-prev_hash"><i class="fa fa-check"></i><b>6.2</b> Blockchain’s <code>prev_hash</code></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#combining-arrays-and-hashed-lists"><i class="fa fa-check"></i><b>6.2.1</b> Combining arrays and hashed lists</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#c-code-2"><i class="fa fa-check"></i><b>6.2.2</b> C++ Code</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#verification-of-entries"><i class="fa fa-check"></i><b>6.2.3</b> Verification of entries</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#summary-3"><i class="fa fa-check"></i><b>6.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html"><i class="fa fa-check"></i><b>7</b> Lifecycle of Bitcoin - Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#why-we-need-merkle-trees"><i class="fa fa-check"></i><b>7.1</b> Why we need Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#properties-of-merkle-tress"><i class="fa fa-check"></i><b>7.1.1</b> Properties of Merkle Tress</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#construction-of-merkle-trees"><i class="fa fa-check"></i><b>7.1.2</b> Construction of Merkle Trees</a></li>
+<li class="chapter" data-level="7.1.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-as-cryptographic-hash"><i class="fa fa-check"></i><b>7.1.3</b> Merkle Hash as cryptographic hash</a></li>
+<li class="chapter" data-level="7.1.4" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#update-an-integer"><i class="fa fa-check"></i><b>7.1.4</b> Update an integer</a></li>
+<li class="chapter" data-level="7.1.5" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#considerations"><i class="fa fa-check"></i><b>7.1.5</b> Considerations</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#segment-trees"><i class="fa fa-check"></i><b>7.2</b> Segment Trees</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html"><a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html"><i class="fa fa-check"></i><b>8</b> On the way to tamper proof blockchain - Proof of Work algorithm</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html"><a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html"><a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html"><a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html"><a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitcoin: A Technical Introduction - Volume I</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> On the way to tamper proof blockchain - Proof of Work algorithm<a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Let’s revise what we have covered. For a currency in which everyone can trust, we needed a system that can’t be changed once some data is there and it is decentralization. Why we need decentralization? To eliminate trust in human entity and trust on well established protocols of cryptography. We know that thousands of transactions happen in the world at any point in time. In Bitcoin, a set of transactions are combined to form a block. As new transactions come into system, new blocks are added. Header contains the hash of transactions (Merkle Hash) so that we can always verify the integrity of transactions a block contains, given that header content is valid. New blocks are added via linked list structure, and this structure takes care of any changes in the entire chain till the latest block (Prev Hash).</p>
+<p>So, are we done? Can we take our current ideas and start with Bitcoin? Is this everything we need in blockchain? After all, we can detect if there are any changes in the storage from the beginning of chain to latest block in the chain. And the answer is: not even close! Remember one attack that we covered earlier solely based on speed of computing the hash? Here is the repetition if you forgot about it: You close the software. Someone go in past entries on the storage, change them, recalculate the hash of corresponding block header, recompute the hash of block, change the “prev_hash” entry of just next block, recompute the block hash of next block, change entry in next to next block, and so on till the latest block. You restart the application after some time. Can you detect any changes if you start verifying everything from start? I don’t think so. And why this attack is feasible? Because we can calculate hashes very fast. Can we make hashing algorithm slower to counteract this? Not an option! This defeats the whole purpose of cryptographic functions. Even if we go with this plan, remember that computers are getting fast with the time. Who is to decide how much time a hash function should take?</p>
+<p>So, what’s the solution? We know that Bitcoin works, and this book exists. So, there must be a solution. Before going into actual details and missing the point of solution, let’s see another concept in computer science that will be used. Just like cryptographic hash functions, we cover this concept without any context of Blockchain so that we know its existence independent of this technology. After that, we will apply the concept “in abstract manner” to understand how it will help us in preventing above attack. Finally, we go into the actual details of how things are actually implemented. As always, having a working memory model of something is always better than mugging up the implementation and applying it blindly.</p>
+<blockquote>
+<p>There is another set of problems that we are completely ignoring for now. And that is networking! We are currently talking about single system, single user. Once we have clear idea of how everything is handled on one system, we can jump to multiple systems in future chapter to complete our understanding of Blockchain and after that, we can jump into implementation of Bitcoin.</p>
+</blockquote>
+<blockquote>
+<p>There are other proofs that are used in Blockchain technologies, such as proof-of-Stake in Ethereum. We will cover these in later volumes, as explaining these require more concepts that we don’t require right now.</p>
+</blockquote>
+<div id="difficult-problems-in-computer-science" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Difficult problems in computer science<a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#difficult-problems-in-computer-science" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Study of the “Theory of Computer Science” provides us some insights into how we can solve the problem in hand. There are some problems in computers which are difficult to solve (according to current knowledge of humanity) but are very very fast to verify that given solution to the problem is correct or not. As an example, given a very large positive integer <span class="math inline">\(n\)</span>, can we factor it into two numbers <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> such that</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(x,y\in \mathbb{N}\)</span>: <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are natural numbers.</li>
+<li><span class="math inline">\(1&lt;x,y&lt;n\)</span>.</li>
+<li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are prime numbers.</li>
+<li><span class="math inline">\(x\times y = n\)</span>.</li>
+</ol>
+<p>It is currently the consensus in humanity that this problem is very very hard to solve “effectively” (note that the wording is loose here, as we are not going into exact details and jargon of computational theory).</p>
+<p>But if we are given <span class="math inline">\(n\)</span>, <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, we can simply multiply <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> to see if their product is equal to <span class="math inline">\(n\)</span>. The RSA algorithm is widely used in industry to enable public key encryption which works on this factoring problem! The world’s trust on secure connection between any two devices rely on this “knowledge” that we can’t factor two integers fast enough.</p>
+<p>Before going ahead, we need to see an example why the standard <span class="math inline">\(O(n)\)</span> algorithm of finding factors from <span class="math inline">\(1\)</span> to <span class="math inline">\(n\)</span> will not work. After all, we are claiming that this problem is “very very hard” to solve in practical time limits. Actually, this algorithm is “exponential”, not linear. In computational theory, we use the “number of bits” to represent our length of input, instead of the number represented by those bits! For example, consider the number <span class="math inline">\((435835)_{10}\)</span>. The binary of it is <span class="math inline">\((110 1010 0110 0111 1011)_2\)</span> which means that the number of bits are <span class="math inline">\(19\)</span>. So, a loop running from <span class="math inline">\(0\)</span> to <span class="math inline">\((435835)_{10}\)</span> will take around <span class="math inline">\(O(2^{19})\)</span> time (Don’t be angry here if you know that this <span class="math inline">\(O(1)\)</span>. What I am trying to say is that the algorithm is exponential - power of <span class="math inline">\(2\)</span> - in terms of number of bits required to represent the input number). Since the algorithm is exponential, our hope of solving the problem via brute force for large “number of bits” is gone. Here are the time comparison for linear, quadratic and exponential algorithms to keep things in perspective:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(n\)</span></th>
+<th align="center">Time to compute <span class="math inline">\(f(n)=n\)</span></th>
+<th align="center">Time to compute <span class="math inline">\(f(n)=n^2\)</span></th>
+<th align="center">Time to compute <span class="math inline">\(f(n)=2^n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(10\)</span></td>
+<td align="center"><span class="math inline">\(0.01\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(0.1\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(\mu s\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(20\)</span></td>
+<td align="center"><span class="math inline">\(0.02\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(0.4\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(ms\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(30\)</span></td>
+<td align="center"><span class="math inline">\(0.03\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(0.9\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(sec\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(40\)</span></td>
+<td align="center"><span class="math inline">\(0.04\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1.6\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(18.3\)</span> <span class="math inline">\(min\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(50\)</span></td>
+<td align="center"><span class="math inline">\(0.05\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(2.5\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(13\)</span> <span class="math inline">\(days\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(100\)</span></td>
+<td align="center"><span class="math inline">\(0.1\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(10\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(4\times 10^{13}\)</span> <span class="math inline">\(years\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(1,000\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span> <span class="math inline">\(ms\)</span></td>
+<td align="center">-</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(10,000\)</span></td>
+<td align="center"><span class="math inline">\(10\)</span> <span class="math inline">\(\mu s\)</span></td>
+<td align="center"><span class="math inline">\(100\)</span> <span class="math inline">\(ms\)</span></td>
+<td align="center">-</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(100,000\)</span></td>
+<td align="center"><span class="math inline">\(0.1\)</span> <span class="math inline">\(ms\)</span></td>
+<td align="center"><span class="math inline">\(10\)</span> <span class="math inline">\(sec\)</span></td>
+<td align="center">-</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see, if our bits reach <span class="math inline">\(100\)</span>, the running time reach <span class="math inline">\(4\times 10^{13}\)</span> <span class="math inline">\(years\)</span>!! No physical parallelism or speedup of computers can compute this fast in reasonable amount of time. But given two numbers, we have an <span class="math inline">\(O(n^2)\)</span> algorithm to find product of two numbers, where <span class="math inline">\(n\)</span> represents the number of bits required to represent both numbers. From above table, we can clearly see the time required to compute the product of two numbers.</p>
+<p>Above discussion should have given you a general idea of what we mean by “difficult to solve but easy to verify”. We will use something like this to enforce a “practical” limit (in terms of computational time) on time required to change the entries in block once they are part of Blockchain.</p>
+</div>
+<div id="working-model-of-proof-of-work" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Working model of Proof-of-work<a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#working-model-of-proof-of-work" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>How can use the above concept of “hard to solve but difficult to verify” in blockchain to prevent the attack presented in the beginning of chapter? Suppose we have a “difficult problem” which will take some time to solve (not the exponential time as present in factorization problem above). For each block, we solve some difficult problem that should “definitely” take “considerable” amount of time to solve by computers. We will cover how Bitcoin solves the problem of increasing speed of computers in a moment, but first, we need to see how solving the difficult problem helps Bitcoin.</p>
+<div id="securing-bitcoin-by-solving-a-difficult-problem" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Securing Bitcoin by solving a difficult problem<a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#securing-bitcoin-by-solving-a-difficult-problem" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before adding a new block of new transactions to the end of chain, we (actually miners, but we are not covering them in this chapter) solve a “difficult” problem specific to the block. What do we mean by “difficult” here? Say, solve a problem, which on average, with current computer speeds, take an average of <span class="math inline">\(5\)</span> minutes to solve (not the actual time limit inside Bitcoin protocol, just used as demonstration to show that there is nothing special in the value chosen in Bitcoin implementation). What do we mean by “specific to the block”? This means that the difficult problem revolves around the transactions inside the block, and the solution will not be valid for any other data. Again, we are talking about problems which are hard to solve but very easy to verify. How does it helps us, if we have such a thing in place?</p>
+<p>Consider what will happen in the attack described above if we have something like this in place. Someone goes to history, change the contents, compute new Merkle Hash, go to next block, change the prev_hash entry, … Next, application is restarted and all entries are verified (This is time consuming and doesn’t happen in practice. This will be covered later in detail). We are using the old verification mechanism along with one more additional step:</p>
+<ul>
+<li>Check if the solution of “difficult” problem is correct or not.</li>
+</ul>
+<p>When the application reach the entries that were altered, the “solution” will not match the contents of transactions, as the problem was solved for some other transactions! We detected the changed entries and prevented above attack.</p>
+<p>So what’s the benefit? A hacker, proposes the following strategy: Change an entry, recalculate the Merkle Hash, solve the difficult problem, go to next block, update prev_hash entry, go to next block, repeat.</p>
+<p>What is the problem in above attack if there are thousands or millions of blocks? Time taken to “update” one block will be <span class="math inline">\(5\)</span> minutes. To update <span class="math inline">\(12\)</span> blocks, approach will take <span class="math inline">\(1\)</span> hour. To update <span class="math inline">\(1200\)</span> blocks, approach will take <span class="math inline">\(100\)</span> hours. Seems like that the attack will be successful if there is enough time, right?</p>
+<p>NO! Remember that world is actively doing transactions. What is the consequence of this? The number of blocks are also increasing at the rate of <span class="math inline">\(1\)</span> block per <span class="math inline">\(5\)</span> minutes, on average. If someone change the entry of last <span class="math inline">\(10^{th}\)</span> block, that person will need <span class="math inline">\(50\)</span> minutes to come to block which was last block when attack started. In the meantime, <span class="math inline">\(10\)</span> new blocks are already entered into the chain! Meaning by? More someone tries to go in past to change some entries, more difficult it is for them to catch up with last block in the entire chain!</p>
+<p>This seems like a good solution, as far as we are concerned. And that’s the solution which is implemented inside Bitcoin protocol!</p>
+</div>
+<div id="buying-a-fast-computer-to-attack-the-chain" class="section level3 hasAnchor" number="8.2.2">
+<h3><span class="header-section-number">8.2.2</span> Buying a fast computer to attack the chain<a href="on-the-way-to-tamper-proof-blockchain---proof-of-work-algorithm.html#buying-a-fast-computer-to-attack-the-chain" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There is a flaw in our implementation. What will happen if a hacker buys a fast computer that can solve problem in <span class="math inline">\(3\)</span> minutes? In some finite amount of time, hacker will soon reach the latest block in the chain and alter its contents while the new block is being prepared. Once successful, the new block will see the changed block and the prev_hash field will be updated corresponding to new block, which should not be allowed.</p>
+<p>So, what’s the solution? As we are only considering a single system right now, this problem can’t be solved. As long as hacker have fast computers than us, the hack can be performed. We will see that we don’t need to care about this attack once we shift to multiple computers sharing the blockchain, as it happen in Bitcoin.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="lifecycle-of-bitcoin---merkle-trees.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-Proof-of-Work.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

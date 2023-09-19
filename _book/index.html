@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Bitcoin: A Technical Introduction - Volume I</title>
+  <meta name="description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Bitcoin: A Technical Introduction - Volume I" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Bitcoin: A Technical Introduction - Volume I" />
+  
+  <meta name="twitter:description" content="This is a summary of everything we need to know what is there in blockchain from technical point of view." />
+  
+
+<meta name="author" content="Aakash Gupta" />
+
+
+<meta name="date" content="2023-09-19" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="setting-up-the-environment.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Getting Started</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#what-is-bitcoin"><i class="fa fa-check"></i><b>1.1</b> What is Bitcoin?</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#why-bitcoin"><i class="fa fa-check"></i><b>1.2</b> Why Bitcoin?</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i><b>1.3</b> Structure of the book</a></li>
+<li class="chapter" data-level="1.4" data-path="index.html"><a href="index.html#prerequisites"><i class="fa fa-check"></i><b>1.4</b> Prerequisites</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html"><i class="fa fa-check"></i><b>2</b> Setting up the environment</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#ide"><i class="fa fa-check"></i><b>2.1</b> IDE</a></li>
+<li class="chapter" data-level="2.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#get-initial-blockchain-data"><i class="fa fa-check"></i><b>2.2</b> Get Initial Blockchain Data</a></li>
+<li class="chapter" data-level="2.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#project-structure"><i class="fa fa-check"></i><b>2.3</b> Project structure</a></li>
+<li class="chapter" data-level="2.4" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#hex-viewer"><i class="fa fa-check"></i><b>2.4</b> Hex Viewer</a>
+<ul>
+<li class="chapter" data-level="2.4.1" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#c-code"><i class="fa fa-check"></i><b>2.4.1</b> C++ Code</a></li>
+<li class="chapter" data-level="2.4.2" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#working-of-hex_view"><i class="fa fa-check"></i><b>2.4.2</b> Working of <code>hex_view</code></a></li>
+<li class="chapter" data-level="2.4.3" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#display-transaction-bytes"><i class="fa fa-check"></i><b>2.4.3</b> Display transaction bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="setting-up-the-environment.html"><a href="setting-up-the-environment.html#disclaimer"><i class="fa fa-check"></i>Disclaimer</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html"><i class="fa fa-check"></i><b>3</b> Blockchain vs Bitcoin</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#how-bitcoin-works-on-surface"><i class="fa fa-check"></i><b>3.1</b> How Bitcoin works on surface</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#requirements-of-a-ledger"><i class="fa fa-check"></i><b>3.1.1</b> Requirements of a ledger</a></li>
+<li class="chapter" data-level="3.1.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#who-stores-the-ledger"><i class="fa fa-check"></i><b>3.1.2</b> Who stores the ledger?</a></li>
+<li class="chapter" data-level="3.1.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#consequences-of-ledger-storage"><i class="fa fa-check"></i><b>3.1.3</b> Consequences of ledger storage</a></li>
+<li class="chapter" data-level="3.1.4" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#solution-to-the-problems"><i class="fa fa-check"></i><b>3.1.4</b> Solution to the problems</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#problems-solved-by-blockchain"><i class="fa fa-check"></i><b>3.2</b> Problems solved by blockchain</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#changing-data-in-existing-ledger"><i class="fa fa-check"></i><b>3.2.1</b> Changing data in existing ledger</a></li>
+<li class="chapter" data-level="3.2.2" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#detect-changes-in-data"><i class="fa fa-check"></i><b>3.2.2</b> Detect changes in data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#blockchain-requirements"><i class="fa fa-check"></i><b>3.2.3</b> Blockchain Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="blockchain-vs-bitcoin.html"><a href="blockchain-vs-bitcoin.html#summary"><i class="fa fa-check"></i><b>3.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html"><i class="fa fa-check"></i><b>4</b> Lifecycle of Blockchain - Structure of a block</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#terminologies"><i class="fa fa-check"></i><b>4.1</b> Terminologies</a></li>
+<li class="chapter" data-level="4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#theory"><i class="fa fa-check"></i><b>4.2</b> Theory</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-a-block"><i class="fa fa-check"></i><b>4.2.1</b> Structure of a block</a></li>
+<li class="chapter" data-level="4.2.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#structure-of-block-header"><i class="fa fa-check"></i><b>4.2.2</b> Structure of block header</a></li>
+<li class="chapter" data-level="4.2.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#number-of-transactions"><i class="fa fa-check"></i><b>4.2.3</b> Number of transactions</a></li>
+<li class="chapter" data-level="4.2.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#transactions"><i class="fa fa-check"></i><b>4.2.4</b> Transactions</a></li>
+<li class="chapter" data-level="4.2.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#blockchain-layout-summary"><i class="fa fa-check"></i><b>4.2.5</b> Blockchain layout summary</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#genesis-block-header"><i class="fa fa-check"></i><b>4.3</b> Genesis block Header</a></li>
+<li class="chapter" data-level="4.4" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#c-codes"><i class="fa fa-check"></i><b>4.4</b> C++ codes</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#header-summary"><i class="fa fa-check"></i><b>4.4.1</b> Header summary</a></li>
+<li class="chapter" data-level="4.4.2" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#compute-transaction-offsets"><i class="fa fa-check"></i><b>4.4.2</b> Compute transaction offsets</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="lifecycle-of-blockchain---structure-of-a-block.html"><a href="lifecycle-of-blockchain---structure-of-a-block.html#summary-1"><i class="fa fa-check"></i><b>4.5</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html"><i class="fa fa-check"></i><b>5</b> Cryptographic hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#cryptographic-hash-functions-1"><i class="fa fa-check"></i><b>5.1</b> Cryptographic Hash Functions</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#using-hash-functions-in-online-education"><i class="fa fa-check"></i><b>5.1.1</b> Using hash functions in online education</a></li>
+<li class="chapter" data-level="5.1.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-hash-functions"><i class="fa fa-check"></i><b>5.1.2</b> Properties of hash functions</a></li>
+<li class="chapter" data-level="5.1.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#properties-of-cryptographic-hash-functions"><i class="fa fa-check"></i><b>5.1.3</b> Properties of cryptographic hash functions</a></li>
+<li class="chapter" data-level="5.1.4" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#HashSummary"><i class="fa fa-check"></i><b>5.1.4</b> Summary of cryptographic hash functions</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#c-code-1"><i class="fa fa-check"></i><b>5.2</b> C++ Code</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#obtaining-the-code-for-sha-256-in-c"><i class="fa fa-check"></i><b>5.2.1</b> Obtaining the code for SHA-256 in <code>C++</code></a></li>
+<li class="chapter" data-level="5.2.2" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#calculating-sha-256"><i class="fa fa-check"></i><b>5.2.2</b> Calculating SHA-256</a></li>
+<li class="chapter" data-level="5.2.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#considerations-inside-bitcoin"><i class="fa fa-check"></i><b>5.2.3</b> Considerations inside Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="cryptographic-hash-functions.html"><a href="cryptographic-hash-functions.html#summary-2"><i class="fa fa-check"></i><b>5.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html"><i class="fa fa-check"></i><b>6</b> Lifecycle of Blockchain - Previous Block Hash</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#hashed-lists"><i class="fa fa-check"></i><b>6.1</b> Hashed Lists</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#motivation"><i class="fa fa-check"></i><b>6.1.1</b> Motivation</a></li>
+<li class="chapter" data-level="6.1.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#demo-code"><i class="fa fa-check"></i><b>6.1.2</b> Demo Code</a></li>
+<li class="chapter" data-level="6.1.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#attacking-the-list"><i class="fa fa-check"></i><b>6.1.3</b> Attacking the list</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#blockchains-prev_hash"><i class="fa fa-check"></i><b>6.2</b> Blockchain’s <code>prev_hash</code></a>
+<ul>
+<li class="chapter" data-level="6.2.1" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#combining-arrays-and-hashed-lists"><i class="fa fa-check"></i><b>6.2.1</b> Combining arrays and hashed lists</a></li>
+<li class="chapter" data-level="6.2.2" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#c-code-2"><i class="fa fa-check"></i><b>6.2.2</b> C++ Code</a></li>
+<li class="chapter" data-level="6.2.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#verification-of-entries"><i class="fa fa-check"></i><b>6.2.3</b> Verification of entries</a></li>
+</ul></li>
+<li class="chapter" data-level="6.3" data-path="lifecycle-of-blockchain---previous-block-hash.html"><a href="lifecycle-of-blockchain---previous-block-hash.html#summary-3"><i class="fa fa-check"></i><b>6.3</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html"><i class="fa fa-check"></i><b>7</b> Lifecycle of Bitcoin - Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#why-we-need-merkle-trees"><i class="fa fa-check"></i><b>7.1</b> Why we need Merkle Trees</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#properties-of-merkle-tress"><i class="fa fa-check"></i><b>7.1.1</b> Properties of Merkle Tress</a></li>
+<li class="chapter" data-level="7.1.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#construction-of-merkle-trees"><i class="fa fa-check"></i><b>7.1.2</b> Construction of Merkle Trees</a></li>
+<li class="chapter" data-level="7.1.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-as-cryptographic-hash"><i class="fa fa-check"></i><b>7.1.3</b> Merkle Hash as cryptographic hash</a></li>
+<li class="chapter" data-level="7.1.4" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#update-an-integer"><i class="fa fa-check"></i><b>7.1.4</b> Update an integer</a></li>
+<li class="chapter" data-level="7.1.5" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#considerations"><i class="fa fa-check"></i><b>7.1.5</b> Considerations</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#segment-trees"><i class="fa fa-check"></i><b>7.2</b> Segment Trees</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#relation-with-merkle-trees"><i class="fa fa-check"></i><b>7.2.1</b> Relation with Merkle Trees</a></li>
+<li class="chapter" data-level="7.2.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#code-optional"><i class="fa fa-check"></i><b>7.2.2</b> Code (Optional)</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#merkle-hash-computation-logic"><i class="fa fa-check"></i><b>7.3</b> Merkle Hash Computation Logic</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#pseudo-code"><i class="fa fa-check"></i><b>7.3.1</b> Pseudo Code</a></li>
+<li class="chapter" data-level="7.3.2" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#c-code-3"><i class="fa fa-check"></i><b>7.3.2</b> C++ Code</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lifecycle-of-bitcoin---merkle-trees.html"><a href="lifecycle-of-bitcoin---merkle-trees.html#summary-4"><i class="fa fa-check"></i>Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="proof-of-work.html"><a href="proof-of-work.html"><i class="fa fa-check"></i><b>8</b> Proof of Work</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficult-problems-in-computer-science"><i class="fa fa-check"></i><b>8.1</b> Difficult problems in computer science</a></li>
+<li class="chapter" data-level="8.2" data-path="proof-of-work.html"><a href="proof-of-work.html#working-model-of-proof-of-work"><i class="fa fa-check"></i><b>8.2</b> Working model of Proof-of-work</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="proof-of-work.html"><a href="proof-of-work.html#securing-bitcoin-by-solving-a-difficult-problem"><i class="fa fa-check"></i><b>8.2.1</b> Securing Bitcoin by solving a difficult problem</a></li>
+<li class="chapter" data-level="8.2.2" data-path="proof-of-work.html"><a href="proof-of-work.html#buying-a-fast-computer-to-attack-the-chain"><i class="fa fa-check"></i><b>8.2.2</b> Buying a fast computer to attack the chain</a></li>
+<li class="chapter" data-level="8.2.3" data-path="proof-of-work.html"><a href="proof-of-work.html#economics-of-using-a-fast-computer-for-hacking"><i class="fa fa-check"></i><b>8.2.3</b> Economics of using a fast computer for hacking</a></li>
+</ul></li>
+<li class="chapter" data-level="8.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---nonce-field"><i class="fa fa-check"></i><b>8.3</b> Proof-of-Work - Nonce Field</a>
+<ul>
+<li class="chapter" data-level="8.3.1" data-path="proof-of-work.html"><a href="proof-of-work.html#important-questions-for-proof-of-work-algorithm"><i class="fa fa-check"></i><b>8.3.1</b> Important questions for proof-of-work algorithm</a></li>
+<li class="chapter" data-level="8.3.2" data-path="proof-of-work.html"><a href="proof-of-work.html#example"><i class="fa fa-check"></i><b>8.3.2</b> Example</a></li>
+<li class="chapter" data-level="8.3.3" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work-as-difficult-problem"><i class="fa fa-check"></i><b>8.3.3</b> Proof-of-work as difficult problem</a></li>
+</ul></li>
+<li class="chapter" data-level="8.4" data-path="proof-of-work.html"><a href="proof-of-work.html#proof-of-work---difficulty-field"><i class="fa fa-check"></i><b>8.4</b> Proof-of-work - <code>Difficulty</code> Field</a>
+<ul>
+<li class="chapter" data-level="8.4.1" data-path="proof-of-work.html"><a href="proof-of-work.html#expansion-of-difficulty-into-256-bits"><i class="fa fa-check"></i><b>8.4.1</b> Expansion of <code>difficulty</code> into <span class="math inline">\(256\)</span> bits</a></li>
+<li class="chapter" data-level="8.4.2" data-path="proof-of-work.html"><a href="proof-of-work.html#parameters-for-target-recalculation"><i class="fa fa-check"></i><b>8.4.2</b> Parameters for target recalculation</a></li>
+<li class="chapter" data-level="8.4.3" data-path="proof-of-work.html"><a href="proof-of-work.html#recomputation-of-difficulty-in-bitcoin"><i class="fa fa-check"></i><b>8.4.3</b> Recomputation of difficulty in Bitcoin</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="proof-of-work.html"><a href="proof-of-work.html#solved-examples"><i class="fa fa-check"></i><b>8.5</b> Solved Examples</a>
+<ul>
+<li class="chapter" data-level="8.5.1" data-path="proof-of-work.html"><a href="proof-of-work.html#difficulty-recomputation-example"><i class="fa fa-check"></i><b>8.5.1</b> Difficulty recomputation example</a></li>
+<li class="chapter" data-level="8.5.2" data-path="proof-of-work.html"><a href="proof-of-work.html#hash-rate-computation"><i class="fa fa-check"></i><b>8.5.2</b> Hash rate computation</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Bitcoin: A Technical Introduction - Volume I</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Bitcoin: A Technical Introduction - Volume I</h1>
+<p class="author"><em>Aakash Gupta</em></p>
+<p class="date"><em>2023-09-19</em></p>
+</div>
+<div id="getting-started" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Getting Started<a href="index.html#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Welcome to the first volume of Bitcoin: A Technical Introduction. This book is divided into multiple volumes, each volume covering different aspects of Bitcoin and Blockchain technologies. In the first volume, we will cover the blockchain technology and see some insights into how Bitcoin fits the complete picture. We will not go into the Bitcoin transactions in this book. Transactions are covered in the second volume.</p>
+<p>So, how <strong>Blockchain</strong> is different from <strong>Bitcoin</strong>? In simple terms, Blockchain is a technology and Bitcoin is one of the possible implementations of blockchain. Blockchain technology provides us some features, which are used by Bitcoin to achieve what it is today. Therefore, it is necessary to understand the difference between both of them, so that we can see what is <em>supposed to be</em> present in any Blockchain based cryptocurrency and what is specific to each of them. For instance, we have <strong>proof of work</strong> (which is covered in next volume) in Bitcoin, whereas <strong>Ethereum</strong> uses <strong>proof-of-stake</strong> (will be covered in future volumes). What is Ethereum? Don’t worry about this yet. We will cover everything we need to know in coming chapters and volumes.</p>
+<div id="what-is-bitcoin" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> What is Bitcoin?<a href="index.html#what-is-bitcoin" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As you already know, Bitcoin prices are going through the roof. It is a new technology that was introduced in 2009 by the Bitcoin community. But the <strong>cryptocurrency whitepaper</strong> was given by Satoshi Nakamoto on October 31, 2008. The identity of Satoshi Nakamoto is unknown to this date and it seems that Satoshi have no intentions of coming out to the public. It may be possible that it was the work of a group of people who wrote the paper on the name of Satoshi Nakamoto. Before going further, we have to explain something.</p>
+<p>What is a <strong>cryptocurrency whitepaper</strong>? In simple terms, cryptocurrency whitepaper is a document. What is inside that document? The document contains the detailed information of technical aspects of the cryptocurrency in question. Along with technical details, it contains the economic aspects of cryptocurrency. What does it mean? It means a whitepaper explains how the currency is going to work, what useful features does it have, how to create new crypto coins in the system, etc.</p>
+<p>It seems that this paper is highly advanced and is not for general people. Is there something a person with less technical background can refer to? Yes! It is known as <strong>Litepaper</strong>. They are short in size and contain the high level overview of given cryptocurrency. Their main focus is to explain the basic outcomes of the cryptocurrency, not on how they are achieved.</p>
+<p>Here is the link to original Bitcoin Paper: <a href="https://bitcoin.org/bitcoin.pdf">Bitcoin: A Peer-to-Peer Electronic Cash System</a>.</p>
+</div>
+<div id="why-bitcoin" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Why Bitcoin?<a href="index.html#why-bitcoin" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A simple question: How does a person transfer money to other person over the internet? Since this is a book intended for technical person, and I don’t have idea of much of financial jargon, my answer will be technology oriented which I came to understand about the inherent problems of the system.</p>
+<p>For a person to transfer money to other person, we first need the address of second person. After the address, we simply transfer the money to that address. Simple? NO. We use third party applications to transfer money.</p>
+<p>A little hard question: Is the money stored with us? No.</p>
+<p>Do we own our money? By rules? yes. Objectively? no.</p>
+<p>Why no? What stops the third party company to start transferring money to them instead of other person and then disappear? What stops hackers to hack the money transfer code and redirect all the transactions to them?</p>
+<p>What is the problem here? To transfer money from point A to B, we need a third party: electronic money transfer system that is hosted on servers of a company. If something happens to the money in between, there is no technological guarantee to get it back. We are <em>trusting</em> the third parties to act in correct manner and their system is safe enough. Also, the third party is not operating for free. They need to generate revenue for them to be operational. They need money to run the huge servers that are processing transactions. So, they <em>need</em> to charge transaction fees, otherwise they will bankrupt.</p>
+<p>Let’s look at another example. Is our money safe in banks? When we store our money in the banks, we see our balance. Is the money actually there? What stops hackers/management of bank to steal all the money but display that our money is there. We can’t know for sure unless we actually withdraw money. We are simply having a trust in banks that they will keep our money safe. The problem? They are a single point of failure! Someone can steal money from a bank, and there is no guarantee that this can never happen. There can be a computer malware which currupts the computers of bank and steal all the money. We trust that their system is secure and no hacker can steal our money. We are trusting them not to steal our money.</p>
+<p>This list of possibilities is long. The most important reason is that the financial institutions are single point of failures. Only if we had a distributed system that can’t be hacked, a system where we don’t need to pay transaction fees, and all the bookkeeping is public…</p>
+<p>Here comes the paper of Satoshi Nakamoto. He (or they, assuming it is the work of a group of people) proposed Bitcoin which takes care of all these problems. This system can transfer money from one person to another without using a third party. This system guarantees that the money can’t be stolen. This system guarantees that money is always with the owner. Every record, every transaction is public. No one can change the transactions once they are added in the system. And the best part? All this is guaranteed by cryptography principles. These guarantees can be proven and breaking them is impractical. No one owns the system, the system is distributed among the users using the system.</p>
+</div>
+<div id="structure-of-the-book" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Structure of the book<a href="index.html#structure-of-the-book" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In these volumes of this book, we will cover each and every corner of the Bitcoin technology and see how the system guarantees all these things. We will start with absolute basic, assuming some technical background from the reader. This book is intended to be theoretical, as well as practical. By this, we mean that theory of each concept is provided, and then we jump into actual code to check if our knowledge is correct.</p>
+<p>Structure of each chapter will follow the following trend:</p>
+<ol style="list-style-type: decimal">
+<li>Discussion of technical terms and how to think about them. Why they are required, what is their benefit in the system, the motivation for their existence, etc.</li>
+<li>Then we go into how they are actually implemented. This means we actually go into how these things are structured and stored. We will cover many examples, wherever relevant, to illustrate the concepts. We will decode things by hand from actual Bitcoin transactions.</li>
+<li>We will go into <code>C++</code> code to perform the calculations we did in point 2. You can choose any language of your choice. <code>C++</code> is chosen because we can use it to write highly efficient code. Also, the Bitcoin code is written in <code>C++</code>, so it makes sense to see the basic constructs implemented in <code>C++</code> so that it becomes easy to make sense of actual Bitcoin code.</li>
+</ol>
+<p>There are chapters where this trend is not followed, but that doesn’t mean something is missing. It just means that there is no relevancy of this general trend in them. Some chapters will completely discuss the core idea and subsequent chapters will completely go into code, while some chapter will just discuss the background material and no code is there because of irrelevancy with the core working of Bitcoin.</p>
+<p>Note that if you don’t know <code>C++</code>, you can use any language of your choice. Point 2 covers enough details so that you can mimic them on your own, in your own style and language of choice. Since we will cover technical details in point 2, the code will have little explanation. Those who know <code>C++</code> or can make sense of code, can clearly deduce what each line of code is doing.</p>
+</div>
+<div id="prerequisites" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Prerequisites<a href="index.html#prerequisites" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You are expected to know some things about the following topics, as they should be studied in isolation to not to get confused with Bitcoin features and internet is filled with many good explanations on them.</p>
+<ul>
+<li>Base conversion between Binary, Decimal and Hexadecimal.</li>
+<li>ASCII character encoding.</li>
+<li>Little endian and big endian storage.</li>
+<li>Time and space complexity. You can refer any online resource for basic introduction to big-O notation.</li>
+</ul>
+<p>Check you knowledge of above topics by predicting the output of following code and then comparing it with the actual output:
+```{C++}
+#include <iostream>
+using namespace std;</p>
+<p>int main()
+{
+int arr[] = { 0x61626364, 0x65666768, 0 };
+char* ptr = (char*)arr;
+cout &lt;&lt; ptr &lt;&lt; endl;
+}</p>
+<p>```</p>
+<ul>
+<li>For the prerequisites of <code>C++</code>, if you want to go with it but are not sure of concepts used in the code:
+<ul>
+<li>Pointers (We will use <code>char*</code> to iterate over memory in byte level chunks).</li>
+<li>References (Enables us to pass variables without much copy overhead).</li>
+<li>Alignment and padding of structs (Since we are working on individual bytes).</li>
+<li>Bitwise operators.</li>
+<li>Stack and heap allocations (To make sense of why somethings are allocated using <code>new</code>).</li>
+<li>Basic STL Container such as <code>vector</code>, <code>map</code>, <code>set</code>, etc.</li>
+<li>Fixed-width integers (To ensure exact width of data types).</li>
+<li>Stream I/O (How to read binary file).</li>
+</ul></li>
+</ul>
+<p>You can refer <a href="https://www.learncpp.com">learncpp.com</a> website to revise your concepts or any other source of your liking.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="setting-up-the-environment.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["bookdown-demo.pdf", "bookdown-demo.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
